@@ -1,47 +1,80 @@
+import 'package:cmsc23project/providers/donation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/donation_provider.dart';
+import 'organization_provider.dart';
+import '../homepage/home_page.dart';
 import '../donationpage/donation_page.dart';
-import '../homepage/home_page.dart'; // Assuming the homepage file is named 'HomePage'
-import '../donationdrivepage/donation_drives_page.dart'; // Assuming the donation drives page file is named 'DonationDrivesPage'
+import '../donationdrivepage/donation_drives_page.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile Page'),
-            backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
+        title: Text('Organization Profile'),
+        backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
       ),
-      body: Center(
-        child: Text('This is the Profile Page'),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: ChangeNotifierProvider<OrganizationProvider>(
+          create: (context) => OrganizationProvider(),
+          child: Consumer<OrganizationProvider>(
+            builder: (context, organizationProvider, _) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20),
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundColor: Colors.grey[200],
+                    backgroundImage: AssetImage('images/coverpage.png'),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    organizationProvider.organization.name,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'About the Organization',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    organizationProvider.organization.about,
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Donation Status:',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 10),
+                      Switch(
+                        value: organizationProvider.organization.donationsOpen,
+                        onChanged: (value) {
+                          organizationProvider.updateDonationsStatus(value);
+                        },
+                        activeTrackColor: Colors.green[700],
+                        inactiveTrackColor: Colors.grey[400], // Set the inactive track color
+                        inactiveThumbColor: Colors.grey[700], // Set the inactive thumb color
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF093731), // Dark green
+        backgroundColor: Colors.green[900],
         selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(0.6),
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
-            icon: Icon(Icons.home),
-            label: 'Homepage',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 56, 179, 26), // Dark green
-            icon: Icon(Icons.monetization_on),
-            label: 'Donation',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 13, 186, 105), // Dark green
-            icon: Icon(Icons.event),
-            label: 'Donation Drives',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+        unselectedItemColor: Colors.grey[300],
         currentIndex: Provider.of<DonationProvider>(context).selectedIndex,
         onTap: (index) {
           Provider.of<DonationProvider>(context, listen: false).setIndex(index);
@@ -65,15 +98,37 @@ class ProfilePage extends StatelessWidget {
               );
               break;
             case 3:
-            Navigator.pushReplacement(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => ProfilePage()),
-              );              
+              );
               break;
             default:
               break;
           }
         },
+        items: [
+          BottomNavigationBarItem(
+            backgroundColor: Color(0xFF093731), // Dark green
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Color.fromARGB(255, 56, 179, 26), // Dark green
+            icon: Icon(Icons.monetization_on),
+            label: 'Donation',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Color.fromARGB(255, 13, 186, 105), // Dark green
+            icon: Icon(Icons.event),
+            label: 'Donation Drives',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
