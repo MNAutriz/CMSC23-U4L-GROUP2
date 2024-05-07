@@ -10,6 +10,6 @@ class Donation {
     required this.description,
     required this.imageUrl,
     required this.amountRaised,
-    required this.goal,
+    required this.goal
   });
 }

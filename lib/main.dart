@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './pages/intro_page.dart';
-import 'pages/donation_provider.dart';
-import 'pages/intro_page.dart';
+import 'pages/intropage/intro_page.dart';
+import 'providers/donation_provider.dart';
 
 void main() {
   runApp(DonationApp());
