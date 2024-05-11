@@ -34,7 +34,8 @@ class _UserViewState extends State<UserView> {
                 //sign in as user button
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/organization");
+                      // Navigator.pushNamed(context, "/organization");
+                      Navigator.pushNamed(context, '/donor');
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF3D8361),

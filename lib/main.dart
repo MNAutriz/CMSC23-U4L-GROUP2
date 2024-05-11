@@ -1,3 +1,4 @@
+import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
 import 'package:cmsc23project/screens/adminview.dart';
 import 'package:cmsc23project/screens/donorview.dart';
 import 'package:cmsc23project/screens/orgview.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const UserView(),
         '/donor': (context) => const DonorView(),
         '/organization': (context) => DonationApp(),
-        '/admin': (context) => const AdminView()
+        '/admin': (context) => const AdminView(),
+        '/donor/donate': (context) => const DonateForm()
       },
     );
   }

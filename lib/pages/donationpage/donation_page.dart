@@ -13,7 +13,7 @@ class DonationPage extends StatelessWidget {
         title: Text('Donation Page'),
           backgroundColor: Color.fromARGB(255, 56, 179, 26), // Dark green
       ),
-      body: Center(
+      body: const Center(
         child: Text('This is the Donation Page'),
       ),
       bottomNavigationBar: BottomNavigationBar(
