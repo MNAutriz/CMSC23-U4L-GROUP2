@@ -48,16 +48,18 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
               padding:  const EdgeInsets.only(left: 8, right: 8, bottom: 2),
               child: Card(
                 clipBehavior: Clip.hardEdge,
-                child: CheckboxListTile(
-                  title: Text(type, style: const TextStyle(color: Color(0xFF3D8361), fontWeight: FontWeight.bold)),
-                  value: isCheckedMap[type] ?? false, // if null, default to false
-                  // tileColor: const Color(0xFF3D8361),
-                  activeColor: const Color(0xFF3D8361),
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isCheckedMap[type] = value ?? false; // if null, default to false
-                      state.didChange(isCheckedMap); // pass updated map to state
-                    });
+                child: ListTile(
+                  title: Text(
+                    type,
+                    style: TextStyle(
+                      color: isCheckedMap[type] == false ? const Color(0xFF3D8361) : Colors.white,
+                      fontWeight: FontWeight.bold,
+                    )
+                  ),
+                  tileColor: isCheckedMap[type] == false ? Colors.white : const Color(0xFF3D8361),
+                  onTap: () {
+                    isCheckedMap[type] = !(isCheckedMap[type] ?? false); // need ?? because nullable expression can't be used as condition
+                    state.didChange(isCheckedMap); // pass updated map to state
                   }
                 ),
               ),

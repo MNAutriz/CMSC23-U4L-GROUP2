@@ -31,6 +31,12 @@ class _DonorViewState extends State<DonorView> {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF3D8361),
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          ElevatedButton(
+            onPressed: (){},
+            child: const Icon(Icons.person, color:  Color(0xFF3D8361)),
+          )
+        ]
       ),
       body: Column(children: [
         Container(
