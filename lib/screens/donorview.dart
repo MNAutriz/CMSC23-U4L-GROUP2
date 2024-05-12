@@ -68,7 +68,7 @@ class _DonorViewState extends State<DonorView> {
             itemCount: organizations.length,
             itemBuilder: (BuildContext context, int index) {
               return Card(
-                clipBehavior: Clip.hardEdge,
+                  clipBehavior: Clip.hardEdge,
                   child: InkWell(
                     splashColor: Color(0xFF3D8361).withAlpha(100),
                     onTap: () {
