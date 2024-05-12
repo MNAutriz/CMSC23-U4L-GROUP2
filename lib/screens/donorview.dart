@@ -72,16 +72,19 @@ class _DonorViewState extends State<DonorView> {
                   child: InkWell(
                     splashColor: Color(0xFF3D8361).withAlpha(100),
                     onTap: () {
-                      debugPrint("tapped");
+                      debugPrint(organizations[index]);
+                      Navigator.pushNamed(context, "/donor/donate");
                     },
                     child: SizedBox(
                       width: double.infinity,
-                      height: 75,
+                      height: 150,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("${organizations[index]}",
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold)),
+                        child: Center(
+                          child: Text("${organizations[index]}",
+                              style: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     ),
                   ));

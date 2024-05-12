@@ -15,8 +15,6 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
     'Clothes',
     'Cash',
     'Necessities',
-    'Necessities',
-    'Necessities',
   ];
 
   // map to track checked status
@@ -38,6 +36,8 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
       initialValue: const {},
       builder: (FormFieldState state) {
         return ListView.builder(
+          shrinkWrap: true, // 
+          physics: const NeverScrollableScrollPhysics(),
     
           itemCount: types.length,
           itemBuilder: (context, index) {
@@ -49,9 +49,9 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
               child: Card(
                 clipBehavior: Clip.hardEdge,
                 child: CheckboxListTile(
-                  title: Text(type, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  title: Text(type, style: const TextStyle(color: Color(0xFF3D8361), fontWeight: FontWeight.bold)),
                   value: isCheckedMap[type] ?? false, // if null, default to false
-                  tileColor: const Color(0xFF3D8361),
+                  // tileColor: const Color(0xFF3D8361),
                   activeColor: const Color(0xFF3D8361),
                   onChanged: (bool? value) {
                     setState(() {
