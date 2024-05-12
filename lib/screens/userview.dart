@@ -1,4 +1,6 @@
+import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserView extends StatefulWidget {
   const UserView({super.key});
@@ -11,6 +13,7 @@ class _UserViewState extends State<UserView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: drawer,
         backgroundColor: const Color(0xFFEEF2E6),
         appBar: AppBar(
             backgroundColor: const Color(0xFF1C6758),
@@ -34,8 +37,7 @@ class _UserViewState extends State<UserView> {
                 //sign in as user button
                 ElevatedButton(
                     onPressed: () {
-                      // Navigator.pushNamed(context, "/organization");
-                      Navigator.pushNamed(context, '/donor');
+                      Navigator.pushNamed(context, '/signpage');
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF3D8361),
@@ -64,15 +66,19 @@ class _UserViewState extends State<UserView> {
                           color: Colors.white, fontWeight: FontWeight.bold),
                     )),
                 const SizedBox(),
-                //sign up button
-                TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Create an account here",
-                      style: TextStyle(color: Color.fromARGB(157, 0, 0, 0)),
-                    )),
-                const SizedBox(),
               ]),
         ));
   }
+
+  //logout
+  Drawer get drawer => Drawer(
+          child: ListView(padding: EdgeInsets.zero, children: [
+        const DrawerHeader(child: Text("Organization")),
+        ListTile(
+          title: const Text('Logout'),
+          onTap: () {
+            context.read<UserAuthProvider>().signOut();
+          },
+        ),
+      ]));
 }
