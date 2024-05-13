@@ -10,8 +10,8 @@ class DonationDrivesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Donation Drives Page'),
-        backgroundColor: Color.fromARGB(255, 13, 186, 105), // Dark green
+        title: Text('Donation Drives Page'), foregroundColor: Colors.white,
+            backgroundColor: Color(0xFF093731), // Dark green
       ),
       body: Center(
         child: Text('This is the Donation Drives Page'),
@@ -27,17 +27,17 @@ class DonationDrivesPage extends StatelessWidget {
             label: 'Homepage',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 56, 179, 26), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.monetization_on),
             label: 'Donation',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 13, 186, 105), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.event),
             label: 'Donation Drives',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.person),
             label: 'Profile',
           ),

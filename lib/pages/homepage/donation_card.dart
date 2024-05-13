@@ -1,3 +1,4 @@
+import 'package:cmsc23project/pages/donationpage/donation_page.dart';
 import 'package:flutter/material.dart';
 import 'donation_model.dart';
 
@@ -11,7 +12,7 @@ class DonationCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(10),
       elevation: 4,
-      color: Colors.white, // Set background color to plain white
+      color: Color(0xFFF2EEE6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -44,7 +45,11 @@ class DonationCard extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Donate button action
+                        Navigator.pushReplacement(
+                          context,
+                          
+                          MaterialPageRoute(builder: (context) => DonationPage()),
+                        );
                       },
                       child: Text('See details'),
                     ),

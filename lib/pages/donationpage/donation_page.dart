@@ -1,9 +1,11 @@
 import 'package:cmsc23project/pages/donationdrivepage/donation_drives_page.dart';
+import 'package:cmsc23project/pages/donationpage/donation_details.dart';
 import 'package:cmsc23project/pages/homepage/home_page.dart';
 import 'package:cmsc23project/pages/profilepage/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/donation_provider.dart';
+import 'donation_details_container.dart';
 
 class DonationPage extends StatelessWidget {
   @override
@@ -11,52 +13,68 @@ class DonationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Donation Page'),
-          backgroundColor: Color.fromARGB(255, 56, 179, 26), // Dark green
+        backgroundColor: Color(0xFF093731), // Dark green
       ),
-      body: const Center(
-        child: Text('This is the Donation Page'),
+      backgroundColor: Color.fromRGBO(214, 205, 164, 1), // Dark green
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DonationDetailsContainer(
+                coverPage: Container(
+                  width: double.infinity,
+                  height: 200,
+                  color: Colors.grey[300],
+                  child: Image.network(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD7XynQ15godQjXpaP30wvHkd0qOkvySs8LKctDg905nGCPYepu3LMCVQm-kJytKa6Rg8&usqp=CAU',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              DonationDetailsContainer(
+                coverPage: Container(
+                  width: double.infinity,
+                  height: 200,
+                  color: Colors.grey[300],
+                  child: Image.network(
+                    'https://www.fao.org/uploads/pics/web24954_030.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              DonationDetailsContainer(
+                coverPage: Container(
+                  width: double.infinity,
+                  height: 200,
+                  color: Colors.grey[300],
+                  child: Image.network(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrgQJglUyVFM2cGVhXM1Mogiqh_RVyO0hF3oxg1fV6c0XEvM8JGsaBR-Tv770DeSU7NXU&usqp=CAU',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF093731), // Dark green
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white.withOpacity(0.6),
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
-            icon: Icon(Icons.home),
-            label: 'Homepage',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 56, 179, 26), // Dark green
-            icon: Icon(Icons.monetization_on),
-            label: 'Donation',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 13, 186, 105), // Dark green
-            icon: Icon(Icons.event),
-            label: 'Donation Drives',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: Provider.of<DonationProvider>(context).selectedIndex,
+        currentIndex: 1,
         onTap: (index) {
-          Provider.of<DonationProvider>(context, listen: false).setIndex(index);
           switch (index) {
             case 0:
+              // Navigate to homepage (current page)
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => HomePage()),
               );
               break;
             case 1:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DonationPage()),
-              );
+              // Navigate to donation page (current page)
               break;
             case 2:
               // Navigate to donation drives page
@@ -76,7 +94,35 @@ class DonationPage extends StatelessWidget {
               break;
           }
         },
+        items: [
+          BottomNavigationBarItem(
+            backgroundColor: Color(0xFF093731), // Dark green
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Color(0xFF093731), // Dark green
+            icon: Icon(Icons.monetization_on),
+            label: 'Donation',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Color(0xFF093731), // Dark green
+            icon: Icon(Icons.event),
+            label: 'Donation Drives',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Color(0xFF093731), // Dark green
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: DonationPage(),
+  ));
 }
