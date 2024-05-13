@@ -12,7 +12,7 @@ class DonorProfilePage extends StatelessWidget {
     final Donor sample = Donor(firstname: "Juan", lastname: "Loona", contactno: "09171231234", email: "sample@gmail.com");
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFEEF2E6),
         appBar: AppBar(
           backgroundColor: const Color(0xFF093731),
         ),
@@ -79,7 +79,7 @@ class ProfilePictureStack extends StatelessWidget {
             height: 160,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: Color(0xFFEEF2E6),
             ),
           ),
         ),
