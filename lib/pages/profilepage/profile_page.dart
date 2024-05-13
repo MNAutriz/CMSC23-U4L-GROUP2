@@ -11,12 +11,12 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Organization Profile'),
-        backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
+        title: Text('Organization Profile'), foregroundColor: Colors.white,
+            backgroundColor: Color(0xFF093731), // Dark green
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: ChangeNotifierProvider<OrganizationProvider>(
+        child: ChangeNotifierProvider<OrganizationProvider>(  
           create: (context) => OrganizationProvider(),
           child: Consumer<OrganizationProvider>(
             builder: (context, organizationProvider, _) {
@@ -72,7 +72,7 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.green[900],
+        backgroundColor: Color(0xFF093731), // Dark green
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey[300],
         currentIndex: Provider.of<DonationProvider>(context).selectedIndex,
@@ -114,17 +114,17 @@ class ProfilePage extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 56, 179, 26), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.monetization_on),
             label: 'Donation',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 13, 186, 105), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.event),
             label: 'Donation Drives',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.person),
             label: 'Profile',
           ),

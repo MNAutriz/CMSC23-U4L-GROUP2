@@ -35,6 +35,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(61, 131, 97, 1),
       appBar: AppBar(
         title: Text('Donation App'),
             backgroundColor: Color(0xFF093731), 
@@ -57,17 +58,17 @@ class HomePage extends StatelessWidget {
             label: 'Homepage',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 56, 179, 26), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.monetization_on),
             label: 'Donation',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(255, 13, 186, 105), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.event),
             label: 'Donation Drives',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color.fromARGB(166, 90, 230, 3), // Dark green
+            backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.person),
             label: 'Profile',
           ),
