@@ -22,12 +22,26 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),
       appBar: AppBar(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(30))),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(
+                        "https://img.freepik.com/premium-photo/crowd-hands-heart-sign-with-group-people-community-friends-with-emoji-care-freedom-health-outdoor-fans-concert-support-men-women-solidarity-charity-thank-you_590464-96894.jpg"),
+                    fit: BoxFit.fill)),
+          ),
+          toolbarHeight: 200,
           backgroundColor: const Color(0xFF1C6758),
           title: const Align(
             alignment: AlignmentDirectional(0, 0),
           )),
       body: SingleChildScrollView(
         child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    topRight: Radius.circular(50))),
             margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 30),
             child: Form(
               key: _formKey,
@@ -51,7 +65,10 @@ class _SignInPageState extends State<SignInPage> {
         padding: EdgeInsets.only(bottom: 30),
         child: Text(
           "Sign In",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1C6758)),
         ),
       );
 
@@ -59,6 +76,8 @@ class _SignInPageState extends State<SignInPage> {
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
           decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
               label: Text("Email"),
               hintText: "juandelacruz09@gmail.com"),
@@ -76,6 +95,8 @@ class _SignInPageState extends State<SignInPage> {
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
           decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
               label: Text("Password"),
               hintText: "******"),
@@ -98,34 +119,38 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
 
-  Widget get submitButton => ElevatedButton(
-      onPressed: () async {
-        if (_formKey.currentState!.validate()) {
-          _formKey.currentState!.save();
-          String? message = await context
-              .read<UserAuthProvider>()
-              .authService
-              .signIn(email!, password!);
+  Widget get submitButton => SizedBox(
+      width: 350,
+      child: ElevatedButton(
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              String? message = await context
+                  .read<UserAuthProvider>()
+                  .authService
+                  .signIn(email!, password!);
 
-          print(message);
-          print(showSignInErrorMessage);
+              print(message);
+              print(showSignInErrorMessage);
 
-          setState(() {
-            if (message != null && message.isNotEmpty) {
-              showSignInErrorMessage = true;
-            } else {
-              showSignInErrorMessage = false;
+              setState(() {
+                if (message != null && message.isNotEmpty) {
+                  showSignInErrorMessage = true;
+                } else {
+                  showSignInErrorMessage = false;
+                }
+              });
             }
-          });
-        }
-      },
-      style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF3D8361),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))),
-      child: const Text("Sign In",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)));
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF3D8361),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0))),
+          child: const Text("Sign In",
+              style: TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold))));
 
   Widget get signUpButton => Padding(
         padding: const EdgeInsets.all(30),
@@ -142,7 +167,7 @@ class _SignInPageState extends State<SignInPage> {
                 },
                 child: const Text("Sign Up",
                     style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold)))
+                        color: Color(0xFF1C6758), fontWeight: FontWeight.bold)))
           ],
         ),
       );

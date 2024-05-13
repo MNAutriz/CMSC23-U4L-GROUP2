@@ -41,7 +41,10 @@ class _SignUpState extends State<SignUpPage> {
         padding: EdgeInsets.only(bottom: 30),
         child: Text(
           "Sign Up",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1C6758)),
         ),
       );
 
@@ -49,6 +52,8 @@ class _SignUpState extends State<SignUpPage> {
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
           decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
               label: Text("Email"),
               hintText: "Enter a valid email"),
@@ -66,6 +71,8 @@ class _SignUpState extends State<SignUpPage> {
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
           decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
               label: Text("Password"),
               hintText: "At least 8 characters"),
@@ -80,24 +87,29 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
-  Widget get submitButton => ElevatedButton(
-      onPressed: () async {
-        if (_formKey.currentState!.validate()) {
-          _formKey.currentState!.save();
-          await context
-              .read<UserAuthProvider>()
-              .authService
-              .signUp(email!, password!);
+  Widget get submitButton => SizedBox(
+        width: 350,
+        child: ElevatedButton(
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                await context
+                    .read<UserAuthProvider>()
+                    .authService
+                    .signUp(email!, password!);
 
-          // check if the widget hasn't been disposed of after an asynchronous action
-          if (mounted) Navigator.pop(context);
-        }
-      },
-      style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF3D8361),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))),
-      child: const Text("Sign Up",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)));
+                // check if the widget hasn't been disposed of after an asynchronous action
+                if (mounted) Navigator.pop(context);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3D8361),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 10.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0))),
+            child: const Text("Sign Up",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold))),
+      );
 }
