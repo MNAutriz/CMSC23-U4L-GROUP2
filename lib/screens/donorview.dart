@@ -33,7 +33,9 @@ class _DonorViewState extends State<DonorView> {
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           ElevatedButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.pushNamed(context, '/donor/profile');
+            },
             child: const Icon(Icons.person, color: Color(0xFF093731)),
           )
         ]
@@ -45,6 +47,7 @@ class _DonorViewState extends State<DonorView> {
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(25),
                   bottomRight: Radius.circular(25))),
+          height: 200,
           padding: const EdgeInsets.symmetric(
             vertical: 50.0,
           ),
