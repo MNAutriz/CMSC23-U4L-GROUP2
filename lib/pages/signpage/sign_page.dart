@@ -1,5 +1,5 @@
 import 'package:cmsc23project/providers/auth_provider.dart';
-import 'package:cmsc23project/screens/orgview.dart';
+import 'package:cmsc23project/screens/userview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +37,7 @@ class _HomePageState extends State<SignPage> {
           }
 
           // if user is logged in, display the scaffold containing the streambuilder for the todos
-          return DonationApp();
+          return const UserView();
         });
   }
 }

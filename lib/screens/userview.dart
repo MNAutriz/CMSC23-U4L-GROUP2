@@ -37,7 +37,7 @@ class _UserViewState extends State<UserView> {
                 //sign in as user button
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/signpage');
+                      Navigator.pushNamed(context, '/organization');
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF3D8361),
@@ -46,14 +46,16 @@ class _UserViewState extends State<UserView> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0))),
                     child: const Text(
-                      "Sign in as User",
+                      "Sign in as Organization",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     )),
 
                 //sign in as admin user button
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/donor');
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF3D8361),
                         padding: const EdgeInsets.symmetric(
@@ -61,7 +63,7 @@ class _UserViewState extends State<UserView> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0))),
                     child: const Text(
-                      "Sign in as Admin",
+                      "Sign in as Donor",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     )),
