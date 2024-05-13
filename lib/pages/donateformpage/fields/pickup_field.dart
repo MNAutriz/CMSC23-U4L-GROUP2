@@ -13,39 +13,44 @@ class _PickupFieldState extends State<PickupField> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Flexible(
-          child: Card(
-            child: RadioListTile(
-              title: const Text("Yes"),
-              value: "Yes",
-              groupValue: checkedValue,
-              activeColor: const Color(0xFF3D8361),
-              onChanged: (String? value) {
-                setState(() {
-                  checkedValue = value!;
-                });
-              },
-            )
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Flexible(
+            child: Card(
+              clipBehavior: Clip.hardEdge,
+              color: checkedValue == "Yes" ?  const Color(0xFF3D8361) : Colors.white,
+              child: ListTile(
+                title: Text("Yes", style: TextStyle(fontWeight: FontWeight.bold, color: checkedValue == "Yes" ? Colors.white: const Color(0xFF3D8361),)),
+                tileColor: checkedValue == "Yes" ? const Color(0xFF3D8361) : Colors.white,
+                selected: checkedValue == "Yes", // will result to true of checkedValue is "Yes"
+                onTap: (){
+                  setState(() {
+                    checkedValue = "Yes";
+                  });
+                }
+              )
+            ),
           ),
-        ),
-        Flexible(
-          child: Card(
-            child: RadioListTile(
-              title: const Text("No"),
-              value: "No",
-              groupValue: checkedValue,
-              activeColor: const Color(0xFF3D8361),
-              onChanged: (String? value) {
-                setState(() {
-                  checkedValue = value!;
-                });
-              },
-            )
+          Flexible(
+            child: Card(
+              clipBehavior: Clip.hardEdge,
+              color: checkedValue == "No" ?  const Color(0xFF3D8361) : Colors.white,
+              child: ListTile(
+                title: Text("No", style: TextStyle(fontWeight: FontWeight.bold, color: checkedValue == "No" ? Colors.white: const Color(0xFF3D8361),)),
+                tileColor: checkedValue == "No" ? const Color(0xFF3D8361) : Colors.white,
+                selected: checkedValue == "No", // will result to true of checkedValue is "Yes"
+                onTap: (){
+                  setState(() {
+                    checkedValue = "No";
+                  });
+                }
+              )
+            ),
           ),
-        )
-      ]
+        ]
+      ),
     );
   }
 }

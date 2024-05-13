@@ -29,19 +29,19 @@ class _DonorViewState extends State<DonorView> {
       appBar: AppBar(
         title: const Text("Donor's View",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF3D8361),
+        backgroundColor: const Color(0xFF093731),
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           ElevatedButton(
             onPressed: (){},
-            child: const Icon(Icons.person, color:  Color(0xFF3D8361)),
+            child: const Icon(Icons.person, color: Color(0xFF093731)),
           )
         ]
       ),
       body: Column(children: [
         Container(
           decoration: const BoxDecoration(
-              color: Color(0xFF3D8361),
+              color: Color(0xFF093731),
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(25),
                   bottomRight: Radius.circular(25))),
