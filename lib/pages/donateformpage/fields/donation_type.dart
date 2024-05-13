@@ -53,7 +53,7 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
         ListView.builder( // listview builder to render added categories
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: additionalTypes.length + 1,
+          itemCount: additionalTypes.length + 1, // +1 is for the textfield
           itemBuilder: (context, index) {
             if (index == additionalTypes.length) { // if index == to end of array (insert add new category textfield)
               return Padding(
@@ -71,8 +71,8 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
                         suffixIcon: IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () {
-                            final newCategory = _textFieldController.text.trim(); // trim to remove white spaces
-                            if (newCategory.isNotEmpty) {
+                            final newCategory = _textFieldController.text.trim();
+                            if (newCategory.isNotEmpty && !_categoryExists(newCategory)) { // also check if newCategory is already belonging to initial types
                               setState(() { // add new category to separate array
                                 additionalTypes.add(newCategory);
                                 isCheckedMap[newCategory] = true; // assign initial value to true so that it is selected by default
@@ -95,6 +95,13 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
       ],
     );
   }
+
+  bool _categoryExists(String newCategory) {
+  // Check if the new category exists in either initialTypes or additionalTypes, ignoring case
+  // .any iterates through list and checks each element and stops if condition is true then returns true; else return false
+  return initialTypes.any((type) => type.toLowerCase() == newCategory.toLowerCase()) ||
+      additionalTypes.any((type) => type.toLowerCase() == newCategory.toLowerCase());
+}
 
   // custom function to build custom widget with remove button
   Widget _buildListTile(String type) {
