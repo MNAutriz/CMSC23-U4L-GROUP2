@@ -41,7 +41,7 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
     
           itemCount: types.length,
           itemBuilder: (context, index) {
-    
+                        
             final type = types[index];
     
             return Padding(
@@ -52,6 +52,8 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
                   title: Text(
                     type,
                     style: TextStyle(
+                      // isCheckedMap[type] == false | make sure that the condition isCheckedMap[type] is not null
+                      // ? const Color() : Colors.white | if condition is true: Color(), else: Colors.white
                       color: isCheckedMap[type] == false ? const Color(0xFF3D8361) : Colors.white,
                       fontWeight: FontWeight.bold,
                     )
@@ -64,7 +66,7 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
                 ),
               ),
             );
-          },
+            }
         );
       }
     );
