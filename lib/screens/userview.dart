@@ -97,13 +97,30 @@ class _UserViewState extends State<UserView> {
 
   //logout
   Drawer get drawer => Drawer(
-          child: ListView(padding: EdgeInsets.zero, children: [
-        const DrawerHeader(child: Text("Organization")),
-        ListTile(
-          title: const Text('Logout'),
-          onTap: () {
-            context.read<UserAuthProvider>().signOut();
-          },
-        ),
-      ]));
+      backgroundColor: const Color(0xFF1C6758),
+      child: Container(
+        color: const Color(0xFFEEF2E6),
+        child: ListView(padding: EdgeInsets.zero, children: [
+          const DrawerHeader(
+              child: Text("Donation App",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color(0xFFEEF2E6)))),
+          ListTile(
+            title: const Center(
+              child: Text(
+                "Log out",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFF1C6758)),
+              ),
+            ),
+            onTap: () {
+              context.read<UserAuthProvider>().signOut();
+            },
+          ),
+        ]),
+      ));
 }
