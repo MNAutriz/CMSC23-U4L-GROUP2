@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PickupField extends StatefulWidget {
-  const PickupField({super.key});
+
+  final Function()? yesChecked;
+  final Function()? noChecked;
+
+  const PickupField({super.key, this.yesChecked, this.noChecked});
 
   @override
   State<PickupField> createState() => _PickupFieldState();
@@ -9,7 +13,7 @@ class PickupField extends StatefulWidget {
 
 class _PickupFieldState extends State<PickupField> {
 
-  String? checkedValue;
+  String? checkedValue = "No";
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,7 @@ class _PickupFieldState extends State<PickupField> {
                   setState(() {
                     checkedValue = "Yes";
                   });
+                  widget.yesChecked?.call(); // will call if not null
                 }
               )
             ),
@@ -45,6 +50,7 @@ class _PickupFieldState extends State<PickupField> {
                   setState(() {
                     checkedValue = "No";
                   });
+                  widget.noChecked?.call(); // will call if not null
                 }
               )
             ),
