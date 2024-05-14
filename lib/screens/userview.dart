@@ -28,41 +28,66 @@ class _UserViewState extends State<UserView> {
                   child: Column(
                     children: [
                       //sign in as user button
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/organization');
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3D8361),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0))),
-                          child: const Text(
-                            "Sign in as Organization",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          )),
+                      SizedBox(
+                        width: 350,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/organization');
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3D8361),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 10.0),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            child: const Text(
+                              "Sign in as Organization",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      ),
 
-                      //sign in as admin user button
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/donor');
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3D8361),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0))),
-                          child: const Text(
-                            "Sign in as Donor",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          )),
-                      const SizedBox(),
+                      //sign in as donor button
+                      SizedBox(
+                        width: 350,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/donor');
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3D8361),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 10.0),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            child: const Text(
+                              "Sign in as Donor",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      ),
+                      //sign in as admin button
+                      SizedBox(
+                        width: 350,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/admin');
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3D8361),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 10.0),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            child: const Text(
+                              "Sign in as Admin",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      )
                     ],
                   ),
                 )
