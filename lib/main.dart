@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, // remove debug tag at upper left
       title: "CMSC 23 PROJECT",
       initialRoute: '/',
       routes: {

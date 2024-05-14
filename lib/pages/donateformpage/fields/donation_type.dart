@@ -116,7 +116,7 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
                 child: Text(
                   type,
                   style: TextStyle(
-                    color: isCheckedMap[type] == false ? const Color(0xFF3D8361) : Colors.white,
+                    color: isCheckedMap[type] == false ? const Color(0xFF3D8361) : const Color(0xFFEEF2E6),
                     fontWeight: FontWeight.bold,
                   ),
                 ),

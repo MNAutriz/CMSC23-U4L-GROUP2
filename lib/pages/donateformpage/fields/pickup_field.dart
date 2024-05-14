@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PickupField extends StatefulWidget {
-  const PickupField({super.key});
+
+  final Function()? yesChecked;
+  final Function()? noChecked;
+
+  const PickupField({super.key, this.yesChecked, this.noChecked});
 
   @override
   State<PickupField> createState() => _PickupFieldState();
@@ -9,7 +13,7 @@ class PickupField extends StatefulWidget {
 
 class _PickupFieldState extends State<PickupField> {
 
-  String? checkedValue;
+  String? checkedValue = "No";
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +26,14 @@ class _PickupFieldState extends State<PickupField> {
               clipBehavior: Clip.hardEdge,
               color: checkedValue == "Yes" ?  const Color(0xFF3D8361) : Colors.white,
               child: ListTile(
-                title: Text("Yes", style: TextStyle(fontWeight: FontWeight.bold, color: checkedValue == "Yes" ? Colors.white: const Color(0xFF3D8361),)),
+                title: Text("Yes", style: TextStyle(fontWeight: FontWeight.bold, color: checkedValue == "Yes" ? const Color(0xFFEEF2E6): const Color(0xFF3D8361),)),
                 tileColor: checkedValue == "Yes" ? const Color(0xFF3D8361) : Colors.white,
                 selected: checkedValue == "Yes", // will result to true of checkedValue is "Yes"
                 onTap: (){
                   setState(() {
                     checkedValue = "Yes";
                   });
+                  widget.yesChecked?.call(); // will call if not null
                 }
               )
             ),
@@ -36,15 +41,16 @@ class _PickupFieldState extends State<PickupField> {
           Flexible(
             child: Card(
               clipBehavior: Clip.hardEdge,
-              color: checkedValue == "No" ?  const Color(0xFF3D8361) : Colors.white,
+              color: checkedValue == "No" ?  const Color(0xFF3D8361) : const Color(0xFFEEF2E6),
               child: ListTile(
-                title: Text("No", style: TextStyle(fontWeight: FontWeight.bold, color: checkedValue == "No" ? Colors.white: const Color(0xFF3D8361),)),
-                tileColor: checkedValue == "No" ? const Color(0xFF3D8361) : Colors.white,
+                title: Text("No", style: TextStyle(fontWeight: FontWeight.bold, color: checkedValue == "No" ? const Color(0xFFEEF2E6): const Color(0xFF3D8361),)),
+                tileColor: checkedValue == "No" ? const Color(0xFF3D8361) : const Color(0xFFEEF2E6),
                 selected: checkedValue == "No", // will result to true of checkedValue is "Yes"
                 onTap: (){
                   setState(() {
                     checkedValue = "No";
                   });
+                  widget.noChecked?.call(); // will call if not null
                 }
               )
             ),
