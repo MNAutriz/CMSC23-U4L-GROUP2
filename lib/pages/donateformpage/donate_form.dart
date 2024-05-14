@@ -65,9 +65,6 @@ class _DonateFormState extends State<DonateForm> {
               const UploadPhotoButtons(),
               const OneLineQuestion(text: "Date and time for pickup/drop-off"),
               const DateTimeField(),
-
-              // TODO: wrap in visibility widget and base visibility on pickupfield
-              
               Visibility(
                 visible: isPickupChecked,
                 child: const Column(

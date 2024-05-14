@@ -46,7 +46,7 @@ class _AdminViewState extends State<AdminView> {
         backgroundColor: const Color(0xFF1C6758), // Dark green
         selectedItemColor: const Color(0xFFD6CDA4),
         unselectedItemColor: Colors.white.withOpacity(0.6),
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
