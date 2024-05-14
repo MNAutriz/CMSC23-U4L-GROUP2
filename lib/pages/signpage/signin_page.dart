@@ -19,50 +19,52 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFEEF2E6),
-      appBar: AppBar(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(30))),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(
-                        "https://img.freepik.com/premium-photo/crowd-hands-heart-sign-with-group-people-community-friends-with-emoji-care-freedom-health-outdoor-fans-concert-support-men-women-solidarity-charity-thank-you_590464-96894.jpg"),
-                    fit: BoxFit.fill)),
-          ),
-          toolbarHeight: 200,
-          backgroundColor: const Color(0xFF1C6758),
-          title: const Align(
-            alignment: AlignmentDirectional(0, 0),
-          )),
-      body: SingleChildScrollView(
-        child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50))),
-            margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 30),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  heading,
-                  emailField,
-                  passwordField,
-                  showSignInErrorMessage ? signInErrorMessage : Container(),
-                  submitButton,
-                  signUpButton
-                ],
-              ),
-            )),
-      ),
-    );
+    return Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/sign-in_picture.jpg"),
+                fit: BoxFit.cover)),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 300,
+                ),
+                Expanded(
+                  child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                          color: Color(0xFFEEF2E6),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50),
+                              topRight: Radius.circular(50))),
+                      child: Form(
+                          key: _formKey,
+                          child: SingleChildScrollView(
+                            physics: BouncingScrollPhysics(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                heading,
+                                emailField,
+                                passwordField,
+                                showSignInErrorMessage
+                                    ? signInErrorMessage
+                                    : Container(),
+                                submitButton,
+                                signUpButton
+                              ],
+                            ),
+                          ))),
+                ),
+              ],
+            )));
   }
 
   Widget get heading => const Padding(
-        padding: EdgeInsets.only(bottom: 30),
+        padding: EdgeInsets.only(bottom: 30, top: 50),
         child: Text(
           "Sign In",
           style: TextStyle(

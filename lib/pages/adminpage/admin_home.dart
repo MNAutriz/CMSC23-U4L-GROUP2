@@ -19,7 +19,7 @@ class _AdminHomeState extends State<AdminHome> {
             children: [
               Center(
                 child: Text(
-                  "Welcome Admin!",
+                  "Welcome, Admin!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
