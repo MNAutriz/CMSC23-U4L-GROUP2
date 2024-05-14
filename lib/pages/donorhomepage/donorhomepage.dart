@@ -12,6 +12,7 @@ class DonorHomePage extends StatefulWidget {
 class _DonorHomePageState extends State<DonorHomePage> {
   int _selectedIndex = 0;
 
+  // TODO: use SliverAppBar for cool animation
   @override
   Widget build(BuildContext context) {
     // hardcoded para lang makita listview

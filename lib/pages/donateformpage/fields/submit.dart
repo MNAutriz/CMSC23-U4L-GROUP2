@@ -11,8 +11,10 @@ class SubmitForm extends StatelessWidget {
         onPressed: () {
           // save data
         },
-        child: const Text("Submit", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
-
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: const Text("Submit!", style: TextStyle(color: const Color(0xFFEEF2E6), fontWeight: FontWeight.bold, fontSize: 17)),
+        )
       ),
       
     );

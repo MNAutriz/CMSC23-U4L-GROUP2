@@ -32,11 +32,11 @@ class _DonateFormState extends State<DonateForm> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF093731),
         iconTheme: const IconThemeData(
-          color: Colors.white
+          color: Color(0xFFEEF2E6)
         ),
         title: const Text("Donation Form", style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.white
+          color: Color(0xFFEEF2E6)
         ),)
       ),
       body: SingleChildScrollView(
@@ -44,9 +44,10 @@ class _DonateFormState extends State<DonateForm> {
           key: _formKey,
           child: Column(
             children: [
-              const OneLineQuestion(text: "What would you like to donate?"),
+              // TODO: display which org user is donating to at start
+              const Header(text: "What would you like to donate?"),
               const DonationTypeField(),
-              const TwoLineQuestion(text: "Would you like your donations picked up?"),
+              const Header(text: "Would you like your donations picked up?"),
               PickupField(
                 yesChecked: (){
                   setState(() {
@@ -59,19 +60,19 @@ class _DonateFormState extends State<DonateForm> {
                   });
                 }
               ),
-              const OneLineQuestion(text: "How heavy are your items"),
+              const Header(text: "How heavy are your items?"),
               const WeightField(),
-              const OneLineQuestion(text: "Optional: Upload photo of items"),
+              const Header(text: "If you can, please upload a photo of your items"),
               const UploadPhotoButtons(),
-              const OneLineQuestion(text: "Date and time for pickup/drop-off"),
+              Header(text: "When will ${isPickupChecked == true ? "we pickup your" : "you drop-off your"} donation?"),
               const DateTimeField(),
               Visibility(
                 visible: isPickupChecked,
                 child: const Column(
                   children: [
-                    OneLineQuestion(text: "Enter your pickup address"),
+                    Header(text: "Where would we pickup your donations?"),
                     AddressField(),
-                    OneLineQuestion(text: "Please enter your contact number"),
+                    Header(text: "What number should we reach you at?"),
                     ContactNoField(),
                   ],
                 ),
@@ -85,10 +86,11 @@ class _DonateFormState extends State<DonateForm> {
   }
 }
 
-class TwoLineQuestion extends StatelessWidget {
+class Header extends StatelessWidget {
+
   final String text;
 
-  const TwoLineQuestion({
+  const Header({
     super.key,
     required this.text
   });
@@ -103,46 +105,14 @@ class TwoLineQuestion extends StatelessWidget {
           borderRadius: BorderRadius.circular(100)
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:32.0, right: 32, top: 8, bottom: 8),
-          child: Center(
-            child: Text(text, style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Colors.white,
-            ), textAlign: TextAlign.center),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class OneLineQuestion extends StatelessWidget {
-
-  final String text;
-
-  const OneLineQuestion({
-    super.key,
-    required this.text
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFF093731),
-          borderRadius: BorderRadius.circular(100)
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8 ),
           child: Center(
             child: Text(text , style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
-              color: Colors.white
-            )),
+              color: Color(0xFFEEF2E6)
+            ),
+            textAlign: TextAlign.center,),
           ),
         ),
       ),
