@@ -56,11 +56,17 @@ class _UserViewState extends State<UserView> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30.0))),
-                                child: const Text("Sign in as Organization",
+                                child: const Text("ORGANIZATION",
                                     style: TextStyle(
+                                        shadows: [
+                                          Shadow(
+                                              color: Colors.black,
+                                              blurRadius: 2.0,
+                                              offset: Offset(2.0, 2.0))
+                                        ],
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                        fontFamily: "Freeman",
+                                        fontSize: 30),
                                     textAlign: TextAlign.center)),
                           ),
 
@@ -84,11 +90,17 @@ class _UserViewState extends State<UserView> {
                                         borderRadius:
                                             BorderRadius.circular(30.0))),
                                 child: const Text(
-                                  "Sign in as Donor",
+                                  "DONOR",
                                   style: TextStyle(
+                                      shadows: [
+                                        Shadow(
+                                            color: Colors.black,
+                                            blurRadius: 2.0,
+                                            offset: Offset(2.0, 2.0))
+                                      ],
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontFamily: "Freeman",
+                                      fontSize: 30),
                                   textAlign: TextAlign.center,
                                 )),
                           ),
@@ -112,11 +124,17 @@ class _UserViewState extends State<UserView> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30.0))),
-                                child: const Text("Sign in as Admin",
+                                child: const Text("ADMIN",
                                     style: TextStyle(
+                                        shadows: [
+                                          Shadow(
+                                              color: Colors.black,
+                                              blurRadius: 2.0,
+                                              offset: Offset(2.0, 2.0))
+                                        ],
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                        fontFamily: "Freeman",
+                                        fontSize: 30),
                                     textAlign: TextAlign.center)),
                           )
                         ],

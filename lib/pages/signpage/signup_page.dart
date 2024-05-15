@@ -40,11 +40,9 @@ class _SignUpState extends State<SignUpPage> {
   Widget get heading => const Padding(
         padding: EdgeInsets.only(bottom: 30),
         child: Text(
-          "Sign Up",
+          "SIGN UP",
           style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1C6758)),
+              fontSize: 40, fontFamily: "Freeman", color: Color(0xFF1C6758)),
         ),
       );
 
@@ -108,8 +106,7 @@ class _SignUpState extends State<SignUpPage> {
                     horizontal: 20.0, vertical: 10.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0))),
-            child: const Text("Sign Up",
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold))),
+            child: const Text("Sign up",
+                style: TextStyle(color: Colors.white, fontFamily: "Freeman"))),
       );
 }

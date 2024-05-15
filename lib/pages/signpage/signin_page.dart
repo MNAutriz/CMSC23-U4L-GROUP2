@@ -22,8 +22,7 @@ class _SignInPageState extends State<SignInPage> {
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("images/sign-in_picture.jpg"),
-                fit: BoxFit.cover)),
+                image: AssetImage("images/sign_image.jpg"), fit: BoxFit.cover)),
         child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Column(
@@ -66,11 +65,9 @@ class _SignInPageState extends State<SignInPage> {
   Widget get heading => const Padding(
         padding: EdgeInsets.only(bottom: 30, top: 50),
         child: Text(
-          "Sign In",
+          "SIGN IN",
           style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1C6758)),
+              fontSize: 40, fontFamily: "Freeman", color: Color(0xFF1C6758)),
         ),
       );
 
@@ -82,7 +79,7 @@ class _SignInPageState extends State<SignInPage> {
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
               label: Text("Email"),
-              hintText: "juandelacruz09@gmail.com"),
+              hintText: "donate@gmail.com"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -150,9 +147,11 @@ class _SignInPageState extends State<SignInPage> {
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0))),
-          child: const Text("Sign In",
+          child: const Text("Sign in",
               style: TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold))));
+                fontFamily: "Freeman",
+                color: Colors.white,
+              ))));
 
   Widget get signUpButton => Padding(
         padding: const EdgeInsets.all(30),
@@ -167,9 +166,12 @@ class _SignInPageState extends State<SignInPage> {
                       MaterialPageRoute(
                           builder: (context) => const SignUpPage()));
                 },
-                child: const Text("Sign Up",
+                child: const Text("Sign up",
                     style: TextStyle(
-                        color: Color(0xFF1C6758), fontWeight: FontWeight.bold)))
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1C6758),
+                    )))
           ],
         ),
       );
