@@ -10,7 +10,7 @@ class DisplayDonors extends StatefulWidget {
 class _DisplayDonorsState extends State<DisplayDonors> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         backgroundColor: Color(0xFFEEF2E6),
         body: SingleChildScrollView(
           child: Column(

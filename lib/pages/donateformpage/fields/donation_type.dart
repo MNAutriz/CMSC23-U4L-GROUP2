@@ -57,11 +57,11 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
           itemBuilder: (context, index) {
             if (index == additionalTypes.length) { // if index == to end of array (insert add new category textfield)
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                 child: Card(
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: TextField(
                       controller: _textFieldController,
                       decoration: InputDecoration(
@@ -69,7 +69,7 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
                         labelText: 'New Category',
                         labelStyle: TextStyle(color: const Color(0xFF3D8361).withOpacity(0.3)),
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add, color: Color(0xFF3D8361)),
                           onPressed: () {
                             final newCategory = _textFieldController.text.trim();
                             if (newCategory.isNotEmpty && !_categoryExists(newCategory)) { // also check if newCategory is already belonging to initial types
@@ -106,24 +106,27 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
   // custom function to build custom widget with remove button
   Widget _buildListTile(String type) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
       child: Card(
         clipBehavior: Clip.hardEdge,
         child: ListTile(
           title: Row(
             children: [
               Expanded(
-                child: Text(
-                  type,
-                  style: TextStyle(
-                    color: isCheckedMap[type] == false ? const Color(0xFF3D8361) : const Color(0xFFEEF2E6),
-                    fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    type,
+                    style: TextStyle(
+                      color: isCheckedMap[type] == false ? const Color(0xFF3D8361) : const Color(0xFFEEF2E6),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-              if (!initialTypes.contains(type))
+              if (!initialTypes.contains(type)) // add remove button if not initial type
                 IconButton(
-                  icon: const Icon(Icons.remove),
+                  icon: Icon(Icons.remove, color: isCheckedMap[type] == false ? const Color(0xFF3D8361) : const Color(0xFFEEF2E6),),
                   onPressed: () {
                     setState(() {
                       additionalTypes.remove(type);

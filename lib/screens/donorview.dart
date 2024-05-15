@@ -20,6 +20,7 @@ class _DonorViewState extends State<DonorView> {
     DonorProfilePage()
    ];
 
+    //TODO: add search bar
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),
       // appBar: AppBar(
