@@ -41,10 +41,10 @@ class _PickupFieldState extends State<PickupField> {
           Flexible(
             child: Card(
               clipBehavior: Clip.hardEdge,
-              color: checkedValue == "No" ?  const Color(0xFF3D8361) : const Color(0xFFEEF2E6),
+              color: checkedValue == "No" ?  const Color(0xFF3D8361) : Colors.white,
               child: ListTile(
                 title: Text("No", style: TextStyle(fontWeight: FontWeight.bold, color: checkedValue == "No" ? const Color(0xFFEEF2E6): const Color(0xFF3D8361),)),
-                tileColor: checkedValue == "No" ? const Color(0xFF3D8361) : const Color(0xFFEEF2E6),
+                tileColor: checkedValue == "No" ? const Color(0xFF3D8361) : Colors.white,
                 selected: checkedValue == "No", // will result to true of checkedValue is "Yes"
                 onTap: (){
                   setState(() {

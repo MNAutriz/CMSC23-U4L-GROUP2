@@ -24,19 +24,21 @@ class DonorProfilePage extends StatelessWidget {
           //   iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
           //   backgroundColor: const Color(0xFF093731),
           // ),
-          body: Column(children: [
-            const ProfilePictureStack(),
-            const SizedBox(height: 150),
-            ProfileInfoTile(
-                text: "${sample.firstname} ${sample.lastname}",
-                icon: const Icon(Icons.person, color: Color(0xFFEEF2E6))),
-            ProfileInfoTile(
-                text: "${sample.email}",
-                icon: const Icon(Icons.alternate_email, color: Color(0xFFEEF2E6))),
-            ProfileInfoTile(
-                text: "${sample.contactno}",
-                icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
-          ])),
+          body: SingleChildScrollView(
+            child: Column(children: [
+              const ProfilePictureStack(),
+              const SizedBox(height: 150),
+              ProfileInfoTile(
+                  text: "${sample.firstname} ${sample.lastname}",
+                  icon: const Icon(Icons.person, color: Color(0xFFEEF2E6))),
+              ProfileInfoTile(
+                  text: "${sample.email}",
+                  icon: const Icon(Icons.alternate_email, color: Color(0xFFEEF2E6))),
+              ProfileInfoTile(
+                  text: "${sample.contactno}",
+                  icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
+            ]),
+          )),
     );
   }
 }
