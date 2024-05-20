@@ -1,4 +1,6 @@
+import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +15,8 @@ class _SignUpState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String? email;
   String? password;
+  String? firstName;
+  String? lastName;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,14 @@ class _SignUpState extends State<SignUpPage> {
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [heading, emailField, passwordField, submitButton],
+                children: [
+                  heading,
+                  firstNameField,
+                  lastNameField,
+                  emailField,
+                  passwordField,
+                  submitButton
+                ],
               ),
             )),
       ),
@@ -85,19 +96,77 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
+  //first name field
+  Widget get firstNameField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
+              border: OutlineInputBorder(),
+              label: Text("First Name"),
+              hintText: "Enter your first name"),
+          onSaved: (value) => setState(() => firstName = value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please enter your first name";
+            }
+            return null;
+          },
+        ),
+      );
+
+  //last name field
+  Widget get lastNameField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
+              border: OutlineInputBorder(),
+              label: Text("Last Name"),
+              hintText: "Enter your last name"),
+          onSaved: (value) => setState(() => lastName = value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please enter your last name";
+            }
+            return null;
+          },
+        ),
+      );
+
   Widget get submitButton => SizedBox(
         width: 350,
         child: ElevatedButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                await context
+
+                String? validateEmail = await context
                     .read<UserAuthProvider>()
                     .authService
                     .signUp(email!, password!);
 
-                // check if the widget hasn't been disposed of after an asynchronous action
-                if (mounted) Navigator.pop(context);
+                //if the email is valid
+                if (validateEmail == "") {
+                  //create user object to save to the database
+                  Donor donor = Donor(
+                      email: email!,
+                      firstName: firstName!,
+                      lastName: lastName!);
+
+                  context.read<DonorProvider>().addDonor(donor);
+
+                  // check if the widget hasn't been disposed of after an asynchronous action
+                  if (mounted) Navigator.pop(context);
+                } else {
+                  //snackbar containing the error message
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(validateEmail!),
+                    backgroundColor: Colors.red,
+                  ));
+                }
               }
             },
             style: ElevatedButton.styleFrom(
