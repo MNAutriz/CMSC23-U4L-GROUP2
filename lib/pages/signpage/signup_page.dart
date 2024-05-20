@@ -90,7 +90,15 @@ class _SignUpState extends State<SignUpPage> {
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "Please enter a valid password";
+            } else {
+              //password length
+              int pLength = value.length;
+
+              if (pLength < 8) {
+                return "Please enter a password with at least 8 characters";
+              }
             }
+
             return null;
           },
         ),
