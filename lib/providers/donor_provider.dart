@@ -11,7 +11,7 @@ class DonorProvider with ChangeNotifier {
     fetchDonors();
   }
   // getter
-  Stream<QuerySnapshot> get user => _donorsStream;
+  Stream<QuerySnapshot> get donor => _donorsStream;
 
   //fetch donors
   void fetchDonors() {

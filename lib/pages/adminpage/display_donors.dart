@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/models/donor_model.dart';
+import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,10 +38,10 @@ class _DisplayDonorsState extends State<DisplayDonors> {
   //stream builder widget
   Widget stream() {
     // access the list of slambook entries in the provider
-    Stream<QuerySnapshot> users = context.watch<SlambookProvider>().slambook;
+    Stream<QuerySnapshot> donorsStream = context.watch<DonorProvider>().donor;
 
     return StreamBuilder(
-      stream: slambookStream,
+      stream: donorsStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -51,36 +53,29 @@ class _DisplayDonorsState extends State<DisplayDonors> {
           );
           //no data yet
         } else if (!snapshot.hasData) {
-          return emptyFriend();
+          return emptyDonors();
           //empty friends list
         } else if (snapshot.data!.docs.isEmpty) {
           //empty friends list
-          return emptyFriend();
+          return emptyDonors();
         }
 
         //if the friends list is not empty
         return ListView.builder(
           itemCount: snapshot.data?.docs.length,
           itemBuilder: ((context, index) {
-            Slambook slambook = Slambook.fromJson(
+            Donor donor = Donor.fromJson(
                 snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
             //get the id of a document
-            slambook.id = snapshot.data?.docs[index].id;
+            donor.id = snapshot.data?.docs[index].id;
             //card containing list tile of friends list
             return Card(
               //list tile of each friend
               child: ListTile(
-                onTap: () {
-                  //view details
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ViewDetails(slambook: slambook)));
-                },
+                onTap: () {},
                 leading: const Icon(Icons.person),
-                title: Text(slambook.name),
+                title: Text(donor.email),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                   //edit button
                   IconButton(
@@ -89,13 +84,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           backgroundColor: Colors.purple),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              EditForm(slambook: slambook),
-                        );
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.create)),
                   //delete button
                   IconButton(
@@ -104,13 +93,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           backgroundColor: Colors.purple),
-                      onPressed: () {
-                        // ignore: avoid_print
-                        print("Deleted ${slambook.name}");
-                        context
-                            .read<SlambookProvider>()
-                            .deleteFriend(slambook.id!);
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.delete)),
                   //view button
                   IconButton(
@@ -119,13 +102,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           backgroundColor: Colors.purple),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ViewDetails(slambook: slambook)));
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.mail))
                 ]),
               ),

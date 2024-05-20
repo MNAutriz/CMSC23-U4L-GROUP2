@@ -3,6 +3,7 @@ import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
 import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
 import 'package:cmsc23project/pages/signpage/sign_page.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/screens/adminview.dart';
 import 'package:cmsc23project/screens/donorview.dart';
 import 'package:cmsc23project/screens/orgview.dart';
@@ -19,6 +20,7 @@ Future<void> main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: ((context) => UserAuthProvider())),
+    ChangeNotifierProvider(create: ((context) => DonorProvider()))
   ], child: MyApp()));
 }
 
