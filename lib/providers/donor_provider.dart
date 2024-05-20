@@ -20,14 +20,14 @@ class DonorProvider with ChangeNotifier {
   }
 
   //add donor method
-  void addUser(Donor donor) async {
+  void addDonor(Donor donor) async {
     String message = await firebaseService.addDonor(donor.toJson(donor));
     print(message);
     notifyListeners();
   }
 
   //delete donor method
-  void deleteUser(String id) async {
+  void deleteDonor(String id) async {
     await firebaseService.deleteDonor(id);
     notifyListeners();
   }
