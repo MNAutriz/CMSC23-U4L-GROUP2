@@ -12,7 +12,7 @@ class IntroPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Organization's View"),
         foregroundColor: Colors.white,
-        backgroundColor: Color.fromARGB(255, 45, 163, 59), // Dark green
+        backgroundColor:Color(0xFF093731), // Dark green
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -25,7 +25,7 @@ class IntroPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28.0,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 0, 114, 101), // Green
+                color: Color(0xFF093731), // Green
               ),
               textAlign: TextAlign.center,
             ),
@@ -54,7 +54,7 @@ class IntroPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 45, 163, 59), // Dark green
+                backgroundColor: Color(0xFF093731), // Dark green
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
