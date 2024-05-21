@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +12,56 @@ class UserView extends StatefulWidget {
 }
 
 class _UserViewState extends State<UserView> {
+  User? user;
+
+  dynamic admin;
+  dynamic org;
+  dynamic donor;
+
   @override
   Widget build(BuildContext context) {
+    //get user
+    user = context.read<UserAuthProvider>().user;
+
+    //check if admin
+    FirebaseFirestore.instance
+        .collection("admins")
+        .where("email", isEqualTo: user!.email!)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          admin = doc;
+        });
+      });
+    });
+
+    //check if org
+    FirebaseFirestore.instance
+        .collection("organizations")
+        .where("email", isEqualTo: user!.email!)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          org = doc;
+        });
+      });
+    });
+
+    //check if org
+    FirebaseFirestore.instance
+        .collection("donors")
+        .where("email", isEqualTo: user!.email!)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          donor = doc;
+        });
+      });
+    });
+
     return Scaffold(
         drawer: drawer,
         backgroundColor: const Color(0xFF1C6758),
@@ -40,104 +90,8 @@ class _UserViewState extends State<UserView> {
                     Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //sign in as user button
-                          SizedBox(
-                            height: 150,
-                            width: 350,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/organization');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF3D8361),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 20.0),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0))),
-                                child: const Text("ORGANIZATION",
-                                    style: TextStyle(
-                                        shadows: [
-                                          Shadow(
-                                              color: Colors.black,
-                                              blurRadius: 2.0,
-                                              offset: Offset(2.0, 2.0))
-                                        ],
-                                        color: Colors.white,
-                                        fontFamily: "Freeman",
-                                        fontSize: 30),
-                                    textAlign: TextAlign.center)),
-                          ),
-
-                          SizedBox(
-                            height: 40,
-                          ),
-
-                          //sign in as donor button
-                          SizedBox(
-                            height: 150,
-                            width: 350,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/donor');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF3D8361),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 20.0),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0))),
-                                child: const Text(
-                                  "DONOR",
-                                  style: TextStyle(
-                                      shadows: [
-                                        Shadow(
-                                            color: Colors.black,
-                                            blurRadius: 2.0,
-                                            offset: Offset(2.0, 2.0))
-                                      ],
-                                      color: Colors.white,
-                                      fontFamily: "Freeman",
-                                      fontSize: 30),
-                                  textAlign: TextAlign.center,
-                                )),
-                          ),
-
-                          SizedBox(
-                            height: 40,
-                          ),
-
-                          //sign in as admin button
-                          SizedBox(
-                            height: 150,
-                            width: 350,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/admin');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF3D8361),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 20.0),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0))),
-                                child: const Text("ADMIN",
-                                    style: TextStyle(
-                                        shadows: [
-                                          Shadow(
-                                              color: Colors.black,
-                                              blurRadius: 2.0,
-                                              offset: Offset(2.0, 2.0))
-                                        ],
-                                        color: Colors.white,
-                                        fontFamily: "Freeman",
-                                        fontSize: 30),
-                                    textAlign: TextAlign.center)),
-                          )
-                        ],
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [authorization()],
                       ),
                     )
                   ]),
@@ -175,4 +129,98 @@ class _UserViewState extends State<UserView> {
           ),
         ]),
       ));
+
+  Widget get authOrg => //authorized as org widget
+      SizedBox(
+        height: 150,
+        width: 350,
+        child: ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/organization');
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3D8361),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0))),
+            child: const Text("ORGANIZATION",
+                style: TextStyle(shadows: [
+                  Shadow(
+                      color: Colors.black,
+                      blurRadius: 2.0,
+                      offset: Offset(2.0, 2.0))
+                ], color: Colors.white, fontFamily: "Freeman", fontSize: 30),
+                textAlign: TextAlign.center)),
+      );
+
+  Widget get authAdmin => //authorized as admin widget
+      SizedBox(
+        height: 150,
+        width: 350,
+        child: ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/admin');
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3D8361),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0))),
+            child: const Text("ADMIN",
+                style: TextStyle(shadows: [
+                  Shadow(
+                      color: Colors.black,
+                      blurRadius: 2.0,
+                      offset: Offset(2.0, 2.0))
+                ], color: Colors.white, fontFamily: "Freeman", fontSize: 30),
+                textAlign: TextAlign.center)),
+      );
+
+  Widget get authDonor => //authorized as donor widget
+      SizedBox(
+        height: 150,
+        width: 350,
+        child: ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/donor');
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3D8361),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 20.0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0))),
+            child: const Text(
+              "DONOR",
+              style: TextStyle(shadows: [
+                Shadow(
+                    color: Colors.black,
+                    blurRadius: 2.0,
+                    offset: Offset(2.0, 2.0))
+              ], color: Colors.white, fontFamily: "Freeman", fontSize: 30),
+              textAlign: TextAlign.center,
+            )),
+      );
+
+  //widget for authorization
+  Widget authorization() {
+    //if the user is in the admin database
+    if (admin != null) {
+      return authAdmin;
+      //if the user is in the organization database
+    } else if (org != null) {
+      return authOrg;
+    }
+
+    //else return authDonor
+    else if (donor != null) {
+      return authDonor;
+    }
+
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
 }

@@ -14,11 +14,7 @@ class _DonorViewState extends State<DonorView> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-
-   List<Widget> pages = const [
-    DonorHomePage(),
-    DonorProfilePage()
-   ];
+    List<Widget> pages = const [DonorHomePage(), DonorProfilePage()];
 
     //TODO: add search bar
     return Scaffold(
@@ -33,20 +29,14 @@ class _DonorViewState extends State<DonorView> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF093731), 
+        backgroundColor: const Color(0xFF093731),
         selectedItemColor: const Color(0xFFEEF2E6),
         unselectedItemColor: Colors.white.withOpacity(0.6),
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Homepage'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile'
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Homepage'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             _selectedIndex = index;
           });
