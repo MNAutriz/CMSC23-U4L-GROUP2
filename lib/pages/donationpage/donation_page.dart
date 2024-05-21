@@ -13,9 +13,9 @@ class DonationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Donation Page'),
+        foregroundColor: Colors.white,
         backgroundColor: Color(0xFF093731), // Dark green
       ),
-      backgroundColor: Color.fromRGBO(214, 205, 164, 1), // Dark green
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -28,7 +28,7 @@ class DonationPage extends StatelessWidget {
                   height: 200,
                   color: Colors.grey[300],
                   child: Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD7XynQ15godQjXpaP30wvHkd0qOkvySs8LKctDg905nGCPYepu3LMCVQm-kJytKa6Rg8&usqp=CAU',
+                    'https://spweb-uploads.s3.theark.cloud/2013/03/1827PH-G-022_Philippines.jpg',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -39,7 +39,7 @@ class DonationPage extends StatelessWidget {
                   height: 200,
                   color: Colors.grey[300],
                   child: Image.network(
-                    'https://www.fao.org/uploads/pics/web24954_030.jpg',
+                    'https://adra.ph/wp-content/uploads/2017/09/Gift-Boxes-Aeta-4-1024x683.jpg',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -50,7 +50,7 @@ class DonationPage extends StatelessWidget {
                   height: 200,
                   color: Colors.grey[300],
                   child: Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrgQJglUyVFM2cGVhXM1Mogiqh_RVyO0hF3oxg1fV6c0XEvM8JGsaBR-Tv770DeSU7NXU&usqp=CAU',
+                    'https://spweb-uploads.s3.theark.cloud/2023/08/2355PH-H1-481_homescreen-765x460.jpg',
                     fit: BoxFit.cover,
                   ),
                 ),
