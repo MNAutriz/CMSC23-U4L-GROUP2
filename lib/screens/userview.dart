@@ -56,7 +56,7 @@ class _UserViewState extends State<UserView> {
       });
     });
 
-    //check if org
+    //check if donor
     context
         .read<DonorProvider>()
         .donorCollection

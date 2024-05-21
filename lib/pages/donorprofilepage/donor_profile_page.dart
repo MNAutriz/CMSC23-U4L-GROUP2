@@ -14,11 +14,12 @@ class DonorProfilePage extends StatelessWidget {
         contactno: "09171231234",
         email: "sample@gmail.com");
 
-    return SafeArea( // so that first widget is rendered under the status bar
+    return SafeArea(
+      // so that first widget is rendered under the status bar
       child: Scaffold(
           backgroundColor: const Color(0xFFEEF2E6),
           // appBar: AppBar(
-          //   automaticallyImplyLeading: false, 
+          //   automaticallyImplyLeading: false,
           //   // title: Text("${sample.firstname} ${sample.lastname}",
           //   //   style: const TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
           //   iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
@@ -33,7 +34,8 @@ class DonorProfilePage extends StatelessWidget {
                   icon: const Icon(Icons.person, color: Color(0xFFEEF2E6))),
               ProfileInfoTile(
                   text: "${sample.email}",
-                  icon: const Icon(Icons.alternate_email, color: Color(0xFFEEF2E6))),
+                  icon: const Icon(Icons.alternate_email,
+                      color: Color(0xFFEEF2E6))),
               ProfileInfoTile(
                   text: "${sample.contactno}",
                   icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
@@ -75,7 +77,8 @@ class ProfilePictureStack extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
-      clipBehavior: Clip.none, // so that circle avatar can still be seen outside container
+      clipBehavior: Clip
+          .none, // so that circle avatar can still be seen outside container
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -86,9 +89,11 @@ class ProfilePictureStack extends StatelessWidget {
               color: Color(0xFF093731),
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
-            child: ClipRRect( // to make sure image always take up entire container
+            child: ClipRRect(
+              // to make sure image always take up entire container
               borderRadius: BorderRadius.circular(20),
-              child: Image.network( // nice green picture of leaves
+              child: Image.network(
+                // nice green picture of leaves
                 'https://media.istockphoto.com/id/1402801804/photo/closeup-nature-view-of-palms-and-monstera-and-fern-leaf-background.webp?b=1&s=170667a&w=0&k=20&c=oj5HjeYMh3RmxbjUNDiMfn6VSngH_-1uPIUPD7BhNus=',
                 fit: BoxFit.cover,
               ),
@@ -122,4 +127,3 @@ class ProfilePictureStack extends StatelessWidget {
     );
   }
 }
-

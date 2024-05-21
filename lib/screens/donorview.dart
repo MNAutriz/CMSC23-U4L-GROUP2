@@ -1,7 +1,8 @@
-import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
 import 'package:cmsc23project/pages/donorhomepage/donorhomepage.dart';
 import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
+import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DonorView extends StatefulWidget {
   const DonorView({super.key});
