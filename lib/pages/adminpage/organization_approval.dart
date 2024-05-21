@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/organization_model.dart';
+import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -78,24 +79,39 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                 leading: const Icon(Icons.person),
                 title: Text(pending.name),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                  //edit button
+                  //approve button
                   IconButton(
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
                           backgroundColor: Colors.purple),
-                      onPressed: () {},
-                      icon: const Icon(Icons.create)),
-                  //delete button
+                      onPressed: () {
+                        //add to organization database
+                        context
+                            .read<OrganizationProvider>()
+                            .addOrganization(pending);
+
+                        //delete pending application
+                        context
+                            .read<PendingProvider>()
+                            .deletePending(pending.id!);
+                      },
+                      icon: const Icon(Icons.check)),
+                  //disapprove button
                   IconButton(
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
                           backgroundColor: Colors.purple),
-                      onPressed: () {},
-                      icon: const Icon(Icons.delete)),
+                      onPressed: () {
+                        //delete pending application
+                        context
+                            .read<PendingProvider>()
+                            .deletePending(pending.id!);
+                      },
+                      icon: const Icon(Icons.close)),
                   //view button
                   IconButton(
                       style: ElevatedButton.styleFrom(
