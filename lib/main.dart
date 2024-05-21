@@ -2,6 +2,7 @@ import 'package:cmsc23project/firebase_options.dart';
 import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
 import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
 import 'package:cmsc23project/pages/signpage/sign_page.dart';
+import 'package:cmsc23project/providers/admin_provider.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
@@ -22,7 +23,8 @@ Future<void> main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: ((context) => UserAuthProvider())),
     ChangeNotifierProvider(create: ((context) => DonorProvider())),
-    ChangeNotifierProvider(create: ((context) => OrganizationProvider()))
+    ChangeNotifierProvider(create: ((context) => OrganizationProvider())),
+    ChangeNotifierProvider(create: ((context) => AdminProvider())),
   ], child: MyApp()));
 }
 

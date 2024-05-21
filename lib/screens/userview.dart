@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/providers/admin_provider.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/donor_provider.dart';
+import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,40 +26,46 @@ class _UserViewState extends State<UserView> {
     //get user
     user = context.read<UserAuthProvider>().user;
 
-    //check if admin
-    FirebaseFirestore.instance
-        .collection("admins")
+    //check if user is in the admins database
+    context
+        .read<AdminProvider>()
+        .admin
         .where("email", isEqualTo: user!.email!)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         setState(() {
+          //contain query in admin
           admin = doc;
         });
       });
     });
 
     //check if org
-    FirebaseFirestore.instance
-        .collection("organizations")
+    context
+        .read<OrganizationProvider>()
+        .orgCollection
         .where("email", isEqualTo: user!.email!)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         setState(() {
+          //contain query in admin
           org = doc;
         });
       });
     });
 
     //check if org
-    FirebaseFirestore.instance
-        .collection("donors")
+    context
+        .read<DonorProvider>()
+        .donorCollection
         .where("email", isEqualTo: user!.email!)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         setState(() {
+          //contain query in donor
           donor = doc;
         });
       });

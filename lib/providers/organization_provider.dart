@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 class OrganizationProvider with ChangeNotifier {
   FirebaseOrganizationAPI firebaseService = FirebaseOrganizationAPI();
   late Stream<QuerySnapshot> _orgsStream;
+  late CollectionReference<Map<String, dynamic>> _orgsCollection;
 
   OrganizationProvider() {
     fetchOrganizations();
+    fetchDonorsCollection();
   }
   // getter
   Stream<QuerySnapshot> get organization => _orgsStream;
@@ -30,6 +32,16 @@ class OrganizationProvider with ChangeNotifier {
   //delete organization method
   void deleteOrganization(String id) async {
     await firebaseService.deleteOrganization(id);
+    notifyListeners();
+  }
+
+// getter for organization collection
+  CollectionReference<Map<String, dynamic>> get orgCollection =>
+      _orgsCollection;
+
+  //fetch organization collection
+  fetchDonorsCollection() {
+    _orgsCollection = firebaseService.getOrgCollection();
     notifyListeners();
   }
 }

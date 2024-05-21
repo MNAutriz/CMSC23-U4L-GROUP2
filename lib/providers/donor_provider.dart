@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 class DonorProvider with ChangeNotifier {
   FirebaseDonorAPI firebaseService = FirebaseDonorAPI();
   late Stream<QuerySnapshot> _donorsStream;
+  late CollectionReference<Map<String, dynamic>> _donorsCollection;
 
   DonorProvider() {
     fetchDonors();
+    fetchDonorsCollection();
   }
+
   // getter
   Stream<QuerySnapshot> get donor => _donorsStream;
 
@@ -29,6 +32,16 @@ class DonorProvider with ChangeNotifier {
   //delete donor method
   void deleteDonor(String id) async {
     await firebaseService.deleteDonor(id);
+    notifyListeners();
+  }
+
+  // getter for donor collection
+  CollectionReference<Map<String, dynamic>> get donorCollection =>
+      _donorsCollection;
+
+  //fetch donors collection
+  fetchDonorsCollection() {
+    _donorsCollection = firebaseService.getDonorCollection();
     notifyListeners();
   }
 }
