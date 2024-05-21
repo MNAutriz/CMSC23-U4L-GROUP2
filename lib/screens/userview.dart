@@ -3,6 +3,9 @@ import 'package:cmsc23project/providers/admin_provider.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
+import 'package:cmsc23project/screens/adminview.dart';
+import 'package:cmsc23project/screens/donorview.dart';
+import 'package:cmsc23project/screens/orgview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,42 +74,59 @@ class _UserViewState extends State<UserView> {
       });
     });
 
-    return Scaffold(
-        drawer: drawer,
-        backgroundColor: const Color(0xFF1C6758),
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF1C6758),
-        ),
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-              color: Color(0xFFD6CDA4),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50), topRight: Radius.circular(50))),
-          child: Container(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-            decoration: BoxDecoration(
-                color: Color(0xFFEEF2E6),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50))),
-            child: Align(
-              alignment: const AlignmentDirectional(0, 1),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [authorization()],
-                      ),
-                    )
-                  ]),
-            ),
-          ),
-        ));
+    // return Scaffold(
+    //     drawer: drawer,
+    //     backgroundColor: const Color(0xFF1C6758),
+    //     appBar: AppBar(
+    //       backgroundColor: const Color(0xFF1C6758),
+    //     ),
+    //     body: Container(
+    //       padding: EdgeInsets.symmetric(horizontal: 20),
+    //       decoration: BoxDecoration(
+    //           color: Color(0xFFD6CDA4),
+    //           borderRadius: BorderRadius.only(
+    //               topLeft: Radius.circular(50), topRight: Radius.circular(50))),
+    //       child: Container(
+    //         padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+    //         decoration: BoxDecoration(
+    //             color: Color(0xFFEEF2E6),
+    //             borderRadius: BorderRadius.only(
+    //                 topLeft: Radius.circular(50),
+    //                 topRight: Radius.circular(50))),
+    //         child: Align(
+    //           alignment: const AlignmentDirectional(0, 1),
+    //           child: Column(
+    //               mainAxisAlignment: MainAxisAlignment.center,
+    //               crossAxisAlignment: CrossAxisAlignment.center,
+    //               children: [
+    //                 Container(
+    //                   child: Column(
+    //                     mainAxisAlignment: MainAxisAlignment.center,
+    //                     crossAxisAlignment: CrossAxisAlignment.center,
+    //                     children: [authorization()],
+    //                   ),
+    //                 )
+    //               ]),
+    //         ),
+    //       ),
+    //     ));
+
+    //if the user is in the admin database
+    if (admin != null) {
+      return AdminView();
+      //if the user is in the organization database
+    } else if (org != null) {
+      return DonationApp();
+    }
+
+    //else return authDonor
+    else if (donor != null) {
+      return DonorView();
+    }
+
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 
   //logout
@@ -217,15 +237,15 @@ class _UserViewState extends State<UserView> {
   Widget authorization() {
     //if the user is in the admin database
     if (admin != null) {
-      return authAdmin;
+      return AdminView();
       //if the user is in the organization database
     } else if (org != null) {
-      return authOrg;
+      return DonationApp();
     }
 
     //else return authDonor
     else if (donor != null) {
-      return authDonor;
+      return DonorView();
     }
 
     return const Center(

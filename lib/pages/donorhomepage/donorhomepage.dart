@@ -55,6 +55,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: drawer,
         backgroundColor: const Color(0xFFEEF2E6),
         appBar: AppBar(
           title: const Text("Donor's View",
@@ -155,4 +156,34 @@ class _DonorHomePageState extends State<DonorHomePage> {
           ),
         ));
   }
+
+//logout
+  Drawer get drawer => Drawer(
+          child: Container(
+        color: const Color(0xFFEEF2E6),
+        child: ListView(padding: EdgeInsets.zero, children: [
+          const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF1C6758)),
+              child: Text("Settings",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Color(0xFFEEF2E6)))),
+          ListTile(
+            title: const Center(
+              child: Text(
+                "Log out",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFF1C6758)),
+              ),
+            ),
+            onTap: () {
+              context.read<UserAuthProvider>().signOut();
+            },
+          ),
+        ]),
+      ));
 }

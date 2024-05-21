@@ -1,18 +1,27 @@
+import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/donation_provider.dart';
 import '../homepage/home_page.dart';
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatefulWidget {
+  const IntroPage({super.key});
+
+  @override
+  State<IntroPage> createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
     final donationProvider = Provider.of<DonationProvider>(context);
 
     return Scaffold(
+      drawer: drawer,
       appBar: AppBar(
         title: Text("Organization's View"),
         foregroundColor: Colors.white,
-        backgroundColor:Color(0xFF093731), // Dark green
+        backgroundColor: Color(0xFF093731), // Dark green
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -74,4 +83,34 @@ class IntroPage extends StatelessWidget {
       ),
     );
   }
+
+  //logout
+  Drawer get drawer => Drawer(
+          child: Container(
+        color: const Color(0xFFEEF2E6),
+        child: ListView(padding: EdgeInsets.zero, children: [
+          const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF1C6758)),
+              child: Text("Settings",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Color(0xFFEEF2E6)))),
+          ListTile(
+            title: const Center(
+              child: Text(
+                "Log out",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFF1C6758)),
+              ),
+            ),
+            onTap: () {
+              context.read<UserAuthProvider>().signOut();
+            },
+          ),
+        ]),
+      ));
 }
