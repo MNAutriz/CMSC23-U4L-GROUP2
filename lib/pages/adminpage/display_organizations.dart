@@ -37,7 +37,7 @@ class _DisplayOrganizationsState extends State<DisplayOrganizations> {
 
   //stream builder widget
   Widget stream() {
-    // access the list of slambook entries in the provider
+    // access the database of organizations in the provider
     Stream<QuerySnapshot> orgsStream =
         context.watch<OrganizationProvider>().organization;
 
@@ -55,13 +55,13 @@ class _DisplayOrganizationsState extends State<DisplayOrganizations> {
           //no data yet
         } else if (!snapshot.hasData) {
           return emptyOrganizations();
-          //empty friends list
+          //empty organizations database
         } else if (snapshot.data!.docs.isEmpty) {
-          //empty friends list
+          //empty organizations database
           return emptyOrganizations();
         }
 
-        //if the friends list is not empty
+        //if the organizations database is not empty
         return ListView.builder(
           itemCount: snapshot.data?.docs.length,
           itemBuilder: ((context, index) {
@@ -70,9 +70,9 @@ class _DisplayOrganizationsState extends State<DisplayOrganizations> {
 
             //get the id of a document
             organization.id = snapshot.data?.docs[index].id;
-            //card containing list tile of friends list
+            //card containing list tile of organizations database
             return Card(
-              //list tile of each friend
+              //list tile of each organization
               child: ListTile(
                 onTap: () {},
                 leading: const Icon(Icons.person),
@@ -114,7 +114,7 @@ class _DisplayOrganizationsState extends State<DisplayOrganizations> {
     );
   }
 
-  //Widget for empty friend list
+  //Widget for empty organizations database
   Widget emptyOrganizations() {
     return const Center(
       child: Column(
