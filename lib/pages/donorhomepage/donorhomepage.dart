@@ -12,6 +12,8 @@ class DonorHomePage extends StatefulWidget {
 class _DonorHomePageState extends State<DonorHomePage> {
   int _selectedIndex = 0;
   TextEditingController _searchController = TextEditingController();
+  
+  //TODO use Organization model 
   List<String> organizations = [
     'Hope Haven Organization',
     'Compassion Collective',
@@ -24,6 +26,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
     'Renewed Vision Charity',
     'Harmony Aid Organization'
   ];
+  
   List<String> filteredOrganizations = [];
 
   @override
@@ -47,65 +50,136 @@ class _DonorHomePageState extends State<DonorHomePage> {
     super.dispose();
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     backgroundColor: const Color(0xFFEEF2E6),
+  //     appBar: AppBar(
+  //       title: const Text("Donor's View",
+  //           style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
+  //       backgroundColor: const Color(0xFF093731),
+  //       iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
+  //     ),
+  //     body: Column(
+  //       children: [
+  //         Container(
+  //           decoration: const BoxDecoration(
+  //               color: Color(0xFF093731),
+  //               borderRadius: BorderRadius.only(
+  //                   bottomLeft: Radius.circular(25),
+  //                   bottomRight: Radius.circular(25))),
+  //           height: 200,
+  //           padding: const EdgeInsets.symmetric(
+  //             vertical: 50.0,
+  //           ),
+  //           width: double.infinity,
+  //           child: const Column(
+  //             children: [
+  //               Center(
+  //                   child: Text("Donate Now!",
+  //                       style: TextStyle(
+  //                           color: Color(0xFFEEF2E6),
+  //                           fontSize: 20,
+  //                           fontWeight: FontWeight.bold))),
+  //               SizedBox(height: 20),
+  //               Center(
+  //                 child: Text("Choose an organization below",
+  //                     style: TextStyle(
+  //                         fontSize: 20,
+  //                         fontWeight: FontWeight.bold,
+  //                         color: Color(0xFFEEF2E6))),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //         Padding(
+  //           padding: const EdgeInsets.all(16.0),
+  //           child: SearchBar(
+  //             controller: _searchController,
+  //             backgroundColor: MaterialStateProperty.all(const Color(0xFFD6CDA4)),
+  //             leading: const Icon(Icons.search, color: Color(0xFF093731)),
+  //             hintText: "Seach organization...",
+  //             hintStyle: MaterialStateProperty.all(const TextStyle(
+  //               color: Color(0xFF093731)
+  //             )),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           child: ListView.builder(
+  //             padding: const EdgeInsets.all(8),
+  //             itemCount: filteredOrganizations.length,
+  //             itemBuilder: (BuildContext context, int index) {
+  //               return Card(
+  //                 clipBehavior: Clip.hardEdge,
+  //                 child: InkWell(
+  //                   splashColor: const Color(0xFF3D8361).withAlpha(100),
+  //                   onTap: () {
+  //                     debugPrint(filteredOrganizations[index]);
+  //                     Navigator.pushNamed(context, "/donor/donate");
+  //                   },
+  //                   child: SizedBox(
+  //                     width: double.infinity,
+  //                     height: 150,
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.all(8.0),
+  //                       child: Center(
+  //                         child: Text(
+  //                           filteredOrganizations[index],
+  //                           style: const TextStyle(
+  //                               fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF093731)),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),
-      appBar: AppBar(
-        title: const Text("Donor's View",
-            style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF093731),
-        iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
-      ),
-      body: Column(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-                color: Color(0xFF093731),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25))),
-            height: 200,
-            padding: const EdgeInsets.symmetric(
-              vertical: 50.0,
-            ),
-            width: double.infinity,
-            child: const Column(
-              children: [
-                Center(
-                    child: Text("Donate Now!",
-                        style: TextStyle(
-                            color: Color(0xFFEEF2E6),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold))),
-                SizedBox(height: 20),
-                Center(
-                  child: Text("Choose an organization below",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFEEF2E6))),
-                )
-              ],
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+            leading: Icon(Icons.menu),
+            title: Text("Donate Now!"),
+            // automaticallyImplyLeading: false,
+            backgroundColor: const Color(0xFF093731),
+            pinned: true,
+            expandedHeight: 300,
+            flexibleSpace: FlexibleSpaceBar(
+              expandedTitleScale: 1.5,
+              // centerTitle: true,
+              title: Text("Donate Now!", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SearchBar(
-              controller: _searchController,
-              backgroundColor: MaterialStateProperty.all(const Color(0xFFD6CDA4)),
-              leading: const Icon(Icons.search, color: Color(0xFF093731)),
-              hintText: "Seach organization...",
-              hintStyle: MaterialStateProperty.all(const TextStyle(
-                color: Color(0xFF093731)
-              )),
-            ),
+          SliverAppBar( // TODO use SliverPersistentHeader instead
+            backgroundColor: const Color(0xFFEEF2E6),
+            automaticallyImplyLeading: false,
+            pinned: true,
+            flexibleSpace: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SearchBar(
+                  controller: _searchController,
+                  backgroundColor: MaterialStateProperty.all(const Color(0xFFD6CDA4)),
+                  leading: const Icon(Icons.search, color: Color(0xFF093731)),
+                  hintText: "Search organization...",
+                  hintStyle: MaterialStateProperty.all(const TextStyle(
+                    color: Color(0xFF093731),
+                  )),
+                ),
+              ),
           ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: filteredOrganizations.length,
-              itemBuilder: (BuildContext context, int index) {
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
                 return Card(
                   clipBehavior: Clip.hardEdge,
                   child: InkWell(
@@ -123,7 +197,10 @@ class _DonorHomePageState extends State<DonorHomePage> {
                           child: Text(
                             filteredOrganizations[index],
                             style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF093731)),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF093731),
+                            ),
                           ),
                         ),
                       ),
@@ -131,10 +208,11 @@ class _DonorHomePageState extends State<DonorHomePage> {
                   ),
                 );
               },
+              childCount: filteredOrganizations.length,
             ),
           ),
-        ],
-      ),
+        ]
+      )
     );
   }
 }

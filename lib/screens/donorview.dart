@@ -20,15 +20,8 @@ class _DonorViewState extends State<DonorView> {
     DonorProfilePage()
    ];
 
-    //TODO: add search bar
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),
-      // appBar: AppBar(
-      //   title: const Text("Donor's View",
-      //       style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
-      //   backgroundColor: const Color(0xFF093731),
-      //   iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
-      // ),
       body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -53,25 +46,5 @@ class _DonorViewState extends State<DonorView> {
         },
       ),
     );
-    // bottomNavigationBar: BottomNavigationBar(
-    //     backgroundColor: const Color(0xFF093731),
-    //     selectedItemColor: Colors.white,
-    //     unselectedItemColor: Colors.white.withOpacity(0.6),
-    //     items: const [
-    //       BottomNavigationBarItem(
-    //         backgroundColor: Color(0xFF093731),
-    //         icon: Icon(Icons.home),
-    //         label: 'Home',
-    //       ),
-    //       BottomNavigationBarItem(
-    //         backgroundColor: Color.fromARGB(255, 56, 179, 26),
-    //         icon: Icon(Icons.favorite),
-    //         label: 'Donate',
-    //       ),
-    //       BottomNavigationBarItem(
-    //           backgroundColor: Color.fromARGB(255, 56, 179, 26),
-    //           icon: Icon(Icons.person),
-    //           label: "Profile")
-    //     ]),
   }
 }
