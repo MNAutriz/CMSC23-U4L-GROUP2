@@ -15,9 +15,10 @@ class _SignUpState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String? email;
   String? password;
-  String? firstName;
-  String? lastName;
-
+  String? name;
+  String? username;
+  String? address;
+  String? contact;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +37,11 @@ class _SignUpState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   heading,
-                  firstNameField,
-                  lastNameField,
+                  nameField,
                   emailField,
+                  addressField,
+                  contactField,
+                  usernameField,
                   passwordField,
                   submitButton
                 ],
@@ -105,19 +108,71 @@ class _SignUpState extends State<SignUpPage> {
       );
 
   //first name field
-  Widget get firstNameField => Padding(
+  Widget get nameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
           decoration: const InputDecoration(
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
-              label: Text("First Name"),
-              hintText: "Enter your first name"),
-          onSaved: (value) => setState(() => firstName = value),
+              label: Text("Complete Name"),
+              hintText: "Enter your complete name"),
+          onSaved: (value) => setState(() => name = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your first name";
+              return "Please enter your complete name";
+            }
+            return null;
+          },
+        ),
+      );
+
+  //first name field
+  Widget get contactField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          //number keyboard only
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
+              border: OutlineInputBorder(),
+              label: Text("Contact Number"),
+              hintText: "Enter your contact number"),
+          onSaved: (value) => setState(() => contact = value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please enter your contact number";
+            }
+
+            //check if the input contact number is an integer
+            var check = int.tryParse(value);
+
+            //check if not an integer
+            if (check == null) {
+              return "Please enter a valid contact number";
+            }
+
+            //no error
+            return null;
+          },
+        ),
+      );
+
+  //last name field
+  Widget get usernameField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
+              border: OutlineInputBorder(),
+              label: Text("Username"),
+              hintText: "Enter your username"),
+          onSaved: (value) => setState(() => username = value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please enter your username";
             }
             return null;
           },
@@ -125,19 +180,19 @@ class _SignUpState extends State<SignUpPage> {
       );
 
   //last name field
-  Widget get lastNameField => Padding(
+  Widget get addressField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
           decoration: const InputDecoration(
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
-              label: Text("Last Name"),
-              hintText: "Enter your last name"),
-          onSaved: (value) => setState(() => lastName = value),
+              label: Text("Address"),
+              hintText: "Enter your address"),
+          onSaved: (value) => setState(() => address = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your last name";
+              return "Please enter your address";
             }
             return null;
           },
@@ -161,8 +216,10 @@ class _SignUpState extends State<SignUpPage> {
                   //create user object to save to the database
                   Donor donor = Donor(
                       email: email!,
-                      firstName: firstName!,
-                      lastName: lastName!);
+                      username: username!,
+                      name: name!,
+                      address: address!,
+                      contact: contact!);
 
                   context.read<DonorProvider>().addDonor(donor);
 

@@ -74,43 +74,6 @@ class _UserViewState extends State<UserView> {
       });
     });
 
-    // return Scaffold(
-    //     drawer: drawer,
-    //     backgroundColor: const Color(0xFF1C6758),
-    //     appBar: AppBar(
-    //       backgroundColor: const Color(0xFF1C6758),
-    //     ),
-    //     body: Container(
-    //       padding: EdgeInsets.symmetric(horizontal: 20),
-    //       decoration: BoxDecoration(
-    //           color: Color(0xFFD6CDA4),
-    //           borderRadius: BorderRadius.only(
-    //               topLeft: Radius.circular(50), topRight: Radius.circular(50))),
-    //       child: Container(
-    //         padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-    //         decoration: BoxDecoration(
-    //             color: Color(0xFFEEF2E6),
-    //             borderRadius: BorderRadius.only(
-    //                 topLeft: Radius.circular(50),
-    //                 topRight: Radius.circular(50))),
-    //         child: Align(
-    //           alignment: const AlignmentDirectional(0, 1),
-    //           child: Column(
-    //               mainAxisAlignment: MainAxisAlignment.center,
-    //               crossAxisAlignment: CrossAxisAlignment.center,
-    //               children: [
-    //                 Container(
-    //                   child: Column(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     crossAxisAlignment: CrossAxisAlignment.center,
-    //                     children: [authorization()],
-    //                   ),
-    //                 )
-    //               ]),
-    //         ),
-    //       ),
-    //     ));
-
     //if the user is in the admin database
     if (admin != null) {
       return AdminView();
