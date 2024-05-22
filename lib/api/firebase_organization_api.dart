@@ -29,4 +29,9 @@ class FirebaseOrganizationAPI {
       return "Error in ${e.code}: ${e.message}";
     }
   }
+
+  //fetch the collection of organizations
+  CollectionReference<Map<String, dynamic>> getOrgCollection() {
+    return db.collection("organizations");
+  }
 }

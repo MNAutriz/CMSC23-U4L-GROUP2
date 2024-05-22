@@ -29,4 +29,9 @@ class FirebaseDonorAPI {
       return "Error in ${e.code}: ${e.message}";
     }
   }
+
+  //fetch the collection of donors
+  CollectionReference<Map<String, dynamic>> getDonorCollection() {
+    return db.collection("donors");
+  }
 }
