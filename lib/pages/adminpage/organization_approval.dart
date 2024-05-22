@@ -85,7 +85,7 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          backgroundColor: Colors.purple),
+                          backgroundColor: const Color(0xFF3D8361)),
                       onPressed: () {
                         //add to organization database
                         context
@@ -104,7 +104,7 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          backgroundColor: Colors.purple),
+                          backgroundColor: const Color(0xFF3D8361)),
                       onPressed: () {
                         //delete pending application
                         context
@@ -118,7 +118,7 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          backgroundColor: Colors.purple),
+                          backgroundColor: const Color(0xFF3D8361)),
                       onPressed: () {},
                       icon: const Icon(Icons.mail))
                 ]),
