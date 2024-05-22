@@ -1,18 +1,21 @@
-import 'package:cmsc23project/pages/donorprofilepage/donor_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/models/donor_model.dart';
+import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class DonorProfilePage extends StatelessWidget {
   const DonorProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Donor sample = Donor(
-        firstname: "Juan",
-        lastname: "Loona",
-        contactno: "09171231234",
-        email: "sample@gmail.com");
+    User? user = context.watch<UserAuthProvider>().user;
+
+    String firstName = "Lorem";
+    String lastName = "Ipsum";
+    String contactNo = '091712312345';
+    
 
     return SafeArea(
       // so that first widget is rendered under the status bar
@@ -30,14 +33,14 @@ class DonorProfilePage extends StatelessWidget {
               const ProfilePictureStack(),
               const SizedBox(height: 150),
               ProfileInfoTile(
-                  text: "${sample.firstname} ${sample.lastname}",
+                  text: "$firstName $lastName",
                   icon: const Icon(Icons.person, color: Color(0xFFEEF2E6))),
               ProfileInfoTile(
-                  text: "${sample.email}",
+                  text: "${user!.email}",
                   icon: const Icon(Icons.alternate_email,
                       color: Color(0xFFEEF2E6))),
               ProfileInfoTile(
-                  text: "${sample.contactno}",
+                  text: contactNo,
                   icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
             ]),
           )),

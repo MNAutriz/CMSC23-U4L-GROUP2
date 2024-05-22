@@ -1,5 +1,7 @@
 import 'package:cmsc23project/firebase_options.dart';
 import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
+import 'package:cmsc23project/pages/donateformpage/donationdrives.dart';
+import 'package:cmsc23project/pages/donationdrivepage/donation_drives_page.dart';
 import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
 import 'package:cmsc23project/pages/signpage/sign_page.dart';
 import 'package:cmsc23project/providers/admin_provider.dart';
@@ -43,6 +45,7 @@ class MyApp extends StatelessWidget {
         '/userview': (context) => const UserView(),
         '/donor': (context) => const DonorView(),
         '/donor/donate': (context) => const DonateForm(),
+        '/donor/donatedrives' : (context) =>  DonationDrivesPageCopy(),
         '/donor/profile': (context) => const DonorProfilePage(),
         '/organization': (context) => DonationApp(),
         '/admin': (context) => const AdminView(),
