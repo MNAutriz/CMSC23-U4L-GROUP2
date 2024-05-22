@@ -37,7 +37,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
 
   //stream builder widget
   Widget stream() {
-    // access the list of slambook entries in the provider
+    // access the database of donors in the provider
     Stream<QuerySnapshot> donorsStream = context.watch<DonorProvider>().donor;
 
     return StreamBuilder(
@@ -54,13 +54,13 @@ class _DisplayDonorsState extends State<DisplayDonors> {
           //no data yet
         } else if (!snapshot.hasData) {
           return emptyDonors();
-          //empty friends list
+          //empty donors database
         } else if (snapshot.data!.docs.isEmpty) {
-          //empty friends list
+          //empty donors database
           return emptyDonors();
         }
 
-        //if the friends list is not empty
+        //if the donors database is not empty
         return ListView.builder(
           itemCount: snapshot.data?.docs.length,
           itemBuilder: ((context, index) {
@@ -69,9 +69,9 @@ class _DisplayDonorsState extends State<DisplayDonors> {
 
             //get the id of a document
             donor.id = snapshot.data?.docs[index].id;
-            //card containing list tile of friends list
+            //card containing list tile of donors database
             return Card(
-              //list tile of each friend
+              //list tile of each donor
               child: ListTile(
                 onTap: () {},
                 leading: const Icon(Icons.person),
@@ -113,7 +113,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
     );
   }
 
-  //Widget for empty friend list
+  //Widget for empty donors database
   Widget emptyDonors() {
     return const Center(
       child: Column(

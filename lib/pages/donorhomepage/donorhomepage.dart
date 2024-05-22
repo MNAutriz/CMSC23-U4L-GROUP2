@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
+import 'package:cmsc23project/pages/signpage/apply_org.dart';
+import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/screens/userview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +59,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Placeholder(),
+      drawer: drawer,
       backgroundColor: const Color(0xFFEEF2E6),
       body: CustomScrollView(
         slivers: [
@@ -137,7 +140,18 @@ class _DonorHomePageState extends State<DonorHomePage> {
           //   ),
           // ),
         ]
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: const Color(0xFFEEF2E6),
+          onPressed: () => {
+            showDialog(
+                context: context, builder: (BuildContext context) => ApplyOrg())
+          },
+          child: const Icon(
+            Icons.people,
+            color: Color(0xFF1C6758),
+          ),
+      ),
     );
   }
 
@@ -214,7 +228,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
     );
   }
 
-  // to render if no organizations
+  // if
   Widget emptyOrganizations() {
     return const SliverToBoxAdapter(
       child: Center(
@@ -229,4 +243,32 @@ class _DonorHomePageState extends State<DonorHomePage> {
       ),
     );
   }
+    Drawer get drawer => Drawer(
+          child: Container(
+        color: const Color(0xFFEEF2E6),
+        child: ListView(padding: EdgeInsets.zero, children: [
+          const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF1C6758)),
+              child: Text("Settings",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Color(0xFFEEF2E6)))),
+          ListTile(
+            title: const Center(
+              child: Text(
+                "Log out",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFF1C6758)),
+              ),
+            ),
+            onTap: () {
+              context.read<UserAuthProvider>().signOut();
+            },
+          ),
+        ]),
+      ));
 }

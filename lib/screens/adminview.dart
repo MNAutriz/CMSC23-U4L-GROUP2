@@ -2,7 +2,9 @@ import 'package:cmsc23project/pages/adminpage/admin_home.dart';
 import 'package:cmsc23project/pages/adminpage/display_donors.dart';
 import 'package:cmsc23project/pages/adminpage/display_organizations.dart';
 import 'package:cmsc23project/pages/adminpage/organization_approval.dart';
+import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AdminView extends StatefulWidget {
   const AdminView({super.key});
@@ -32,6 +34,7 @@ class _AdminViewState extends State<AdminView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: drawer,
       appBar: AppBar(
         title: Text(
           "Admin's View",
@@ -69,4 +72,34 @@ class _AdminViewState extends State<AdminView> {
       ),
     );
   }
+
+  //logout
+  Drawer get drawer => Drawer(
+          child: Container(
+        color: const Color(0xFFEEF2E6),
+        child: ListView(padding: EdgeInsets.zero, children: [
+          const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF1C6758)),
+              child: Text("Settings",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Color(0xFFEEF2E6)))),
+          ListTile(
+            title: const Center(
+              child: Text(
+                "Log out",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color(0xFF1C6758)),
+              ),
+            ),
+            onTap: () {
+              context.read<UserAuthProvider>().signOut();
+            },
+          ),
+        ]),
+      ));
 }
