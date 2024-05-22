@@ -18,35 +18,15 @@ class DonorHomePage extends StatefulWidget {
 class _DonorHomePageState extends State<DonorHomePage> {
   int _selectedIndex = 0;
   TextEditingController _searchController = TextEditingController();
-  
-  //TODO use Organization model 
-  List<String> organizations = [
-    'Hope Haven Organization',
-    'Compassion Collective',
-    'Brighter Futures Initiative',
-    'Hearts United Charity',
-    'Empowerment Alliance',
-    'Unity Outreach Network',
-    'Serenity Foundation',
-    'Impactful Change Foundation',
-    'Renewed Vision Charity',
-    'Harmony Aid Organization'
-  ];
-  
-  List<String> filteredOrganizations = [];
+  String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    filteredOrganizations = organizations;
-    _searchController.addListener(_filterOrganizations);
-  }
-
-  void _filterOrganizations() {
-    setState(() {
-      filteredOrganizations = organizations
-          .where((org) => org.toLowerCase().contains(_searchController.text.toLowerCase()))
-          .toList();
+    _searchController.addListener(() {
+      setState(() {
+        searchQuery = _searchController.text.toLowerCase();
+      });
     });
   }
 
@@ -64,13 +44,12 @@ class _DonorHomePageState extends State<DonorHomePage> {
       body: CustomScrollView(
         slivers: [
           const SliverAppBar(
-            // automaticallyImplyLeading: false,
             iconTheme: IconThemeData(color: Color(0xFFEEF2E6)),
             backgroundColor: Color(0xFF093731),
             pinned: true,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-               titlePadding: EdgeInsets.only(left: 0, bottom: 16), // REMOVE PADDING SO THAT CENTER IS NOT OFFSET
+              titlePadding: EdgeInsets.only(left: 0, bottom: 16),
               centerTitle: true,
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -84,81 +63,41 @@ class _DonorHomePageState extends State<DonorHomePage> {
               ),
             ),
           ),
-          SliverAppBar( // TODO use SliverPersistentHeader instead pag masipag ka xdxd
+          SliverAppBar(
             backgroundColor: const Color(0xFFEEF2E6),
             automaticallyImplyLeading: false,
             pinned: true,
             flexibleSpace: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SearchBar(
-                  controller: _searchController,
-                  backgroundColor: MaterialStateProperty.all(const Color(0xFFD6CDA4)),
-                  leading: const Icon(Icons.search, color: Color(0xFF093731)),
-                  hintText: "Search organization...",
-                  hintStyle: MaterialStateProperty.all(const TextStyle(
-                    color: Color(0xFF093731),
-                  )),
-                ),
+              padding: const EdgeInsets.all(16.0),
+              child: SearchBar(
+                controller: _searchController,
+                backgroundColor: MaterialStateProperty.all(const Color(0xFFD6CDA4)),
+                leading: const Icon(Icons.search, color: Color(0xFF093731)),
+                hintText: "Search organization...",
+                hintStyle: MaterialStateProperty.all(const TextStyle(
+                  color: Color(0xFF093731),
+                )),
               ),
+            ),
           ),
           stream()
-          // SliverList(
-          //   delegate: SliverChildBuilderDelegate(
-          //     (BuildContext context, int index) {
-          //       return Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          //         child: Card(
-          //           clipBehavior: Clip.hardEdge,
-          //           child: InkWell(
-          //             splashColor: const Color(0xFF3D8361).withAlpha(100),
-          //             onTap: () {
-          //               debugPrint(filteredOrganizations[index]);
-          //               Navigator.pushNamed(context, "/donor/donate");
-          //             },
-          //             child: SizedBox(
-          //               width: double.infinity,
-          //               height: 150,
-          //               child: Padding(
-          //                 padding: const EdgeInsets.all(8.0),
-          //                 child: Center(
-          //                   child: Text(
-          //                     filteredOrganizations[index],
-          //                     style: const TextStyle(
-          //                       fontSize: 15,
-          //                       fontWeight: FontWeight.bold,
-          //                       color: Color(0xFF093731),
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //     childCount: filteredOrganizations.length,
-          //   ),
-          // ),
-        ]
+        ],
       ),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: const Color(0xFFEEF2E6),
-          onPressed: () => {
-            showDialog(
-                context: context, builder: (BuildContext context) => ApplyOrg())
-          },
-          child: const Icon(
-            Icons.people,
-            color: Color(0xFF1C6758),
-          ),
+        backgroundColor: const Color(0xFFEEF2E6),
+        onPressed: () => {
+          showDialog(
+              context: context, builder: (BuildContext context) => ApplyOrg())
+        },
+        child: const Icon(
+          Icons.people,
+          color: Color(0xFF1C6758),
+        ),
       ),
     );
   }
 
-//stream builder widget
   Widget stream() {
-
-    // access organizations list 
     Stream<QuerySnapshot> orgsStream = context.watch<OrganizationProvider>().organization;
 
     return StreamBuilder(
@@ -176,59 +115,63 @@ class _DonorHomePageState extends State<DonorHomePage> {
               child: CircularProgressIndicator(),
             ),
           );
-        } else if (!snapshot.hasData) {
-          return emptyOrganizations();
-        } else if (snapshot.data!.docs.isEmpty) {
+        } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return emptyOrganizations();
         }
 
-        // render if not empty
+        var docs = snapshot.data!.docs;
+        if (searchQuery.isNotEmpty) {
+          docs = docs.where((doc) {
+            var data = doc.data() as Map<String, dynamic>;
+            var orgName = data['name'].toString().toLowerCase();
+            return orgName.contains(searchQuery);
+          }).toList();
+        }
+
         return SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              Organization org = Organization.fromJson(snapshot.data?.docs[index].data() as Map<String, dynamic>);
-
-              org.id = snapshot.data?.docs[index].id;
+              Organization org = Organization.fromJson(docs[index].data() as Map<String, dynamic>);
+              org.id = docs[index].id;
 
               return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Card(
-                    clipBehavior: Clip.hardEdge,
-                    child: InkWell(
-                      splashColor: const Color(0xFF3D8361).withAlpha(100),
-                      onTap: () {
-                        debugPrint(filteredOrganizations[index]);
-                        Navigator.pushNamed(context, "/donor/donate");
-                      },
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 150,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(
-                              org.name,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF093731),
-                              ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Card(
+                  clipBehavior: Clip.hardEdge,
+                  child: InkWell(
+                    splashColor: const Color(0xFF3D8361).withAlpha(100),
+                    onTap: () {
+                      debugPrint(org.name);
+                      Navigator.pushNamed(context, "/donor/donatedrives");
+                    },
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 150,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            org.name,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF093731),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                );
+                ),
+              );
             },
-            childCount: snapshot.data!.docs.length,
-          )
+            childCount: docs.length,
+          ),
         );
       },
     );
   }
 
-  // if
   Widget emptyOrganizations() {
     return const SliverToBoxAdapter(
       child: Center(
@@ -243,32 +186,36 @@ class _DonorHomePageState extends State<DonorHomePage> {
       ),
     );
   }
-    Drawer get drawer => Drawer(
-          child: Container(
-        color: const Color(0xFFEEF2E6),
-        child: ListView(padding: EdgeInsets.zero, children: [
-          const DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xFF1C6758)),
-              child: Text("Settings",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: Color(0xFFEEF2E6)))),
-          ListTile(
-            title: const Center(
-              child: Text(
-                "Log out",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color(0xFF1C6758)),
-              ),
+
+  Drawer get drawer => Drawer(
+    child: Container(
+      color: const Color(0xFFEEF2E6),
+      child: ListView(padding: EdgeInsets.zero, children: [
+        const DrawerHeader(
+          decoration: BoxDecoration(color: Color(0xFF1C6758)),
+          child: Text("Settings",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: Color(0xFFEEF2E6))
+          )
+        ),
+        ListTile(
+          title: const Center(
+            child: Text(
+              "Log out",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Color(0xFF1C6758)),
             ),
-            onTap: () {
-              context.read<UserAuthProvider>().signOut();
-            },
           ),
-        ]),
-      ));
+          onTap: () {
+            context.read<UserAuthProvider>().signOut();
+          },
+        ),
+      ]),
+    ),
+  );
 }
