@@ -83,7 +83,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          backgroundColor: Colors.purple),
+                          backgroundColor: const Color(0xFF3D8361)),
                       onPressed: () {},
                       icon: const Icon(Icons.create)),
                   //delete button
@@ -92,7 +92,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          backgroundColor: Colors.purple),
+                          backgroundColor: const Color(0xFF3D8361)),
                       onPressed: () {},
                       icon: const Icon(Icons.delete)),
                   //view button
@@ -101,7 +101,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          backgroundColor: Colors.purple),
+                          backgroundColor: const Color(0xFF3D8361)),
                       onPressed: () {},
                       icon: const Icon(Icons.mail))
                 ]),
