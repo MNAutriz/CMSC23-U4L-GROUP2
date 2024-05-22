@@ -11,6 +11,10 @@ class DonorProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? user = context.watch<UserAuthProvider>().user;
+
+    String firstName = "Lorem";
+    String lastName = "Ipsum";
+    String contactNo = '091712312345';
     
 
     return SafeArea(
@@ -29,15 +33,15 @@ class DonorProfilePage extends StatelessWidget {
               const ProfilePictureStack(),
               const SizedBox(height: 150),
               ProfileInfoTile(
-                  text: "${user!.displayName}",
+                  text: "$firstName $lastName",
                   icon: const Icon(Icons.person, color: Color(0xFFEEF2E6))),
               ProfileInfoTile(
-                  text: "${user.email}",
+                  text: "${user!.email}",
                   icon: const Icon(Icons.alternate_email,
                       color: Color(0xFFEEF2E6))),
-              // ProfileInfoTile(
-              //     text: "${sample.contactno}",
-              //     icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
+              ProfileInfoTile(
+                  text: contactNo,
+                  icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
             ]),
           )),
     );
