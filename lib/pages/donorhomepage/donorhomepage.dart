@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
-import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
+import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DonorHomePage extends StatefulWidget {
   const DonorHomePage({super.key});
@@ -95,10 +98,85 @@ class _DonorHomePageState extends State<DonorHomePage> {
                 ),
               ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Padding(
+          stream()
+          // SliverList(
+          //   delegate: SliverChildBuilderDelegate(
+          //     (BuildContext context, int index) {
+          //       return Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //         child: Card(
+          //           clipBehavior: Clip.hardEdge,
+          //           child: InkWell(
+          //             splashColor: const Color(0xFF3D8361).withAlpha(100),
+          //             onTap: () {
+          //               debugPrint(filteredOrganizations[index]);
+          //               Navigator.pushNamed(context, "/donor/donate");
+          //             },
+          //             child: SizedBox(
+          //               width: double.infinity,
+          //               height: 150,
+          //               child: Padding(
+          //                 padding: const EdgeInsets.all(8.0),
+          //                 child: Center(
+          //                   child: Text(
+          //                     filteredOrganizations[index],
+          //                     style: const TextStyle(
+          //                       fontSize: 15,
+          //                       fontWeight: FontWeight.bold,
+          //                       color: Color(0xFF093731),
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //     childCount: filteredOrganizations.length,
+          //   ),
+          // ),
+        ]
+      )
+    );
+  }
+
+//stream builder widget
+  Widget stream() {
+
+    // access organizations list 
+    Stream<QuerySnapshot> orgsStream = context.watch<OrganizationProvider>().organization;
+
+    return StreamBuilder(
+      stream: orgsStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return SliverToBoxAdapter(
+            child: Center(
+              child: Text("Error encountered! ${snapshot.error}"),
+            ),
+          );
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SliverToBoxAdapter(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else if (!snapshot.hasData) {
+          return emptyOrganizations();
+        } else if (snapshot.data!.docs.isEmpty) {
+          return emptyOrganizations();
+        }
+
+        // render if not empty
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              Organization org = Organization.fromJson(snapshot.data?.docs[index].data() as Map<String, dynamic>);
+
+              org.id = snapshot.data?.docs[index].id;
+
+              return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Card(
                     clipBehavior: Clip.hardEdge,
@@ -115,7 +193,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
-                              filteredOrganizations[index],
+                              org.name,
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -128,12 +206,27 @@ class _DonorHomePageState extends State<DonorHomePage> {
                     ),
                   ),
                 );
-              },
-              childCount: filteredOrganizations.length,
-            ),
-          ),
-        ]
-      )
+            },
+            childCount: snapshot.data!.docs.length,
+          )
+        );
+      },
+    );
+  }
+
+  // to render if no organizations
+  Widget emptyOrganizations() {
+    return const SliverToBoxAdapter(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.people),
+            Text("No registered organizations yet"),
+          ],
+        ),
+      ),
     );
   }
 }
