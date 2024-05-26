@@ -82,7 +82,11 @@ class _PickupFieldState extends State<PickupField> {
           );
         },
         onSaved: (value) {
-          widget.formData.forPickup = (value == "Yes"); // of value == yes, it will return true else false
+          if(value == 'Yes'){
+            widget.formData.forPickup = true;
+          } else if(value == "No"){
+            widget.formData.forPickup = false;
+          }
           debugPrint(widget.formData.forPickup.toString());
         },
         validator: (value) {

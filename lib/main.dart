@@ -33,7 +33,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: ((context) => AdminProvider())),
     ChangeNotifierProvider(create: ((context) => PendingProvider())),
     ChangeNotifierProvider(create: ((context) => UsernameProvider())),
-    // ChangeNotifierProvider(create: ((context) => DonorFormProvider()))
+    ChangeNotifierProvider(create: ((context) => DonorFormProvider()))
   ], child: MyApp()));
 }
 

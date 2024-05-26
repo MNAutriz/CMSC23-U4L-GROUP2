@@ -26,6 +26,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
   @override
   void initState() {
     super.initState();
+    context.read<OrganizationProvider>().fetchOrganizations();
     _searchController.addListener(() {
       setState(() {
         searchQuery = _searchController.text.toLowerCase();

@@ -8,8 +8,6 @@ import 'package:cmsc23project/pages/donateformpage/fields/submit.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/upload_photo/upload_photo.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/weight_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 class DonateForm extends StatefulWidget {
   const DonateForm({super.key});

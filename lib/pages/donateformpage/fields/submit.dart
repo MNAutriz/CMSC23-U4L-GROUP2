@@ -1,5 +1,7 @@
 import 'package:cmsc23project/models/donor_form.dart';
+import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SubmitForm extends StatefulWidget {
   GlobalKey<FormState> formKey;
@@ -12,14 +14,19 @@ class SubmitForm extends StatefulWidget {
 }
 
 class _SubmitFormState extends State<SubmitForm> {
+
   @override
   Widget build(BuildContext context) {
+  final donorFormProvider = Provider.of<DonorFormProvider>(context);
+
     return Card(
       color: const Color(0xFF093731),
       child: TextButton(
-        onPressed: () {
+        onPressed: () async {
           if (widget.formKey.currentState!.validate()) {
             widget.formKey.currentState!.save(); // trigger onSaved callback of each form field
+            final result = await donorFormProvider.addForm(widget.formData.toJson());
+            Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
             debugPrint(
                 'Donation Form Successfully Submitted!\nDonation Types: ${widget.formData.donationTypes}\n'
                 'For Pickup: ${widget.formData.forPickup}\n'
