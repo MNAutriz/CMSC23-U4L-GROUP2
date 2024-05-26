@@ -7,8 +7,7 @@ class DonorForm {
   double weight;
   String weightUnit;
   String? donationPhoto;
-  DateTime donationDate;
-  TimeOfDay donationTime;
+  DateTime donationDateTime;
   String? contactNo;
   List<String>? pickupAddresses;
 
@@ -18,8 +17,7 @@ class DonorForm {
     required this.weight,
     required this.weightUnit,
     required this.donationPhoto,
-    required this.donationDate,
-    required this.donationTime,
+    required this.donationDateTime,
     this.contactNo,
     this.pickupAddresses,
   });
@@ -41,8 +39,8 @@ class DonorForm {
       'forPickup': forPickup,
       'weight': weight,
       'donationPhoto': donationPhoto,
-      'donationDate': donationDate,
-      'donationTime': donationTime,
+      // 'donationDate': donationDate,
+      // 'donationTime': donationTime,
       'contactNo': contactNo,
       'pickupAddress': pickupAddresses,
     };

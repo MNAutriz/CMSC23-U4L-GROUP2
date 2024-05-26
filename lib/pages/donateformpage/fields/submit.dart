@@ -25,8 +25,7 @@ class _SubmitFormState extends State<SubmitForm> {
                 'For Pickup: ${widget.formData.forPickup}\n'
                 'Weight: ${widget.formData.weight} ${widget.formData.weightUnit}\n'
                 'Donation Photo: ${widget.formData.donationPhoto}\n'
-                'Donation Date: ${widget.formData.donationDate}\n'
-                'Donation Time: ${widget.formData.donationTime.format(context)}\n'
+                'Donation Date and Time: ${widget.formData.donationDateTime}\n'
                 'Contact No: ${widget.formData.contactNo}\n'
                 'Pickup Addresses: ${widget.formData.pickupAddresses}');
           }

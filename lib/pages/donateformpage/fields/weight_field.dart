@@ -20,9 +20,7 @@ class _WeightFieldState extends State<WeightField> {
 
   @override
   Widget build(BuildContext context) {
-
-  final formProvider = Provider.of<DonorFormProvider>(context);
-
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
