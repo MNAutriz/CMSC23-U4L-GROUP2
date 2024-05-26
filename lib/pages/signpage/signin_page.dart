@@ -81,12 +81,12 @@ class _SignInPageState extends State<SignInPage> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
-              label: Text("Email"),
-              hintText: "donate@gmail.com"),
+              label: Text("Username"),
+              hintText: "Enter your username/email"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your email";
+              return "Please enter your username/email";
             }
             return null;
           },

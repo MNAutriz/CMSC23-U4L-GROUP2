@@ -212,7 +212,7 @@ class _SignUpState extends State<SignUpPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Are you an organization?"),
+            const Text("Have an organization?"),
             TextButton(
                 onPressed: () {
                   Navigator.push(
