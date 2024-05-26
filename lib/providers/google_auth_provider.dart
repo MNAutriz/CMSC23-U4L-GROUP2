@@ -1,14 +1,13 @@
+import 'package:cmsc23project/api/firebase_google_sign_in_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../api/firebase_auth_api.dart';
-
-class UserAuthProvider with ChangeNotifier {
-  late FirebaseAuthAPI authService;
+class GoogleAuthProvider with ChangeNotifier {
+  late FirebaseGoogleSignInAPI authService;
   late Stream<User?> _uStream;
 
-  UserAuthProvider() {
-    authService = FirebaseAuthAPI();
+  GoogleAuthProvider() {
+    authService = FirebaseGoogleSignInAPI();
     fetchAuthentication();
   }
 
@@ -21,19 +20,7 @@ class UserAuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signUp(String email, String password) async {
-    await authService.signUp(email, password);
-    notifyListeners();
-  }
-
-  Future<String?> signIn(String email, String password) async {
-    String? message = await authService.signIn(email, password);
-    notifyListeners();
-
-    return message;
-  }
-
-  Future<UserCredential> signInWithGoogle() async {
+  Future<UserCredential> signIn() async {
     UserCredential message = await authService.signInWithGoogle();
     notifyListeners();
 
