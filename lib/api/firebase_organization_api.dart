@@ -3,11 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseOrganizationAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  //add organization
+  //add organization with user uid
   Future<String> addOrganization(Map<String, dynamic> organization) async {
     try {
-      await db.collection("organizations").add(organization);
-
+      await db
+          .collection("organizations")
+          .doc(organization['id'])
+          .set(organization);
       return "Successfully registered organization!";
     } on FirebaseException catch (e) {
       return "Error in ${e.code}: ${e.message}";

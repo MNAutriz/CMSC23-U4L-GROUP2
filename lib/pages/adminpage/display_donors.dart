@@ -68,7 +68,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
                 snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
             //get the id of a document
-            donor.id = snapshot.data?.docs[index].id;
+            //donor.id = snapshot.data?.docs[index].id;
             //card containing list tile of donors database
             return Card(
               //list tile of each donor
