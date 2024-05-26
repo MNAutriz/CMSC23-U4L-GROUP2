@@ -11,8 +11,7 @@ class UploadPhotoButtons extends StatefulWidget {
 }
 
 class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
-
-  File ?_selectedImage;
+  File? _selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -29,31 +28,45 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
                     onPressed: () {
                       pickImageFromGallery();
                     },
-                  )
-                )
+                  ),
                 ),
               ),
+            ),
             Expanded(
               child: Card(
                 child: IconButton(
-                  icon: const Icon(Icons.camera_alt, color: Color(0xFF3D8361),),
+                  icon: const Icon(Icons.camera_alt, color: Color(0xFF3D8361)),
                   onPressed: () {
                     pickImageFromCamera();
-                  }
-                )
-              )
+                  },
+                ),
+              ),
             ),
           ],
         ),
-        _selectedImage != null ? Image.file(_selectedImage!) : Container(),
+        _selectedImage != null
+            ? Column(
+                children: [
+                  Image.file(_selectedImage!),
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      setState(() {
+                        _selectedImage = null;
+                      });
+                    },
+                  ),
+                ],
+              )
+            : Container(),
       ],
     );
   }
 
-  Future pickImageFromGallery() async  {
+  Future pickImageFromGallery() async {
     final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if(returnedImage == null) return;
+    if (returnedImage == null) return;
 
     setState(() {
       _selectedImage = File(returnedImage.path);
@@ -63,7 +76,7 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
   Future pickImageFromCamera() async {
     final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
 
-    if(returnedImage == null) return;
+    if (returnedImage == null) return;
 
     setState(() {
       _selectedImage = File(returnedImage.path);
