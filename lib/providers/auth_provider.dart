@@ -33,6 +33,13 @@ class UserAuthProvider with ChangeNotifier {
     return message;
   }
 
+  Future<UserCredential> signInWithGoogle() async {
+    UserCredential message = await authService.signInWithGoogle();
+    notifyListeners();
+
+    return message;
+  }
+
   Future<void> signOut() async {
     await authService.signOut();
     notifyListeners();
