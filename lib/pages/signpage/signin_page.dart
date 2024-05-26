@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/models/username_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/donor_provider.dart';
+import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/username_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'signup_page.dart';
@@ -19,6 +24,7 @@ class _SignInPageState extends State<SignInPage> {
   String? password;
   bool showSignInErrorMessage = false;
   dynamic userLogin;
+  dynamic googleUser;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +62,8 @@ class _SignInPageState extends State<SignInPage> {
                                     ? signInErrorMessage
                                     : Container(),
                                 submitButton,
-                                signUpButton
+                                signUpButton,
+                                googleSignIn
                               ],
                             ),
                           ))),
@@ -206,4 +213,58 @@ class _SignInPageState extends State<SignInPage> {
           ],
         ),
       );
+
+  Widget get googleSignIn => Center(
+          child: Column(
+        children: [
+          Divider(),
+          SizedBox(
+              child: ElevatedButton(
+            onPressed: () async {
+              UserCredential message =
+                  await context.read<UserAuthProvider>().signInWithGoogle();
+
+              //check if org
+              await context
+                  .read<OrganizationProvider>()
+                  .orgCollection
+                  .where("email", isEqualTo: message.user!.email)
+                  .get()
+                  .then((QuerySnapshot querySnapshot) {
+                querySnapshot.docs.forEach((doc) {
+                  setState(() {
+                    //contain query in admin
+                    googleUser = doc['email'];
+                  });
+                });
+              });
+
+              //check if donor
+              await context
+                  .read<DonorProvider>()
+                  .donorCollection
+                  .where("email", isEqualTo: message.user!.email)
+                  .get()
+                  .then((QuerySnapshot querySnapshot) {
+                querySnapshot.docs.forEach((doc) {
+                  setState(() {
+                    //contain query in donor
+                    googleUser = doc['email'];
+                  });
+                });
+              });
+
+              //check if user finished google sign in and if user already exists in either donor or organization
+              if (message.user != null && googleUser == null) {
+                await Navigator.pushNamed(context, '/google/donor');
+              }
+            },
+            child: Image.asset(
+              "images/google-logo.png",
+              width: 20,
+              height: 20,
+            ),
+          ))
+        ],
+      ));
 }

@@ -3,6 +3,7 @@ import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
 import 'package:cmsc23project/pages/donateformpage/donationdrives.dart';
 import 'package:cmsc23project/pages/donationdrivepage/donation_drives_page.dart';
 import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
+import 'package:cmsc23project/pages/signpage/google_donor.dart';
 import 'package:cmsc23project/pages/signpage/sign_page.dart';
 import 'package:cmsc23project/providers/admin_provider.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
@@ -51,7 +52,8 @@ class MyApp extends StatelessWidget {
         '/donor/profile': (context) => const DonorProfilePage(),
         '/organization': (context) => DonationApp(),
         '/admin': (context) => const AdminView(),
-        '/': (context) => const SignPage()
+        '/': (context) => const SignPage(),
+        '/google/donor': (context) => const GoogleDonor(),
       },
     );
   }
