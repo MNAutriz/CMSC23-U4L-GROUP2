@@ -1,7 +1,14 @@
+import 'package:cmsc23project/models/donor_form.dart';
 import 'package:flutter/material.dart';
 
 class SubmitForm extends StatelessWidget {
-  const SubmitForm({super.key});
+
+  // GlobalKey<FormState> _formKey;
+  DonorForm formData;
+
+  SubmitForm({super.key, required GlobalKey<FormState> formKey, required this.formData}) {
+    // _formKey = formKey;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,10 +17,13 @@ class SubmitForm extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           // save data
+          // if(widget.formKey.currentState!.validate()) {
+            
+          // }
         },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: const Text("Submit!", style: TextStyle(color: const Color(0xFFEEF2E6), fontWeight: FontWeight.bold, fontSize: 17)),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Submit!", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold, fontSize: 17)),
         )
       ),
       

@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:cmsc23project/pages/donateformpage/fields/upload_photo/image_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UploadPhotoButtons extends StatefulWidget {
@@ -12,6 +14,7 @@ class UploadPhotoButtons extends StatefulWidget {
 
 class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
   File? _selectedImage;
+  String? base64Image;
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +59,12 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
                       child: ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8)),
-                          child: Image.file(_selectedImage!)),
+                          child: Image.file(_selectedImage!)
+                          // child: Image.memory(base64Decode(base64Image!))
+                          ),
                     )),
                   ),
+                  // Image.memory(base64Decode(base64Image!)),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: SizedBox(
@@ -87,10 +93,13 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
     final returnedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (returnedImage == null) return;
+    if (returnedImage == null) return; 
 
     setState(() {
       _selectedImage = File(returnedImage.path);
+      debugPrint(_selectedImage.toString());
+      base64Image = ImageConstants().convertToBase64(_selectedImage!);
+      debugPrint(base64Image);
     });
   }
 
@@ -102,6 +111,9 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
 
     setState(() {
       _selectedImage = File(returnedImage.path);
+      debugPrint(_selectedImage.toString());
+      base64Image = ImageConstants().convertToBase64(_selectedImage!);
+      debugPrint(base64Image);
     });
   }
 }

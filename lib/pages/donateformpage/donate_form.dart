@@ -1,10 +1,11 @@
+import 'package:cmsc23project/models/donor_form.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/address_field.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/contact_no_field.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/date_time.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/donation_type.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/pickup_field.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/submit.dart';
-import 'package:cmsc23project/pages/donateformpage/fields/upload_photo.dart';
+import 'package:cmsc23project/pages/donateformpage/fields/upload_photo/upload_photo.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/weight_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -77,7 +78,7 @@ class _DonateFormState extends State<DonateForm> {
                   ],
                 ),
               ),
-              SubmitForm()
+              // SubmitForm(formKey: _formKey, formData: DonorForm())
             ],
           ),
         ),
