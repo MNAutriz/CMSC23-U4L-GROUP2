@@ -5,21 +5,23 @@ class DonorForm {
   List<String> donationTypes;
   bool forPickup;
   double weight;
-  File donationPhoto;
+  String weightUnit;
+  String? donationPhoto;
   DateTime donationDate;
   TimeOfDay donationTime;
   String? contactNo;
-  String? pickupAddress;
+  List<String>? pickupAddresses;
 
   DonorForm({
     required this.donationTypes,
     required this.forPickup,
     required this.weight,
+    required this.weightUnit,
     required this.donationPhoto,
     required this.donationDate,
     required this.donationTime,
     this.contactNo,
-    this.pickupAddress,
+    this.pickupAddresses,
   });
 
   // TODO: COMPLETE HEHE
@@ -38,11 +40,11 @@ class DonorForm {
       'donationTypes': donationTypes,
       'forPickup': forPickup,
       'weight': weight,
-      'donationPhoto': donationPhoto.path,
+      'donationPhoto': donationPhoto,
       'donationDate': donationDate,
       'donationTime': donationTime,
       'contactNo': contactNo,
-      'pickupAddress': pickupAddress,
+      'pickupAddress': pickupAddresses,
     };
   }
 }

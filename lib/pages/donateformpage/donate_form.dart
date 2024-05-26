@@ -22,6 +22,15 @@ class _DonateFormState extends State<DonateForm> {
 
   final _formKey = GlobalKey<FormState>();
   bool isPickupChecked = false; // initialize here and not on build or else the value will always be false on rebuild
+  DonorForm formData = DonorForm(
+    donationTypes: [],
+    forPickup: false,
+    weight: 0,
+    weightUnit: "kg",
+    donationPhoto: "",
+    donationDate: DateTime.now(),
+    donationTime: TimeOfDay.now(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +56,7 @@ class _DonateFormState extends State<DonateForm> {
             children: [
               // TODO: display which org user is donating to at start
               const Header(text: "What would you like to donate?"),
-              const DonationTypeField(),
+              DonationTypeField(formData: formData, formKey: _formKey),
               const Header(text: "Would you like your donations picked up?"),
               PickupField(
                 yesChecked: (){
@@ -59,26 +68,27 @@ class _DonateFormState extends State<DonateForm> {
                   setState(() {
                     isPickupChecked = false;
                   });
-                }
+                },
+                formData: formData,
               ),
               const Header(text: "How heavy are your items?"),
-              const WeightField(),
+              WeightField(formData: formData),
               const Header(text: "If you can, please upload a photo of your items"),
-              const UploadPhotoButtons(),
+              UploadPhotoButtons(formData: formData),
               Header(text: "When will ${isPickupChecked == true ? "we pickup your" : "you drop-off your"} donation?"),
-              const DateTimeField(),
+              DateTimeField(formData: formData),
               Visibility(
                 visible: isPickupChecked,
-                child: const Column(
+                child: Column(
                   children: [
-                    Header(text: "Where would we pickup your donations?"),
-                    AddressField(),
-                    Header(text: "What number should we reach you at?"),
-                    ContactNoField(),
+                    const Header(text: "Where would we pickup your donations?"),
+                    AddressField(formData: formData, isPickupChecked: isPickupChecked,),
+                    const Header(text: "What number should we reach you at?"),
+                    ContactNoField(formData: formData, isPickupChecked: isPickupChecked,),
                   ],
                 ),
               ),
-              // SubmitForm(formKey: _formKey, formData: DonorForm())
+              SubmitForm(formKey: _formKey, formData: formData)
             ],
           ),
         ),
