@@ -6,7 +6,7 @@ class FirebasePendingAPI {
   //add pending organization
   Future<String> addPending(Map<String, dynamic> organization) async {
     try {
-      await db.collection("pending").add(organization);
+      await db.collection("pending").doc(organization['id']).set(organization);
 
       return "Successfully submitted application for organization!";
     } on FirebaseException catch (e) {

@@ -4,6 +4,7 @@ import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
   String? address;
   String? contact;
   String? organizationName;
+  User? user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -239,8 +241,11 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
 
                 //if the email is valid
                 if (validateEmail == "") {
+                  //get user
+                  user = context.read<UserAuthProvider>().user;
                   //create user object to save to the database
                   Organization org = Organization(
+                      id: user!.uid,
                       organizationName: organizationName!,
                       email: email!,
                       username: username!,
@@ -250,6 +255,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
 
                   //register as donor initially
                   Donor donor = Donor(
+                      id: user!.uid,
                       email: email!,
                       username: username!,
                       name: name!,

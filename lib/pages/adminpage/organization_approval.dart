@@ -71,7 +71,7 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                 snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
             //get the id of a document
-            pending.id = snapshot.data?.docs[index].id;
+            //pending.id = snapshot.data?.docs[index].id;
             //card containing list tile of the database of pending applications for organization
             return Card(
               //list tile of each pending application
@@ -97,6 +97,9 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                         context
                             .read<PendingProvider>()
                             .deletePending(pending.id!);
+
+                        //remove from donor
+                        context.read<DonorProvider>().deleteDonor(pending.id!);
                       },
                       icon: const Icon(Icons.check)),
                   //disapprove button
@@ -111,9 +114,6 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                         context
                             .read<PendingProvider>()
                             .deletePending(pending.id!);
-
-                        //remove from donor
-                        context.read<DonorProvider>().deleteDonor(pending.id!);
                       },
                       icon: const Icon(Icons.close)),
                   //view button

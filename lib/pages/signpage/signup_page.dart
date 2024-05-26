@@ -2,6 +2,7 @@ import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/pages/signpage/signup_org.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ class _SignUpState extends State<SignUpPage> {
   String? username;
   String? address;
   String? contact;
+  User? user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,8 +242,12 @@ class _SignUpState extends State<SignUpPage> {
 
                 //if the email is valid
                 if (validateEmail == "") {
+                  //get user
+                  user = context.read<UserAuthProvider>().user;
+
                   //create user object to save to the database
                   Donor donor = Donor(
+                      id: user!.uid,
                       email: email!,
                       username: username!,
                       name: name!,

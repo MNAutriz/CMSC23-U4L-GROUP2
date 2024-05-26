@@ -3,10 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseDonorAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  //add donor
+  //add donor with user uid
   Future<String> addDonor(Map<String, dynamic> donor) async {
     try {
-      await db.collection("donors").add(donor);
+      await db.collection("donors").doc(donor['id']).set(donor);
 
       return "Successfully registered donor!";
     } on FirebaseException catch (e) {

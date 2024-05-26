@@ -69,7 +69,7 @@ class _DisplayOrganizationsState extends State<DisplayOrganizations> {
                 snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
             //get the id of a document
-            organization.id = snapshot.data?.docs[index].id;
+            //organization.id = snapshot.data?.docs[index].id;
             //card containing list tile of organizations database
             return Card(
               //list tile of each organization
