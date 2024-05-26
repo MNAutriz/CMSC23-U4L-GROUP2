@@ -1,18 +1,20 @@
 import 'package:cmsc23project/models/donor_model.dart';
-import 'package:cmsc23project/pages/signpage/signup_org.dart';
+import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
+import 'package:cmsc23project/providers/organization_provider.dart';
+import 'package:cmsc23project/providers/pending_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignUpAsOrganization extends StatefulWidget {
+  const SignUpAsOrganization({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpState();
+  State<SignUpAsOrganization> createState() => _SignUpAsOrganizationState();
 }
 
-class _SignUpState extends State<SignUpPage> {
+class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
   final _formKey = GlobalKey<FormState>();
   String? email;
   String? password;
@@ -20,6 +22,7 @@ class _SignUpState extends State<SignUpPage> {
   String? username;
   String? address;
   String? contact;
+  String? organizationName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,14 +41,14 @@ class _SignUpState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   heading,
+                  orgNameField,
                   nameField,
                   emailField,
                   addressField,
                   contactField,
                   usernameField,
                   passwordField,
-                  submitButton,
-                  signUpOrgButton
+                  submitButton
                 ],
               ),
             )),
@@ -54,15 +57,14 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   Widget get heading => const Padding(
-      padding: EdgeInsets.only(bottom: 30),
-      child: Center(
+        padding: EdgeInsets.only(bottom: 30),
         child: Text(
-          "SIGN UP AS DONOR",
+          "SIGN UP AS ORGANIZATION",
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 40, fontFamily: "Freeman", color: Color(0xFF1C6758)),
         ),
-      ));
+      );
 
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
@@ -131,7 +133,27 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
-  //first name field
+  //org name field
+  Widget get orgNameField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          decoration: const InputDecoration(
+              filled: true,
+              fillColor: Color(0xFFD6CDA4),
+              border: OutlineInputBorder(),
+              label: Text("Organization Name"),
+              hintText: "Enter your organization name"),
+          onSaved: (value) => setState(() => organizationName = value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Please enter your organization name";
+            }
+            return null;
+          },
+        ),
+      );
+
+  //contact field
   Widget get contactField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -203,29 +225,6 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
-  Widget get signUpOrgButton => Padding(
-        padding: const EdgeInsets.all(30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Are you an organization?"),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpAsOrganization()));
-                },
-                child: const Text("Click here",
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1C6758),
-                    )))
-          ],
-        ),
-      );
-
   Widget get submitButton => SizedBox(
         width: 350,
         child: ElevatedButton(
@@ -241,6 +240,15 @@ class _SignUpState extends State<SignUpPage> {
                 //if the email is valid
                 if (validateEmail == "") {
                   //create user object to save to the database
+                  Organization org = Organization(
+                      organizationName: organizationName!,
+                      email: email!,
+                      username: username!,
+                      name: name!,
+                      address: address!,
+                      contact: contact!);
+
+                  //register as donor initially
                   Donor donor = Donor(
                       email: email!,
                       username: username!,
@@ -248,10 +256,13 @@ class _SignUpState extends State<SignUpPage> {
                       address: address!,
                       contact: contact!);
 
+                  context.read<PendingProvider>().addPending(org);
                   context.read<DonorProvider>().addDonor(donor);
-
                   // check if the widget hasn't been disposed of after an asynchronous action
-                  if (mounted) Navigator.pop(context);
+                  if (mounted) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  }
                 } else {
                   //snackbar containing the error message
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

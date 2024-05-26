@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/organization_model.dart';
+import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
               child: ListTile(
                 onTap: () {},
                 leading: const Icon(Icons.person),
-                title: Text(pending.name),
+                title: Text(pending.organizationName),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                   //approve button
                   IconButton(
@@ -110,6 +111,9 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                         context
                             .read<PendingProvider>()
                             .deletePending(pending.id!);
+
+                        //remove from donor
+                        context.read<DonorProvider>().deleteDonor(pending.id!);
                       },
                       icon: const Icon(Icons.close)),
                   //view button

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
-import 'package:cmsc23project/pages/signpage/apply_org.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/screens/userview.dart';
 import 'package:flutter/material.dart';
@@ -94,17 +93,6 @@ class _DonorHomePageState extends State<DonorHomePage> {
           stream()
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFEEF2E6),
-        onPressed: () => {
-          showDialog(
-              context: context, builder: (BuildContext context) => ApplyOrg())
-        },
-        child: const Icon(
-          Icons.people,
-          color: Color(0xFF1C6758),
-        ),
-      ),
     );
   }
 
@@ -187,9 +175,11 @@ class _DonorHomePageState extends State<DonorHomePage> {
                     child: Card(
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
-                            child: Image.network(sampleImage, fit: BoxFit.cover),
+                            child:
+                                Image.network(sampleImage, fit: BoxFit.cover),
                             onTap: () {
-                              Navigator.pushNamed(context, '/donor/donatedrives');
+                              Navigator.pushNamed(
+                                  context, '/donor/donatedrives');
                             })),
                   ),
                 ),
@@ -203,10 +193,9 @@ class _DonorHomePageState extends State<DonorHomePage> {
                             color: Color(0xFFEEF2E6),
                             shadows: [
                               Shadow(
-                                blurRadius: 10,
-                                color: Colors.black,
-                                offset: Offset(2, 2)
-                              )
+                                  blurRadius: 10,
+                                  color: Colors.black,
+                                  offset: Offset(2, 2))
                             ])),
                   ),
                 )
