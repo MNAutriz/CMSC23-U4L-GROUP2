@@ -1,6 +1,9 @@
 import 'package:cmsc23project/models/donor_model.dart';
+import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
+import 'package:cmsc23project/providers/organization_provider.dart';
+import 'package:cmsc23project/providers/pending_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -237,6 +240,15 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
                 //if the email is valid
                 if (validateEmail == "") {
                   //create user object to save to the database
+                  Organization org = Organization(
+                      organizationName: organizationName!,
+                      email: email!,
+                      username: username!,
+                      name: name!,
+                      address: address!,
+                      contact: contact!);
+
+                  //register as donor initially
                   Donor donor = Donor(
                       email: email!,
                       username: username!,
@@ -244,10 +256,13 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
                       address: address!,
                       contact: contact!);
 
+                  context.read<PendingProvider>().addPending(org);
                   context.read<DonorProvider>().addDonor(donor);
-
                   // check if the widget hasn't been disposed of after an asynchronous action
-                  if (mounted) Navigator.pop(context);
+                  if (mounted) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  }
                 } else {
                   //snackbar containing the error message
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

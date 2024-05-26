@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         '/userview': (context) => const UserView(),
         '/donor': (context) => const DonorView(),
         '/donor/donate': (context) => const DonateForm(),
-        '/donor/donatedrives' : (context) =>  DonationDrivesPageCopy(),
+        '/donor/donatedrives': (context) => DonationDrivesPageCopy(),
         '/donor/profile': (context) => const DonorProfilePage(),
         '/organization': (context) => DonationApp(),
         '/admin': (context) => const AdminView(),
