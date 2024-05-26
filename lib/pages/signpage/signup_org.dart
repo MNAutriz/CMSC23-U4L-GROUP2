@@ -1,9 +1,11 @@
 import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/models/organization_model.dart';
+import 'package:cmsc23project/models/username_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
+import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -243,7 +245,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
                 if (validateEmail == "") {
                   //get user
                   user = context.read<UserAuthProvider>().user;
-                  //create user object to save to the database
+                  //create organization object for applying
                   Organization org = Organization(
                       id: user!.uid,
                       organizationName: organizationName!,
@@ -262,8 +264,14 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
                       address: address!,
                       contact: contact!);
 
+                  //create username object for saving username and email
+                  Username userlogin = Username(
+                      id: user!.uid, email: email!, username: username!);
+
                   context.read<PendingProvider>().addPending(org);
                   context.read<DonorProvider>().addDonor(donor);
+                  context.read<UsernameProvider>().addUsername(userlogin);
+
                   // check if the widget hasn't been disposed of after an asynchronous action
                   if (mounted) {
                     Navigator.pop(context);

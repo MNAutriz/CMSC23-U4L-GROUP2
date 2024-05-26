@@ -1,7 +1,9 @@
 import 'package:cmsc23project/models/donor_model.dart';
+import 'package:cmsc23project/models/username_model.dart';
 import 'package:cmsc23project/pages/signpage/signup_org.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
+import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -210,7 +212,7 @@ class _SignUpState extends State<SignUpPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Are you an organization?"),
+            const Text("Have an organization?"),
             TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -245,7 +247,7 @@ class _SignUpState extends State<SignUpPage> {
                   //get user
                   user = context.read<UserAuthProvider>().user;
 
-                  //create user object to save to the database
+                  //create donor object to save
                   Donor donor = Donor(
                       id: user!.uid,
                       email: email!,
@@ -254,7 +256,12 @@ class _SignUpState extends State<SignUpPage> {
                       address: address!,
                       contact: contact!);
 
+                  //create username object for saving username and email
+                  Username userlogin = Username(
+                      id: user!.uid, email: email!, username: username!);
+
                   context.read<DonorProvider>().addDonor(donor);
+                  context.read<UsernameProvider>().addUsername(userlogin);
 
                   // check if the widget hasn't been disposed of after an asynchronous action
                   if (mounted) Navigator.pop(context);

@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +18,7 @@ class _SignInPageState extends State<SignInPage> {
   String? email;
   String? password;
   bool showSignInErrorMessage = false;
+  dynamic userLogin;
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +81,12 @@ class _SignInPageState extends State<SignInPage> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
-              label: Text("Email"),
-              hintText: "donate@gmail.com"),
+              label: Text("Username"),
+              hintText: "Enter your username/email"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your email";
+              return "Please enter your username/email";
             }
             return null;
           },
@@ -124,10 +127,38 @@ class _SignInPageState extends State<SignInPage> {
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              String? message = await context
-                  .read<UserAuthProvider>()
-                  .authService
-                  .signIn(email!, password!);
+
+              //check if the input is a username that is in the database
+              await context
+                  .read<UsernameProvider>()
+                  .usernameCollection
+                  .where("username", isEqualTo: email!)
+                  .get()
+                  .then((QuerySnapshot querySnapshot) {
+                querySnapshot.docs.forEach((doc) {
+                  setState(() {
+                    //contain the email of the username
+                    userLogin = doc['email'];
+                  });
+                });
+              });
+
+              String? message;
+
+              //if the input is not in the username database
+              if (userLogin != null) {
+                print(userLogin);
+                message = await context
+                    .read<UserAuthProvider>()
+                    .authService
+                    .signIn(userLogin, password!);
+                //if the username exists
+              } else {
+                message = await context
+                    .read<UserAuthProvider>()
+                    .authService
+                    .signIn(email!, password!);
+              }
 
               print(message);
               print(showSignInErrorMessage);
