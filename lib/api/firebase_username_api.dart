@@ -6,8 +6,7 @@ class FirebaseUsernameAPI {
   //add username with email to database
   Future<String> addUsername(Map<String, dynamic> user) async {
     try {
-      await db.collection("usernames")
-        ..doc(user['id']).set(user);
+      await db.collection("usernames").doc(user['id']).set(user);
 
       return "Successfully saved username and email";
     } on FirebaseException catch (e) {

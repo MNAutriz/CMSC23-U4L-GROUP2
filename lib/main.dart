@@ -9,6 +9,7 @@ import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
+import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:cmsc23project/screens/adminview.dart';
 import 'package:cmsc23project/screens/donorview.dart';
 import 'package:cmsc23project/screens/orgview.dart';
@@ -29,6 +30,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: ((context) => OrganizationProvider())),
     ChangeNotifierProvider(create: ((context) => AdminProvider())),
     ChangeNotifierProvider(create: ((context) => PendingProvider())),
+    ChangeNotifierProvider(create: ((context) => UsernameProvider())),
   ], child: MyApp()));
 }
 
