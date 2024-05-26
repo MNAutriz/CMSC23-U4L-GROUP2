@@ -24,7 +24,8 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                   child: IconButton(
-                    icon: const Icon(Icons.attach_file, color: Color(0xFF3D8361)),
+                    icon:
+                        const Icon(Icons.attach_file, color: Color(0xFF3D8361)),
                     onPressed: () {
                       pickImageFromGallery();
                     },
@@ -47,24 +48,44 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
         _selectedImage != null
             ? Column(
                 children: [
-                  Image.file(_selectedImage!),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () {
-                      setState(() {
-                        _selectedImage = null;
-                      });
-                    },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Card(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                          child: Image.file(_selectedImage!)),
+                    )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Card(
+                        child: IconButton(
+                          icon: const Icon(Icons.delete,
+                              color: Color(0xFF3D8361)),
+                          onPressed: () {
+                            setState(() {
+                              _selectedImage = null;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               )
-            : Container(),
+            : const SizedBox(),
       ],
     );
   }
 
   Future pickImageFromGallery() async {
-    final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (returnedImage == null) return;
 
@@ -74,7 +95,8 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
   }
 
   Future pickImageFromCamera() async {
-    final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (returnedImage == null) return;
 

@@ -136,37 +136,6 @@ class _DonorHomePageState extends State<DonorHomePage> {
               org.id = docs[index].id;
 
               return Stack(children: [
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                //   child: Card(
-                //     clipBehavior: Clip.hardEdge,
-                //     child: InkWell(
-                //       splashColor: const Color(0xFF3D8361).withAlpha(100),
-                //       onTap: () {
-                //         debugPrint(org.name);
-                //         Navigator.pushNamed(context, "/donor/donatedrives");
-                //       },
-                //       child: Image.network(sampleImage),
-                // child: SizedBox(
-                //   width: double.infinity,
-                //   height: 150,
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Center(
-                //       child: Text(
-                //         org.name,
-                //         style: const TextStyle(
-                //           fontSize: 15,
-                //           fontWeight: FontWeight.bold,
-                //           color: Color(0xFF093731),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Container(
