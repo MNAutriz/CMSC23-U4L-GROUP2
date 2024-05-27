@@ -88,6 +88,9 @@ class _SignInPageState extends State<SignInPage> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Email or username"),
               hintText: "Enter your email or username"),
           onSaved: (value) => setState(() => email = value),
@@ -107,6 +110,9 @@ class _SignInPageState extends State<SignInPage> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Password"),
               hintText: "Enter your password"),
           obscureText: true,

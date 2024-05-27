@@ -74,6 +74,9 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Complete Name"),
               hintText: "Enter your complete name"),
           onSaved: (value) => setState(() => name = value),
@@ -94,6 +97,9 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Organization Name"),
               hintText: "Enter your organization name"),
           onSaved: (value) => setState(() => organizationName = value),
@@ -116,6 +122,9 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Contact Number"),
               hintText: "Enter your contact number"),
           onSaved: (value) => setState(() => contact = value),
@@ -160,6 +169,9 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Username"),
               hintText: "Enter your username"),
           onSaved: (value) => setState(() => username = value),
@@ -193,6 +205,9 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Address"),
               hintText: "Enter your address"),
           onSaved: (value) => setState(() => address = value),
