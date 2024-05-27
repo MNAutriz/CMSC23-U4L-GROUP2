@@ -30,15 +30,13 @@ class _PickupFieldState extends State<PickupField> {
                 child: Card(
                     clipBehavior: Clip.hardEdge,
                     color: checkedValue == "Yes"
-                        ? const Color(0xFF3D8361)
+                        ? Colors.green[100]
                         : Colors.white,
                     child: ListTile(
                         title: Text("Yes",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: checkedValue == "Yes"
-                                  ? const Color(0xFFEEF2E6)
-                                  : const Color(0xFF3D8361),
+                              color: const Color(0xFF3D8361)
                             )),
                         tileColor: checkedValue == "Yes"
                             ? const Color(0xFF3D8361)
@@ -48,6 +46,7 @@ class _PickupFieldState extends State<PickupField> {
                         onTap: () {
                           setState(() {
                             checkedValue = "Yes";
+                            debugPrint(checkedValue);
                           });
                           widget.yesChecked?.call(); // will call if not null
                         })),
@@ -56,15 +55,13 @@ class _PickupFieldState extends State<PickupField> {
                 child: Card(
                     clipBehavior: Clip.hardEdge,
                     color: checkedValue == "No"
-                        ? const Color(0xFF3D8361)
+                        ? Colors.green[100]
                         : Colors.white,
                     child: ListTile(
                         title: Text("No",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: checkedValue == "No"
-                                  ? const Color(0xFFEEF2E6)
-                                  : const Color(0xFF3D8361),
+                              color: const Color(0xFF3D8361)
                             )),
                         tileColor: checkedValue == "No"
                             ? const Color(0xFF3D8361)
@@ -74,6 +71,7 @@ class _PickupFieldState extends State<PickupField> {
                         onTap: () {
                           setState(() {
                             checkedValue = "No";
+                            debugPrint(checkedValue);
                           });
                           widget.noChecked?.call(); // will call if not null
                         })),

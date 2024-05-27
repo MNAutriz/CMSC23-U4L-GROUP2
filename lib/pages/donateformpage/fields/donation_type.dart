@@ -165,10 +165,8 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     type,
-                    style: TextStyle(
-                      color: isCheckedMap[type] == false
-                          ? const Color(0xFF3D8361)
-                          : const Color(0xFFEEF2E6),
+                    style: const TextStyle(
+                      color: Color(0xFF3D8361),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -177,11 +175,9 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
               if (!initialTypes
                   .contains(type)) // add remove button if not initial type
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.remove,
-                    color: isCheckedMap[type] == false
-                        ? const Color(0xFF3D8361)
-                        : const Color(0xFFEEF2E6),
+                    color: Color(0xFF3D8361),
                   ),
                   onPressed: () {
                     setState(() {
@@ -195,7 +191,7 @@ class _DonationTypeFieldState extends State<DonationTypeField> {
           ),
           tileColor: isCheckedMap[type] == false
               ? Colors.white
-              : const Color(0xFF3D8361),
+              : Colors.green[100],
           onTap: () {
             setState(() {
               isCheckedMap[type] = !(isCheckedMap[type] ?? false);
