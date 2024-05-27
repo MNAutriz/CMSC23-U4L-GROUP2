@@ -221,6 +221,8 @@ class _DonorHomePageState extends State<DonorHomePage> {
               ),
               onTap: () {
                 context.read<UserAuthProvider>().signOut();
+                // band aid solution
+                // Navigator.pushNamed(context, '/');
               },
             ),
           ]),

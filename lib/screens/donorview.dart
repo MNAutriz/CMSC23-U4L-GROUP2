@@ -1,3 +1,4 @@
+import 'package:cmsc23project/pages/donorformspage/donor_forms_page.dart';
 import 'package:cmsc23project/pages/donorhomepage/donorhomepage.dart';
 import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
@@ -15,7 +16,7 @@ class _DonorViewState extends State<DonorView> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    List<Widget> pages = const [DonorHomePage(), DonorProfilePage()];
+    List<Widget> pages = const [DonorHomePage(), DonorProfilePage(), DonorFormsPage()];
 
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),
@@ -29,6 +30,7 @@ class _DonorViewState extends State<DonorView> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Homepage'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.file_copy), label: 'Forms'),
         ],
         onTap: (index) {
           setState(() {
