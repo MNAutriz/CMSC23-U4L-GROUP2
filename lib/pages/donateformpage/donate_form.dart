@@ -7,7 +7,9 @@ import 'package:cmsc23project/pages/donateformpage/fields/pickup_field.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/submit.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/upload_photo/upload_photo.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/weight_field.dart';
+import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DonateForm extends StatefulWidget {
   const DonateForm({super.key});
@@ -30,9 +32,10 @@ class _DonateFormState extends State<DonateForm> {
     donorEmail: ''
   );
 
+  String selectedOrgEmail = ''; // when user clicks an organization, its email will be stored here
+
   @override
   Widget build(BuildContext context) {
-
     // bool isPickupChecked;
 
     return Scaffold(

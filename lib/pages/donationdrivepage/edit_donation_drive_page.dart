@@ -1,3 +1,5 @@
+import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'donation_drive_model.dart';
@@ -29,6 +31,10 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    User? user = context.watch<UserAuthProvider>().user;
+    String orgEmail = user!.email!;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Donation Drive'),
@@ -89,8 +95,9 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
                       description: _description,
                       imageUrls: _imageUrls,
                       donations: widget.donationDrive.donations,
+                      orgEmail: orgEmail
                     );
-                    Provider.of<DonationDriveProvider>(context, listen: false).updateDonationDrive(updatedDrive.id, updatedDrive);
+                    Provider.of<DonationDriveProvider>(context, listen: false).editDonationDrive(updatedDrive.id, updatedDrive.toJson());
                     Navigator.pop(context);
                   }
                 },

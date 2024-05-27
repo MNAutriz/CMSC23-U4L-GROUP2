@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/organization_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../donationdrivepage/donation_drive_model.dart';
@@ -9,6 +13,7 @@ class AddDonationDrivePage extends StatefulWidget {
   _AddDonationDrivePageState createState() => _AddDonationDrivePageState();
 }
 
+// form page that adds a donation drive
 class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
@@ -17,8 +22,16 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
   List<String> _proofOfDonationsUrls = [];
   List<Donation> _donations = [];
 
+  String organizationEmail = ''; // store organization email that is fetched from firebase and matched with organizations collection
+
   @override
   Widget build(BuildContext context) {
+    
+    final donationDriveProvider = Provider.of<DonationDriveProvider>(context);
+
+    User? user = context.watch<UserAuthProvider>().user;
+    organizationEmail = user!.email!; // assign logged in user as the organizationEmail
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Donation Drive'),
@@ -79,21 +92,22 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                 },
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    final newDonationDrive = DonationDrive(
+                    DonationDrive newDonationDrive = DonationDrive(
                       id: DateTime.now().millisecondsSinceEpoch.toString(),
                       title: _title,
                       description: _description,
                       imageUrls: [_coverPhotoUrl, ..._proofOfDonationsUrls],
                       donations: _donations,
+                      orgEmail: organizationEmail
                     );
-                    Provider.of<DonationDriveProvider>(context, listen: false).addDonationDrive(newDonationDrive);
+                    await donationDriveProvider.addDonationDrive(newDonationDrive.toJson()); // convert object to a Map<String, dynamic> before passing to addDonationDrive
                     Navigator.pop(context);
                   }
                 },
-                child: Text('Create'),
+                child: const Text('Create'),
               ),
             ],
           ),

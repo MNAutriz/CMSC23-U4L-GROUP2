@@ -6,6 +6,7 @@ class DonationDrive {
   String description;
   List<String> imageUrls;
   List<Donation> donations;
+  String orgEmail;
 
   DonationDrive({
     required this.id,
@@ -13,6 +14,7 @@ class DonationDrive {
     required this.description,
     required this.imageUrls,
     required this.donations,
+    required this.orgEmail
   });
 
   Map<String, dynamic> toJson() {
@@ -21,7 +23,8 @@ class DonationDrive {
       'title': title,
       'description': description,
       'imageUrls': imageUrls,
-      'donations': donations.map((donation) => donation.toJson()).toList(),
+      'donations': donations.map((donation) => donation.toJson()).toList(), 
+      'orgEmail': orgEmail
     };
   }
 
@@ -32,6 +35,7 @@ class DonationDrive {
       description: json['description'],
       imageUrls: List<String>.from(json['imageUrls']),
       donations: List<Donation>.from(json['donations'].map((donation) => Donation.fromJson(donation))),
+      orgEmail: json['orgEmail']
     );
   }
 }

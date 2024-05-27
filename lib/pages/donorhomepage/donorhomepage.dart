@@ -17,11 +17,13 @@ class DonorHomePage extends StatefulWidget {
 class _DonorHomePageState extends State<DonorHomePage> {
   int _selectedIndex = 0;
 
-  String sampleImage =
+  String backgroundImage =
       'https://media.istockphoto.com/id/1402801804/photo/closeup-nature-view-of-palms-and-monstera-and-fern-leaf-background.webp?b=1&s=170667a&w=0&k=20&c=oj5HjeYMh3RmxbjUNDiMfn6VSngH_-1uPIUPD7BhNus=';
 
   TextEditingController _searchController = TextEditingController();
   String searchQuery = '';
+
+  String _selectedOrgEmail = '';
 
   @override
   void initState() {
@@ -150,10 +152,14 @@ class _DonorHomePageState extends State<DonorHomePage> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                             child:
-                                Image.network(sampleImage, fit: BoxFit.cover),
+                                Image.network(backgroundImage, fit: BoxFit.cover),
                             onTap: () {
+                              _selectedOrgEmail = org.email; // pass email of organization to a variable
                               Navigator.pushNamed(
-                                  context, '/donor/donatedrives');
+                                  context, '/donor/donatedrives', arguments: {
+                                    'selectedOrgEmail': _selectedOrgEmail,
+                                    'orgID': org.id,
+                                  }); // include selected organization email as an argument to be used in donatedrives route
                             })),
                   ),
                 ),
