@@ -6,7 +6,7 @@ import 'donation_drive_model.dart';
 import 'edit_donation_drive_page.dart';
 import 'donation_drive_details.dart';
 
-
+// builder for a Donation Drive card
 class DonationDriveCard extends StatelessWidget {
   final DonationDrive donationDrive;
 

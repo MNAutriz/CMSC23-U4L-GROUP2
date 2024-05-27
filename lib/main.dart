@@ -5,6 +5,7 @@ import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
 import 'package:cmsc23project/pages/signpage/sign_page.dart';
 import 'package:cmsc23project/providers/admin_provider.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:cmsc23project/providers/donation_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
@@ -32,6 +33,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: ((context) => AdminProvider())),
     ChangeNotifierProvider(create: ((context) => PendingProvider())),
     ChangeNotifierProvider(create: ((context) => UsernameProvider())),
+    ChangeNotifierProvider(create: ((context) => DonorFormProvider())),
     ChangeNotifierProvider(create: ((context) => DonationProvider())),
     ChangeNotifierProvider(create: ((context) => DonationDriveProvider())),
 
@@ -52,7 +54,7 @@ class MyApp extends StatelessWidget {
         '/userview': (context) => const UserView(),
         '/donor': (context) => const DonorView(),
         '/donor/donate': (context) => const DonateForm(),
-        '/donor/donatedrives': (context) => DonationDrivesPageCopy(),
+        '/donor/donatedrives': (context) => const DisplayDonationDrives(),
         '/donor/profile': (context) => const DonorProfilePage(),
         '/organization': (context) => DonationApp(),
         '/admin': (context) => const AdminView(),

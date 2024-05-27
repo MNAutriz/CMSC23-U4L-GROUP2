@@ -1,14 +1,15 @@
+import 'package:cmsc23project/models/donor_form.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/address_field.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/contact_no_field.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/date_time.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/donation_type.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/pickup_field.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/submit.dart';
-import 'package:cmsc23project/pages/donateformpage/fields/upload_photo.dart';
+import 'package:cmsc23project/pages/donateformpage/fields/upload_photo/upload_photo.dart';
 import 'package:cmsc23project/pages/donateformpage/fields/weight_field.dart';
+import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class DonateForm extends StatefulWidget {
   const DonateForm({super.key});
@@ -21,10 +22,20 @@ class _DonateFormState extends State<DonateForm> {
 
   final _formKey = GlobalKey<FormState>();
   bool isPickupChecked = false; // initialize here and not on build or else the value will always be false on rebuild
+  DonorForm formData = DonorForm(
+    donationTypes: [],
+    forPickup: false,
+    weight: 0,
+    weightUnit: "kg",
+    donationPhoto: "",
+    donationDateTime: DateTime.now(),
+    donorEmail: ''
+  );
+
+  String selectedOrgEmail = ''; // when user clicks an organization, its email will be stored here
 
   @override
   Widget build(BuildContext context) {
-
     // bool isPickupChecked;
 
     return Scaffold(
@@ -46,7 +57,7 @@ class _DonateFormState extends State<DonateForm> {
             children: [
               // TODO: display which org user is donating to at start
               const Header(text: "What would you like to donate?"),
-              const DonationTypeField(),
+              DonationTypeField(formData: formData, formKey: _formKey),
               const Header(text: "Would you like your donations picked up?"),
               PickupField(
                 yesChecked: (){
@@ -58,26 +69,27 @@ class _DonateFormState extends State<DonateForm> {
                   setState(() {
                     isPickupChecked = false;
                   });
-                }
+                },
+                formData: formData,
               ),
               const Header(text: "How heavy are your items?"),
-              const WeightField(),
+              WeightField(formData: formData),
               const Header(text: "If you can, please upload a photo of your items"),
-              const UploadPhotoButtons(),
+              UploadPhotoButtons(formData: formData),
               Header(text: "When will ${isPickupChecked == true ? "we pickup your" : "you drop-off your"} donation?"),
-              const DateTimeField(),
+              DateTimeField(formData: formData),
               Visibility(
                 visible: isPickupChecked,
-                child: const Column(
+                child: Column(
                   children: [
-                    Header(text: "Where would we pickup your donations?"),
-                    AddressField(),
-                    Header(text: "What number should we reach you at?"),
-                    ContactNoField(),
+                    const Header(text: "Where would we pickup your donations?"),
+                    AddressField(formData: formData, isPickupChecked: isPickupChecked,),
+                    const Header(text: "What number should we reach you at?"),
+                    ContactNoField(formData: formData, isPickupChecked: isPickupChecked,),
                   ],
                 ),
               ),
-              SubmitForm()
+              SubmitForm(formKey: _formKey, formData: formData)
             ],
           ),
         ),

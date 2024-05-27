@@ -17,15 +17,22 @@ class DonorHomePage extends StatefulWidget {
 class _DonorHomePageState extends State<DonorHomePage> {
   int _selectedIndex = 0;
 
-  String sampleImage =
-      'https://adra.ph/wp-content/uploads/2017/09/Gift-Boxes-Aeta-4-1024x683.jpg';
+  String backgroundImage =
+      'https://media.istockphoto.com/id/1402801804/photo/closeup-nature-view-of-palms-and-monstera-and-fern-leaf-background.webp?b=1&s=170667a&w=0&k=20&c=oj5HjeYMh3RmxbjUNDiMfn6VSngH_-1uPIUPD7BhNus=';
 
   TextEditingController _searchController = TextEditingController();
   String searchQuery = '';
 
+  String _selectedOrgEmail = '';
+
   @override
   void initState() {
     super.initState();
+    
+      Future.delayed(Duration.zero, () { // need future.delayed so that it will fetchorganizations after build phase is complete
+    context.read<OrganizationProvider>().fetchOrganizations();
+  });
+
     _searchController.addListener(() {
       setState(() {
         searchQuery = _searchController.text.toLowerCase();
@@ -136,37 +143,6 @@ class _DonorHomePageState extends State<DonorHomePage> {
               org.id = docs[index].id;
 
               return Stack(children: [
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                //   child: Card(
-                //     clipBehavior: Clip.hardEdge,
-                //     child: InkWell(
-                //       splashColor: const Color(0xFF3D8361).withAlpha(100),
-                //       onTap: () {
-                //         debugPrint(org.name);
-                //         Navigator.pushNamed(context, "/donor/donatedrives");
-                //       },
-                //       child: Image.network(sampleImage),
-                // child: SizedBox(
-                //   width: double.infinity,
-                //   height: 150,
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Center(
-                //       child: Text(
-                //         org.name,
-                //         style: const TextStyle(
-                //           fontSize: 15,
-                //           fontWeight: FontWeight.bold,
-                //           color: Color(0xFF093731),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Container(
@@ -176,10 +152,14 @@ class _DonorHomePageState extends State<DonorHomePage> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                             child:
-                                Image.network(sampleImage, fit: BoxFit.cover),
+                                Image.network(backgroundImage, fit: BoxFit.cover),
                             onTap: () {
+                              _selectedOrgEmail = org.email; // pass email of organization to a variable
                               Navigator.pushNamed(
-                                  context, '/donor/donatedrives');
+                                  context, '/donor/donatedrives', arguments: {
+                                    'selectedOrgEmail': _selectedOrgEmail,
+                                    'orgID': org.id,
+                                  }); // include selected organization email as an argument to be used in donatedrives route
                             })),
                   ),
                 ),
@@ -247,6 +227,8 @@ class _DonorHomePageState extends State<DonorHomePage> {
               ),
               onTap: () {
                 context.read<UserAuthProvider>().signOut();
+                // band aid solution
+                // Navigator.pushNamed(context, '/');
               },
             ),
           ]),
