@@ -74,12 +74,15 @@ class _SignUpState extends State<GoogleDonor> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Complete Name"),
               hintText: "Enter your complete name"),
           onSaved: (value) => setState(() => name = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your complete name";
+              return "Enter your complete name";
             }
             return null;
           },
@@ -96,12 +99,15 @@ class _SignUpState extends State<GoogleDonor> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Contact Number"),
               hintText: "Enter your contact number"),
           onSaved: (value) => setState(() => contact = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your contact number";
+              return "Enter your contact number";
             }
 
             //check if the input contact number is an integer
@@ -109,7 +115,21 @@ class _SignUpState extends State<GoogleDonor> {
 
             //check if not an integer
             if (check == null) {
-              return "Please enter a valid contact number";
+              return "Enter a valid contact number";
+            }
+
+            //password length
+            int cLength = value.length;
+
+            //check if contact number starts in "09"
+            var format = value.substring(0, 2);
+            if (format != "09") {
+              return "Enter your number in the format 09XXXXXXXXX";
+            }
+
+            //check if contact number is 11 digits
+            if (cLength != 11) {
+              return "Enter your 11 digit contact number";
             }
 
             //no error
@@ -126,13 +146,29 @@ class _SignUpState extends State<GoogleDonor> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Username"),
               hintText: "Enter your username"),
           onSaved: (value) => setState(() => username = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your username";
+              return "Enter your username";
             }
+
+            int uLength = value.length;
+
+            //too short username
+            if (uLength < 6) {
+              return "Your username is too short (6 to 30 chars only)";
+            }
+
+            //too long username
+            if (uLength > 30) {
+              return "Your username is too long (6 to 30 chars only)";
+            }
+
             return null;
           },
         ),
@@ -146,12 +182,15 @@ class _SignUpState extends State<GoogleDonor> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Address"),
               hintText: "Enter your address"),
           onSaved: (value) => setState(() => address = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your address";
+              return "Enter your address";
             }
             return null;
           },
