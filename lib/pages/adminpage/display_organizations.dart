@@ -78,24 +78,6 @@ class _DisplayOrganizationsState extends State<DisplayOrganizations> {
                 leading: const Icon(Icons.person),
                 title: Text(organization.name),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                  //edit button
-                  IconButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          backgroundColor: const Color(0xFF3D8361)),
-                      onPressed: () {},
-                      icon: const Icon(Icons.create)),
-                  //delete button
-                  IconButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          backgroundColor: const Color(0xFF3D8361)),
-                      onPressed: () {},
-                      icon: const Icon(Icons.delete)),
                   //view button
                   IconButton(
                       style: ElevatedButton.styleFrom(
