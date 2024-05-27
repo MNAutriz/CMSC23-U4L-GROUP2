@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/models/username_model.dart';
@@ -6,7 +8,9 @@ import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
 import 'package:cmsc23project/providers/username_provider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +31,34 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
   String? contact;
   String? organizationName;
   User? user;
+  //proof of legitimacy
+  PlatformFile? proof;
+
+  //browse file function
+  Future browseFile() async {
+    //pick file
+    final result = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+
+    //no file selected
+    if (result == null) return;
+
+    //set proof as the selected file
+    setState(() {
+      proof = result.files.first;
+    });
+  }
+
+  //upload file to firebase with user's uid as the directory
+  Future uploadFile(String email) async {
+    final path = 'files/${email}/${proof!.name}';
+    final file = File(proof!.path!);
+
+    //upload to firebase
+    final ref = FirebaseStorage.instance.ref().child(path);
+    ref.putFile(file);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +84,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
                   contactField,
                   usernameField,
                   passwordField,
+                  uploadProof,
                   submitButton
                 ],
               ),
@@ -288,53 +321,65 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
 
-                String? validateEmail = await context
-                    .read<UserAuthProvider>()
-                    .authService
-                    .signUp(email!, password!);
-
-                //if the email is valid
-                if (validateEmail == "") {
-                  //get user
-                  user = context.read<UserAuthProvider>().user;
-                  //create organization object for applying
-                  Organization org = Organization(
-                      id: user!.uid,
-                      organizationName: organizationName!,
-                      email: email!,
-                      username: username!,
-                      name: name!,
-                      address: address!,
-                      contact: contact!);
-
-                  //register as donor initially
-                  Donor donor = Donor(
-                      id: user!.uid,
-                      email: email!,
-                      username: username!,
-                      name: name!,
-                      address: address!,
-                      contact: contact!);
-
-                  //create username object for saving username and email
-                  Username userlogin = Username(
-                      id: user!.uid, email: email!, username: username!);
-
-                  context.read<PendingProvider>().addPending(org);
-                  context.read<DonorProvider>().addDonor(donor);
-                  context.read<UsernameProvider>().addUsername(userlogin);
-
-                  // check if the widget hasn't been disposed of after an asynchronous action
-                  if (mounted) {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  }
-                } else {
+                //no uploaded file
+                if (proof == null) {
                   //snackbar containing the error message
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(validateEmail!),
+                    content: Text("Please enter your proof/s of legitimacy"),
                     backgroundColor: Colors.red,
                   ));
+                } else {
+                  String? validateEmail = await context
+                      .read<UserAuthProvider>()
+                      .authService
+                      .signUp(email!, password!);
+
+                  //if the email is valid
+                  if (validateEmail == "") {
+                    //get user
+                    user = context.read<UserAuthProvider>().user;
+                    //create organization object for applying
+                    Organization org = Organization(
+                        id: user!.uid,
+                        organizationName: organizationName!,
+                        email: email!,
+                        username: username!,
+                        name: name!,
+                        address: address!,
+                        contact: contact!);
+
+                    //register as donor initially
+                    Donor donor = Donor(
+                        id: user!.uid,
+                        email: email!,
+                        username: username!,
+                        name: name!,
+                        address: address!,
+                        contact: contact!);
+
+                    //create username object for saving username and email
+                    Username userlogin = Username(
+                        id: user!.uid, email: email!, username: username!);
+
+                    context.read<PendingProvider>().addPending(org);
+                    context.read<DonorProvider>().addDonor(donor);
+                    context.read<UsernameProvider>().addUsername(userlogin);
+
+                    //upload pdf file to firebase storage
+                    await uploadFile(user!.email!);
+
+                    // check if the widget hasn't been disposed of after an asynchronous action
+                    if (mounted) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
+                  } else {
+                    //snackbar containing the error message
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(validateEmail!),
+                      backgroundColor: Colors.red,
+                    ));
+                  }
                 }
               }
             },
@@ -347,4 +392,27 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
             child: const Text("Sign up",
                 style: TextStyle(color: Colors.white, fontFamily: "Freeman"))),
       );
+
+  //widget for uploading proof/s of legitimacy
+  Widget get uploadProof => Column(children: [
+        const Text("Upload proofs of legitimacy (PDF)"),
+        SizedBox(
+            width: 350,
+            child: ElevatedButton(
+                onPressed: () async {
+                  browseFile();
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3D8361),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0))),
+                child: const Text("Browse files",
+                    style: TextStyle(
+                        color: Colors.white, fontFamily: "Freeman")))),
+        SizedBox(
+          height: 30,
+        )
+      ]);
 }
