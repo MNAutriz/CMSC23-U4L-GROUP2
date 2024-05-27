@@ -141,7 +141,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
               Organization org = Organization.fromJson(
                   docs[index].data() as Map<String, dynamic>);
               org.id = docs[index].id;
-
+              
               return Stack(children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -159,6 +159,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                                   context, '/donor/donatedrives', arguments: {
                                     'selectedOrgEmail': _selectedOrgEmail,
                                     'orgID': org.id,
+                                    'orgName': org.name,
                                   }); // include selected organization email as an argument to be used in donatedrives route
                             })),
                   ),
