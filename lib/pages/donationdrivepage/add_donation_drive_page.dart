@@ -99,7 +99,8 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                       id: DateTime.now().millisecondsSinceEpoch.toString(),
                       title: _title,
                       description: _description,
-                      imageUrls: [_coverPhotoUrl, ..._proofOfDonationsUrls],
+                      coverPhoto: _coverPhotoUrl,
+                      donationProofs: [..._proofOfDonationsUrls],
                       donations: _donations,
                       orgEmail: organizationEmail
                     );
