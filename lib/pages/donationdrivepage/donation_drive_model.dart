@@ -15,7 +15,6 @@ class DonationDrive {
     required this.donations,
   });
 
-  // Convert a DonationDrive into a Map.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -26,7 +25,6 @@ class DonationDrive {
     };
   }
 
-  // Convert a Map into a DonationDrive.
   factory DonationDrive.fromJson(Map<String, dynamic> json) {
     return DonationDrive(
       id: json['id'],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../donationdrivepage/donation_drive_model.dart';
-import '../donationdrivepage/donation_drive_provider.dart';
+import '../../providers/donation_drive_provider.dart';
 import '../homepage/donation_model.dart';
 
 class AddDonationDrivePage extends StatefulWidget {

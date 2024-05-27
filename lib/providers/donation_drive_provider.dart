@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../pages/donationdrivepage/donation_drive_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class DonationDriveProvider with ChangeNotifier {
   final List<DonationDrive> _donationDrives = [];
 
