@@ -1,21 +1,19 @@
+import 'package:cmsc23project/pages/donationdrivepage/add_donation_drive_page.dart';
+import 'package:cmsc23project/pages/donationdrivepage/donation_drive_provider.dart';
+import 'package:cmsc23project/pages/donationpage/donation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/donation_provider.dart';
-import '../donationpage/donation_page.dart';
+import 'package:cmsc23project/providers/donation_provider.dart';
 import '../homepage/home_page.dart';
 import '../profilepage/profile_page.dart';
 import 'donation_drive_card.dart';
+import 'edit_donation_drive_page.dart';
 
 class DonationDrivesPage extends StatelessWidget {
-  // List of image URLs for donation drives
-  final List<String> imageUrls = [
-    'https://adra.ph/wp-content/uploads/2017/09/Gift-Boxes-Aeta-4-1024x683.jpg',
-    'https://spweb-uploads.s3.theark.cloud/2013/03/1827PH-G-022_Philippines.jpg',
-    'https://southcotabato.gov.ph/wp-content/uploads/2022/07/295463385_425008249670423_1954468116908717607_n.jpg',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final donationDrives = Provider.of<DonationDriveProvider>(context).donationDrives;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Donation Drives Page'),
@@ -25,20 +23,18 @@ class DonationDrivesPage extends StatelessWidget {
       backgroundColor: Color(0xFFF7F7F7), // Light background color
       body: ListView.builder(
         padding: EdgeInsets.all(10),
-        itemCount: 3, // Replace with your donation drives count
+        itemCount: donationDrives.length,
         itemBuilder: (context, index) {
-          return DonationDriveCard(
-            title: 'Drive ${index + 1}',
-            description: 'Description of donation drive ${index + 1}',
-            imageUrl: imageUrls[index], // Select image URL based on index
-            raisedAmount: 150.0,
-            goalAmount: 500.0,
-          );
+          final drive = donationDrives[index];
+          return DonationDriveCard(donationDrive: drive);
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add CRUD operations for creating a new donation drive
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddDonationDrivePage()),  // Navigate to the new page
+          );
         },
         child: Icon(Icons.add),
         backgroundColor: Color(0xFF093731),
@@ -60,14 +56,14 @@ class DonationDrivesPage extends StatelessWidget {
             case 1:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => DonationPage()),
+                MaterialPageRoute(builder: (context) => DonationPage(
+                  donations: Provider.of<DonationProvider>(context).donations, 
+                  driveTitle: 'All Donations'
+                )),
               );
               break;
             case 2:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => DonationDrivesPage()),
-              );
+              // Already on the DonationDrivesPage
               break;
             case 3:
               Navigator.pushReplacement(

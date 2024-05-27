@@ -1,6 +1,7 @@
 import 'package:cmsc23project/pages/donationpage/donation_page.dart';
 import 'package:flutter/material.dart';
 import 'donation_model.dart';
+import '../donationpage/donation_detail_page.dart';
 
 class DonationCard extends StatelessWidget {
   final Donation donation;
@@ -35,6 +36,14 @@ class DonationCard extends StatelessWidget {
                   donation.description,
                   style: TextStyle(fontSize: 14, color: const Color.fromARGB(255, 0, 0, 0)),
                 ),
+                if (donation.driveDetails != null)
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(
+                      'Part of: ${donation.driveDetails}',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,10 +54,11 @@ class DonationCard extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
-                          
-                          MaterialPageRoute(builder: (context) => DonationPage()),
+                          MaterialPageRoute(
+                            builder: (context) => DonationDetailPage(donation: donation),
+                          ),
                         );
                       },
                       child: Text('See details'),
