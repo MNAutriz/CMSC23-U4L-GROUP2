@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'donation_drive_model.dart';
-import 'donation_drive_provider.dart';
+import '../../providers/donation_drive_provider.dart';
 import '../homepage/donation_model.dart';
 
 class EditDonationDrivePage extends StatefulWidget {
-  final DonationDrive? donationDrive;
+  final DonationDrive donationDrive;
 
-  EditDonationDrivePage({this.donationDrive});
+  EditDonationDrivePage({required this.donationDrive});
 
   @override
   _EditDonationDrivePageState createState() => _EditDonationDrivePageState();
@@ -17,35 +17,21 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
   final _formKey = GlobalKey<FormState>();
   late String _title;
   late String _description;
-  late String _coverPhotoUrl;
-  late List<String> _proofOfDonationsUrls;
-  List<Donation> _donations = [];
+  late List<String> _imageUrls;
 
   @override
   void initState() {
     super.initState();
-    if (widget.donationDrive != null) {
-      _title = widget.donationDrive!.title;
-      _description = widget.donationDrive!.description;
-      _coverPhotoUrl = widget.donationDrive!.imageUrls.isNotEmpty ? widget.donationDrive!.imageUrls[0] : '';
-      _proofOfDonationsUrls = widget.donationDrive!.imageUrls.length > 1
-          ? widget.donationDrive!.imageUrls.sublist(1)
-          : [];
-      _donations = widget.donationDrive!.donations;
-    } else {
-      _title = '';
-      _description = '';
-      _coverPhotoUrl = '';
-      _proofOfDonationsUrls = [];
-      _donations = [];
-    }
+    _title = widget.donationDrive.title;
+    _description = widget.donationDrive.description;
+    _imageUrls = widget.donationDrive.imageUrls;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.donationDrive == null ? 'Create Donation Drive' : 'Edit Donation Drive'),
+        title: Text('Edit Donation Drive'),
         backgroundColor: Color(0xFF093731),
       ),
       body: Padding(
@@ -81,50 +67,34 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
                 },
               ),
               TextFormField(
-                initialValue: _coverPhotoUrl,
-                decoration: InputDecoration(labelText: 'Cover Photo URL'),
+                initialValue: _imageUrls.join(', '),
+                decoration: InputDecoration(labelText: 'Image URLs (comma separated)'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a cover photo URL';
+                    return 'Please enter at least one image URL';
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  _coverPhotoUrl = value!;
-                },
-              ),
-              TextFormField(
-                initialValue: _proofOfDonationsUrls.join(', '),
-                decoration: InputDecoration(labelText: 'Proof of Donations URLs (comma separated)'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter at least one proof of donations URL';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _proofOfDonationsUrls = value!.split(',').map((url) => url.trim()).toList();
+                  _imageUrls = value!.split(',').map((url) => url.trim()).toList();
                 },
               ),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    final updatedDonationDrive = DonationDrive(
-                      id: widget.donationDrive!.id,
+                    final updatedDrive = DonationDrive(
+                      id: widget.donationDrive.id,
                       title: _title,
                       description: _description,
-                      imageUrls: [_coverPhotoUrl, ..._proofOfDonationsUrls],
-                      donations: _donations,
+                      imageUrls: _imageUrls,
+                      donations: widget.donationDrive.donations,
                     );
-                    Provider.of<DonationDriveProvider>(context, listen: false).updateDonationDrive(
-                      widget.donationDrive!.id,
-                      updatedDonationDrive,
-                    );
+                    Provider.of<DonationDriveProvider>(context, listen: false).updateDonationDrive(updatedDrive.id, updatedDrive);
                     Navigator.pop(context);
                   }
                 },
-                child: Text('Update'),
+                child: Text('Save Changes'),
               ),
             ],
           ),

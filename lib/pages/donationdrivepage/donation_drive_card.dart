@@ -1,12 +1,11 @@
-import 'package:cmsc23project/pages/donationdrivepage/donation_drive_provider.dart';
+import '../../providers/donation_drive_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cmsc23project/providers/donation_drive_provider.dart' as provider;
 import 'donation_drive_model.dart';
-import 'donation_drive_details.dart';
 import 'edit_donation_drive_page.dart';
 import 'donation_drive_details.dart';
-import 'edit_donation_drive_page.dart';
+
 
 class DonationDriveCard extends StatelessWidget {
   final DonationDrive donationDrive;
@@ -49,7 +48,7 @@ class DonationDriveCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DonationDriveDetails(donationDrive: donationDrive),
+                            builder: (context) => DonationDriveDetailsPage(donationDrive: donationDrive),
                           ),
                         );
                       },

@@ -1,37 +1,60 @@
+import 'package:cmsc23project/pages/homepage/donation_model.dart';
 import 'package:flutter/material.dart';
-import '../models/donation_drive_model.dart';
+import '../pages/donationdrivepage/donation_drive_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DonationDriveProvider with ChangeNotifier {
-  List<DonationDrive> _donationDrives = [];
-  int _selectedIndex = 0;
+  final List<DonationDrive> _donationDrives = [];
 
   List<DonationDrive> get donationDrives => _donationDrives;
-  int get selectedIndex => _selectedIndex;
 
-  void setIndex(int index) {
-    _selectedIndex = index;
+  final CollectionReference _donationDrivesCollection = FirebaseFirestore.instance.collection('donation_drives');
+
+  DonationDriveProvider() {
+    fetchDonationDrives();
+  }
+
+  void fetchDonationDrives() async {
+    final snapshot = await _donationDrivesCollection.get();
+    _donationDrives.clear();
+    for (var doc in snapshot.docs) {
+      _donationDrives.add(DonationDrive.fromJson(doc.data() as Map<String, dynamic>));
+    }
     notifyListeners();
   }
 
-  void addDonationDrive(DonationDrive donationDrive) {
+  Future<void> addDonationDrive(DonationDrive donationDrive) async {
+    final docRef = _donationDrivesCollection.doc(donationDrive.id);
+    await docRef.set(donationDrive.toJson());
     _donationDrives.add(donationDrive);
     notifyListeners();
   }
 
-  void updateDonationDrive(String id, DonationDrive newDrive) {
+  Future<void> updateDonationDrive(String id, DonationDrive updatedDrive) async {
+    final docRef = _donationDrivesCollection.doc(id);
+    await docRef.update(updatedDrive.toJson());
     final index = _donationDrives.indexWhere((drive) => drive.id == id);
-    if (index >= 0) {
-      _donationDrives[index] = newDrive;
+    if (index != -1) {
+      _donationDrives[index] = updatedDrive;
       notifyListeners();
     }
   }
 
-  void deleteDonationDrive(String id) {
+  Future<void> deleteDonationDrive(String id) async {
+    final docRef = _donationDrivesCollection.doc(id);
+    await docRef.delete();
     _donationDrives.removeWhere((drive) => drive.id == id);
     notifyListeners();
   }
 
-  DonationDrive findById(String id) {
-    return _donationDrives.firstWhere((drive) => drive.id == id);
+  void addDonationToDrive(String driveId, Donation donation) {
+    try {
+      final drive = _donationDrives.firstWhere((drive) => drive.id == driveId);
+      drive.donations.add(donation);
+      updateDonationDrive(drive.id, drive);
+      notifyListeners();
+    } catch (e) {
+      print('Error adding donation to drive: $e');
+    }
   }
 }
