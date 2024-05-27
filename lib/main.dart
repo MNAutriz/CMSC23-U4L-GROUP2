@@ -1,13 +1,14 @@
 import 'package:cmsc23project/firebase_options.dart';
 import 'package:cmsc23project/pages/donateformpage/donate_form.dart';
 import 'package:cmsc23project/pages/donateformpage/donationdrives.dart';
+import 'package:cmsc23project/pages/donationdrivepage/donation_drive_provider.dart';
 import 'package:cmsc23project/pages/donationdrivepage/donation_drives_page.dart';
 import 'package:cmsc23project/pages/donorprofilepage/donor_profile_page.dart';
-import 'package:cmsc23project/pages/signpage/google_donor.dart';
 import 'package:cmsc23project/pages/signpage/sign_page.dart';
 import 'package:cmsc23project/providers/admin_provider.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_form_provider.dart';
+import 'package:cmsc23project/providers/donation_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
@@ -33,7 +34,11 @@ Future<void> main() async {
     ChangeNotifierProvider(create: ((context) => AdminProvider())),
     ChangeNotifierProvider(create: ((context) => PendingProvider())),
     ChangeNotifierProvider(create: ((context) => UsernameProvider())),
-    ChangeNotifierProvider(create: ((context) => DonorFormProvider()))
+    ChangeNotifierProvider(create: ((context) => DonorFormProvider())),
+    ChangeNotifierProvider(create: ((context) => DonationProvider())),
+    ChangeNotifierProvider(create: ((context) => DonationDriveProvider())),
+
+
   ], child: MyApp()));
 }
 
@@ -43,7 +48,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // remove debug tag at upper left
+      debugShowCheckedModeBanner: false,
       title: "CMSC 23 PROJECT",
       initialRoute: '/',
       routes: {
@@ -54,8 +59,7 @@ class MyApp extends StatelessWidget {
         '/donor/profile': (context) => const DonorProfilePage(),
         '/organization': (context) => DonationApp(),
         '/admin': (context) => const AdminView(),
-        '/': (context) => const SignPage(),
-        '/google/donor': (context) => const GoogleDonor(),
+        '/': (context) => const SignPage()
       },
     );
   }

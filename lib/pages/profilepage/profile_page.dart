@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cmsc23project/providers/donation_provider.dart';
+import 'package:cmsc23project/providers/donation_drive_provider.dart';
 import 'organization_provider.dart';
 import '../homepage/home_page.dart';
 import '../donationpage/donation_page.dart';
 import '../donationdrivepage/donation_drives_page.dart';
 
 class ProfilePage extends StatelessWidget {
-  // List of image URLs for organization gallery
   final List<String> galleryImageUrls = [
     'https://usjr.edu.ph/wp-content/uploads/2019/12/F-350x350.jpg',
     'https://cdn.amebaowndme.com/madrid-prd/madrid-web/images/sites/1194991/1d141e9e26385a9af8b94ae468dc0645_19d705977f655bd13aeabba92126d894.jpg?width=512',
@@ -17,6 +17,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final donations = Provider.of<DonationProvider>(context).donations;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Organization Profile'),
@@ -157,7 +159,10 @@ class ProfilePage extends StatelessWidget {
             case 1:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => DonationPage()),
+                MaterialPageRoute(builder: (context) => DonationPage(
+                  donations: donations, 
+                  driveTitle: 'All Donations'
+                )),
               );
               break;
             case 2:

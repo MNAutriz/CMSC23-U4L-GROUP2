@@ -7,33 +7,12 @@ import '../donationpage/donation_page.dart';
 import '../donationdrivepage/donation_drives_page.dart';
 import '../profilepage/profile_page.dart';
 
-class HomePage extends StatelessWidget {
-  final List<Donation> donations = [
-    Donation(
-      title: 'Help Build a School in Africa',
-      description: "Support our initiative to construct a school in rural Africa, offering children access to education and a pathway out of poverty. By contributing, you're providing them with a safe and nurturing environment to learn, grow, and thrive. Let's come together to build a brighter future for these deserving children. Join us in making a difference through education.",
-      imageUrl: 'https://edgedavao.net/wp-content/uploads/2017/03/Poor-residents-photo.jpg',
-      amountRaised: 2500,
-      goal: 10000,
-    ),
-    Donation(
-      title: 'Save the Rainforest',
-      description: 'Join our campaign to safeguard endangered species and preserve the vital rainforest ecosystem. The rainforests are home to an incredible diversity of life, hosting millions of plant and animal species, many of which are found nowhere else on Earth. However, rampant deforestation, habitat destruction, and poaching pose significant threats to this precious ecosystem and the species that call it home.',
-      imageUrl: 'https://philippines.licas.news/wp-content/uploads/2020/08/20200701-Licas-Aeta-Hungey-2-scaled-e1597557910736.jpg',
-      amountRaised: 15000,
-      goal: 50000,
-    ),
-    Donation(
-      title: 'Provide Meals for the Homeless',
-      description: 'We invite you to join us in a meaningful endeavor to support the homeless and vulnerable members of our community by contributing to our initiative to provide food and essential support services. Every day, countless individuals struggle to meet their basic needs, facing hunger, homelessness, and despair. Together, we can make a difference in their lives and offer a glimmer of hope in their darkest moments.',
-      imageUrl: 'https://adra.ph/wp-content/uploads/2017/09/Gift-Boxes-Aeta-7-1024x683.jpg',
-      amountRaised: 7500,
-      goal: 10000,
-    ),
-  ];
 
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final donations = Provider.of<DonationProvider>(context).donations;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -81,9 +60,7 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  Image.asset(
-                    'images/headerorga.png',
-                  ),
+                  Image.asset('images/headerorga.png'),
                   SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -157,25 +134,25 @@ class HomePage extends StatelessWidget {
           Provider.of<DonationProvider>(context, listen: false).setIndex(index);
           switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => HomePage()),
               );
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => DonationPage()),
+                MaterialPageRoute(builder: (context) => DonationPage(donations: donations, driveTitle: 'All Donations')),
               );
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => DonationDrivesPage()),
               );
               break;
             case 3:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => ProfilePage()),
               );
@@ -194,25 +171,25 @@ class HomePage extends StatelessWidget {
         Provider.of<DonationProvider>(context, listen: false).setIndex(index);
         switch (index) {
           case 0:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
             );
             break;
           case 1:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => DonationPage()),
+              MaterialPageRoute(builder: (context) => DonationPage(donations: Provider.of<DonationProvider>(context, listen: false).donations, driveTitle: 'All Donations')),
             );
             break;
           case 2:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => DonationDrivesPage()),
             );
             break;
           case 3:
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => ProfilePage()),
             );
