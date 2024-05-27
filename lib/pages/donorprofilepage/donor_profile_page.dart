@@ -51,7 +51,7 @@ class DonorProfilePage extends StatelessWidget {
                         icon: const Icon(Icons.alternate_email, color: Color(0xFFEEF2E6))),
                       ProfileInfoTile(
                         text: donorData['email'], 
-                        icon: const Icon(Icons.alternate_email, color: Color(0xFFEEF2E6))),
+                        icon: const Icon(Icons.email_rounded, color: Color(0xFFEEF2E6))),
                       ProfileInfoTile(
                         text: donorData['contact'], 
                         icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
