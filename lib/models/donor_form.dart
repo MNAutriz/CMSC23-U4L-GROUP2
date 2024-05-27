@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class DonorForm {
+  String donorEmail;
+
   List<String> donationTypes;
   bool forPickup;
   double weight;
@@ -12,6 +14,7 @@ class DonorForm {
   List<String>? pickupAddresses;
 
   DonorForm({
+    required this.donorEmail,
     required this.donationTypes,
     required this.forPickup,
     required this.weight,
@@ -24,6 +27,7 @@ class DonorForm {
 
   factory DonorForm.fromJson(Map<String, dynamic> json) {
     // add default values if null
+    String donorEmail = json['donorEmail'];
     List<String> donationTypes = List<String>.from(json['donationTypes']);
     bool forPickup = json['forPickup'] ?? false;
     double weight = json['weight'] ?? 0.0;
@@ -36,6 +40,7 @@ class DonorForm {
         : null;
 
     return DonorForm(
+      donorEmail: donorEmail,
       donationTypes: donationTypes,
       forPickup: forPickup,
       weight: weight,
@@ -49,6 +54,7 @@ class DonorForm {
 
   Map<String, dynamic> toJson() {
     return {
+      'donorEmail': donorEmail,
       'donationTypes': donationTypes,
       'forPickup': forPickup,
       'weight': weight,

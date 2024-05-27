@@ -1,5 +1,7 @@
 import 'package:cmsc23project/models/donor_form.dart';
+import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_form_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +20,7 @@ class _SubmitFormState extends State<SubmitForm> {
   @override
   Widget build(BuildContext context) {
   final donorFormProvider = Provider.of<DonorFormProvider>(context);
+  User? user = context.watch<UserAuthProvider>().user;
 
     return Card(
       color: const Color(0xFF093731),
@@ -25,6 +28,7 @@ class _SubmitFormState extends State<SubmitForm> {
         onPressed: () async {
           if (widget.formKey.currentState!.validate()) {
             widget.formKey.currentState!.save(); // trigger onSaved callback of each form field
+            widget.formData.donorEmail = user!.email!;
             final result = await donorFormProvider.addForm(widget.formData.toJson());
             Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
             debugPrint(

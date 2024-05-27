@@ -18,7 +18,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
   int _selectedIndex = 0;
 
   String sampleImage =
-      'https://adra.ph/wp-content/uploads/2017/09/Gift-Boxes-Aeta-4-1024x683.jpg';
+      'https://media.istockphoto.com/id/1402801804/photo/closeup-nature-view-of-palms-and-monstera-and-fern-leaf-background.webp?b=1&s=170667a&w=0&k=20&c=oj5HjeYMh3RmxbjUNDiMfn6VSngH_-1uPIUPD7BhNus=';
 
   TextEditingController _searchController = TextEditingController();
   String searchQuery = '';

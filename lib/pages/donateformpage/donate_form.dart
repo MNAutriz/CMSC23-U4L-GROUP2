@@ -26,7 +26,8 @@ class _DonateFormState extends State<DonateForm> {
     weight: 0,
     weightUnit: "kg",
     donationPhoto: "",
-    donationDateTime: DateTime.now()
+    donationDateTime: DateTime.now(),
+    donorEmail: ''
   );
 
   @override
