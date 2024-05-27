@@ -1,11 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/donor_form.dart';
+import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/donor_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddressField extends StatefulWidget {
   final bool isPickupChecked;
   final DonorForm formData;
 
-  AddressField({super.key, required this.isPickupChecked, required this.formData});
+  AddressField({
+    Key? key,
+    required this.isPickupChecked,
+    required this.formData,
+  }) : super(key: key);
 
   @override
   State<AddressField> createState() => _AddressFieldState();
@@ -14,73 +23,97 @@ class AddressField extends StatefulWidget {
 class _AddressFieldState extends State<AddressField> {
   List<String> addresses = [];
   TextEditingController _textFieldController = TextEditingController();
+  String? firestoreAddress;
+  List<String> _selectedAddresses = [];
 
   @override
   Widget build(BuildContext context) {
-    return FormField<List<String>>(
-      initialValue: addresses,
-      builder: (state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: addresses.length,
-              itemBuilder: (context, index) {
-                return _buildListTile(addresses[index]);
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Card(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: _textFieldController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'New Address',
-                      labelStyle: TextStyle(
-                        color: const Color(0xFF3D8361).withOpacity(0.3),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.add, color: Color(0xFF3D8361)),
-                        onPressed: () {
-                          final newAddress = _textFieldController.text;
-                          if (newAddress.isNotEmpty) {
-                            setState(() {
-                              addresses.add(newAddress);
-                              _textFieldController.clear();
-                              widget.formData.pickupAddresses = addresses;  // Update formData
-                              debugPrint(addresses.toString());
-                            });
-                          }
-                        },
+    User? user = context.read<UserAuthProvider>().user; // get logged in user
+    return StreamBuilder<QuerySnapshot>(
+      stream: context.read<DonorProvider>().donor,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        // Extract address of logged in user from donor collection
+        firestoreAddress = snapshot.data!.docs
+            .firstWhere((doc) => doc['email'] == user!.email)['address'];
+
+        // Ensure Firestore address is added only once
+        if (addresses.isEmpty && firestoreAddress != null) {
+          addresses.add(firestoreAddress!);
+        }
+
+        return FormField<List<String>>(
+          initialValue: addresses,
+          builder: (state) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: addresses.length,
+                  itemBuilder: (context, index) {
+                    return _buildListTile(addresses[index]); // custom method to build each address
+                  },
+                ),
+                Padding( // widget for new address field
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TextField(
+                        controller: _textFieldController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: 'New Address',
+                          labelStyle: TextStyle(
+                            color: const Color(0xFF3D8361).withOpacity(0.3),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.add, color: Color(0xFF3D8361)),
+                            onPressed: () {
+                              final newAddress = _textFieldController.text;
+                              if (newAddress.isNotEmpty) {
+                                setState(() { // when plus button pressed, add new address to address list and clear textfieldcontroller
+                                  addresses.add(newAddress);
+                                  _selectedAddresses.add(newAddress); // Add the new address to the selected list
+                                  _textFieldController.clear();
+                                  debugPrint(addresses.toString());
+                                });
+                              }
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
+          validator: (value) {
+            if (widget.isPickupChecked && _selectedAddresses.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Please select at least one address.'),
+                ),
+              );
+              return 'Please select at least one address';
+            }
+            return null;
+          },
+          onSaved: (value) {
+            widget.formData.pickupAddresses = _selectedAddresses.toList();
+            debugPrint(widget.formData.pickupAddresses.toString());
+          },
         );
-      },
-      validator: (value) {
-        if (widget.isPickupChecked && addresses.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Please enter at least one address.'),
-            ),
-          );
-          return 'Please enter at least one address';
-        }
-        return null;
-      },
-      onSaved: (value) {
-        widget.formData.pickupAddresses = value!;
-        debugPrint(widget.formData.pickupAddresses.toString());
       },
     );
   }
@@ -90,6 +123,7 @@ class _AddressFieldState extends State<AddressField> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Card(
         clipBehavior: Clip.hardEdge,
+        color: _selectedAddresses.contains(address) ? Colors.green[100] : Colors.white,
         child: ListTile(
           title: Row(
             children: [
@@ -98,8 +132,8 @@ class _AddressFieldState extends State<AddressField> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     address,
-                    style: const TextStyle(
-                      color: Color(0xFF3D8361),
+                    style: TextStyle(
+                      color: _selectedAddresses.contains(address) ? Colors.green[800] : const Color(0xFF3D8361),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -110,12 +144,21 @@ class _AddressFieldState extends State<AddressField> {
                 onPressed: () {
                   setState(() {
                     addresses.remove(address);
-                    widget.formData.pickupAddresses = addresses;  // Update formData
+                    _selectedAddresses.remove(address);
                   });
                 },
               ),
             ],
           ),
+          onTap: () { // on tap card
+            setState(() { 
+              if (_selectedAddresses.contains(address)) { // if address is already in _selectedAdresses
+                _selectedAddresses.remove(address); // remove 
+              } else {
+                _selectedAddresses.add(address); // add
+              }
+            });
+          },
         ),
       ),
     );
