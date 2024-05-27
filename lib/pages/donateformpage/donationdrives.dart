@@ -16,6 +16,7 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
     final Map<String, dynamic> arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     final orgEmail = arguments['selectedOrgEmail'];
+    final orgName = arguments['orgName'];
 
     Stream<QuerySnapshot> drivesStream =
         context.watch<DonationDriveProvider>().drivesStream;
@@ -23,7 +24,7 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
-        title: const Text('Donation Drives', style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
+        title: Text("$orgName's Donation Drives", style: const TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF093731),
       ),
       backgroundColor: const Color(0xFFEEF2E6),
