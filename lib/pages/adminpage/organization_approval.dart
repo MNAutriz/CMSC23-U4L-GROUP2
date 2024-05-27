@@ -3,6 +3,7 @@ import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -80,6 +81,15 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                 leading: const Icon(Icons.person),
                 title: Text(pending.organizationName),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                  //download button for proof of legitimacy
+                  IconButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          backgroundColor: const Color(0xFF3D8361)),
+                      onPressed: () {},
+                      icon: const Icon(Icons.download)),
                   //approve button
                   IconButton(
                       style: ElevatedButton.styleFrom(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/models/username_model.dart';
@@ -6,7 +8,9 @@ import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
 import 'package:cmsc23project/providers/username_provider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +31,34 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
   String? contact;
   String? organizationName;
   User? user;
+  //proof of legitimacy
+  PlatformFile? proof;
+
+  //browse file function
+  Future browseFile() async {
+    //pick file
+    final result = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+
+    //no file selected
+    if (result == null) return;
+
+    //set proof as the selected file
+    setState(() {
+      proof = result.files.first;
+    });
+  }
+
+  //upload file to firebase with user's uid as the directory
+  Future uploadFile(String email) async {
+    final path = 'files/${email}/${proof!.name}';
+    final file = File(proof!.path!);
+
+    //upload to firebase
+    final ref = FirebaseStorage.instance.ref().child(path);
+    ref.putFile(file);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +84,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
                   contactField,
                   usernameField,
                   passwordField,
+                  uploadProof,
                   submitButton
                 ],
               ),
@@ -77,12 +110,15 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Email"),
               hintText: "Enter a valid email"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter a valid email format";
+              return "Enter a valid email format";
             }
             return null;
           },
@@ -96,19 +132,26 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Password"),
               hintText: "At least 8 characters"),
           obscureText: true,
           onSaved: (value) => setState(() => password = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter a valid password";
+              return "Enter a valid password";
             } else {
               //password length
               int pLength = value.length;
 
               if (pLength < 8) {
-                return "Please enter a password with at least 8 characters";
+                return "Enter a password with at least 8 characters";
+              }
+
+              if (pLength > 100) {
+                return "Your password is too long";
               }
             }
 
@@ -125,12 +168,15 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Complete Name"),
               hintText: "Enter your complete name"),
           onSaved: (value) => setState(() => name = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your complete name";
+              return "Enter your complete name";
             }
             return null;
           },
@@ -145,19 +191,22 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Organization Name"),
               hintText: "Enter your organization name"),
           onSaved: (value) => setState(() => organizationName = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your organization name";
+              return "Enter your organization name";
             }
             return null;
           },
         ),
       );
 
-  //contact field
+  //first name field
   Widget get contactField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -167,12 +216,15 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Contact Number"),
               hintText: "Enter your contact number"),
           onSaved: (value) => setState(() => contact = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your contact number";
+              return "Enter your contact number";
             }
 
             //check if the input contact number is an integer
@@ -180,7 +232,21 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
 
             //check if not an integer
             if (check == null) {
-              return "Please enter a valid contact number";
+              return "Enter a valid contact number";
+            }
+
+            //password length
+            int cLength = value.length;
+
+            //check if contact number starts in "09"
+            var format = value.substring(0, 2);
+            if (format != "09") {
+              return "Enter your number in the format 09XXXXXXXXX";
+            }
+
+            //check if contact number is 11 digits
+            if (cLength != 11) {
+              return "Enter your 11 digit contact number";
             }
 
             //no error
@@ -197,13 +263,29 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Username"),
               hintText: "Enter your username"),
           onSaved: (value) => setState(() => username = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your username";
+              return "Enter your username";
             }
+
+            int uLength = value.length;
+
+            //too short username
+            if (uLength < 6) {
+              return "Your username is too short (6 to 30 chars only)";
+            }
+
+            //too long username
+            if (uLength > 30) {
+              return "Your username is too long (6 to 30 chars only)";
+            }
+
             return null;
           },
         ),
@@ -217,12 +299,15 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF1C6758), width: 2.0)),
+              floatingLabelStyle: TextStyle(color: Color(0xFF1C6758)),
               label: Text("Address"),
               hintText: "Enter your address"),
           onSaved: (value) => setState(() => address = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your address";
+              return "Enter your address";
             }
             return null;
           },
@@ -236,53 +321,65 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
 
-                String? validateEmail = await context
-                    .read<UserAuthProvider>()
-                    .authService
-                    .signUp(email!, password!);
-
-                //if the email is valid
-                if (validateEmail == "") {
-                  //get user
-                  user = context.read<UserAuthProvider>().user;
-                  //create organization object for applying
-                  Organization org = Organization(
-                      id: user!.uid,
-                      organizationName: organizationName!,
-                      email: email!,
-                      username: username!,
-                      name: name!,
-                      address: address!,
-                      contact: contact!);
-
-                  //register as donor initially
-                  Donor donor = Donor(
-                      id: user!.uid,
-                      email: email!,
-                      username: username!,
-                      name: name!,
-                      address: address!,
-                      contact: contact!);
-
-                  //create username object for saving username and email
-                  Username userlogin = Username(
-                      id: user!.uid, email: email!, username: username!);
-
-                  context.read<PendingProvider>().addPending(org);
-                  context.read<DonorProvider>().addDonor(donor);
-                  context.read<UsernameProvider>().addUsername(userlogin);
-
-                  // check if the widget hasn't been disposed of after an asynchronous action
-                  if (mounted) {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  }
-                } else {
+                //no uploaded file
+                if (proof == null) {
                   //snackbar containing the error message
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(validateEmail!),
+                    content: Text("Please enter your proof/s of legitimacy"),
                     backgroundColor: Colors.red,
                   ));
+                } else {
+                  String? validateEmail = await context
+                      .read<UserAuthProvider>()
+                      .authService
+                      .signUp(email!, password!);
+
+                  //if the email is valid
+                  if (validateEmail == "") {
+                    //get user
+                    user = context.read<UserAuthProvider>().user;
+                    //create organization object for applying
+                    Organization org = Organization(
+                        id: user!.uid,
+                        organizationName: organizationName!,
+                        email: email!,
+                        username: username!,
+                        name: name!,
+                        address: address!,
+                        contact: contact!);
+
+                    //register as donor initially
+                    Donor donor = Donor(
+                        id: user!.uid,
+                        email: email!,
+                        username: username!,
+                        name: name!,
+                        address: address!,
+                        contact: contact!);
+
+                    //create username object for saving username and email
+                    Username userlogin = Username(
+                        id: user!.uid, email: email!, username: username!);
+
+                    context.read<PendingProvider>().addPending(org);
+                    context.read<DonorProvider>().addDonor(donor);
+                    context.read<UsernameProvider>().addUsername(userlogin);
+
+                    //upload pdf file to firebase storage
+                    await uploadFile(user!.email!);
+
+                    // check if the widget hasn't been disposed of after an asynchronous action
+                    if (mounted) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
+                  } else {
+                    //snackbar containing the error message
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(validateEmail!),
+                      backgroundColor: Colors.red,
+                    ));
+                  }
                 }
               }
             },
@@ -295,4 +392,27 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
             child: const Text("Sign up",
                 style: TextStyle(color: Colors.white, fontFamily: "Freeman"))),
       );
+
+  //widget for uploading proof/s of legitimacy
+  Widget get uploadProof => Column(children: [
+        const Text("Upload proofs of legitimacy (PDF)"),
+        SizedBox(
+            width: 350,
+            child: ElevatedButton(
+                onPressed: () async {
+                  browseFile();
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3D8361),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0))),
+                child: const Text("Browse files",
+                    style: TextStyle(
+                        color: Colors.white, fontFamily: "Freeman")))),
+        SizedBox(
+          height: 30,
+        )
+      ]);
 }
