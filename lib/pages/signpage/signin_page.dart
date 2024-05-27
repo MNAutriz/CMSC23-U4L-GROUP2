@@ -88,12 +88,12 @@ class _SignInPageState extends State<SignInPage> {
               filled: true,
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
-              label: Text("Username"),
-              hintText: "Enter your username/email"),
+              label: Text("Email or username"),
+              hintText: "Enter your email or username"),
           onSaved: (value) => setState(() => email = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your username/email";
+              return "Enter your username/email";
             }
             return null;
           },
@@ -108,12 +108,12 @@ class _SignInPageState extends State<SignInPage> {
               fillColor: Color(0xFFD6CDA4),
               border: OutlineInputBorder(),
               label: Text("Password"),
-              hintText: "******"),
+              hintText: "Enter your password"),
           obscureText: true,
           onSaved: (value) => setState(() => password = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your password";
+              return "Enter your password";
             }
             return null;
           },
