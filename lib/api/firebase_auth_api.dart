@@ -83,7 +83,11 @@ class FirebaseAuthAPI {
   }
 
   Future<void> signOut() async {
-    await GoogleSignIn().disconnect();
     await auth.signOut();
+    try {
+      await GoogleSignIn().disconnect();
+    } catch (e) {
+      print(e);
+    }
   }
 }
