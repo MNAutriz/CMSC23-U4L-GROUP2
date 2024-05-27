@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
+import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,37 +12,56 @@ class DonorProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? user = context.watch<UserAuthProvider>().user;
-
-    String firstName = "Lorem";
-    String lastName = "Ipsum";
-    String contactNo = '091712312345';
+    Stream<QuerySnapshot> donorStream = context.read<DonorProvider>().donor;
     
-
     return SafeArea(
       // so that first widget is rendered under the status bar
       child: Scaffold(
           backgroundColor: const Color(0xFFEEF2E6),
-          // appBar: AppBar(
-          //   automaticallyImplyLeading: false,
-          //   // title: Text("${sample.firstname} ${sample.lastname}",
-          //   //   style: const TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
-          //   iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
-          //   backgroundColor: const Color(0xFF093731),
-          // ),
           body: SingleChildScrollView(
             child: Column(children: [
               const ProfilePictureStack(),
-              const SizedBox(height: 150),
-              ProfileInfoTile(
-                  text: "$firstName $lastName",
-                  icon: const Icon(Icons.person, color: Color(0xFFEEF2E6))),
-              ProfileInfoTile(
-                  text: "${user!.email}",
-                  icon: const Icon(Icons.alternate_email,
-                      color: Color(0xFFEEF2E6))),
-              ProfileInfoTile(
-                  text: contactNo,
-                  icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
+              const SizedBox(height: 100),
+
+              StreamBuilder(
+                stream: donorStream, 
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Text('No data available');
+                  }
+
+                   // Get donor information based on user's email
+                  var donorData = snapshot.data!.docs
+                      .firstWhere((doc) => doc['email'] == user!.email);
+
+                  return Column(
+                    children: [
+                      ProfileInfoTile(
+                        text: donorData['name'],
+                        icon: const Icon(Icons.person, color: Color(0xFFEEF2E6)),
+                      ),
+                      ProfileInfoTile(
+                        text: donorData['username'], 
+                        icon: const Icon(Icons.alternate_email, color: Color(0xFFEEF2E6))),
+                      ProfileInfoTile(
+                        text: donorData['email'], 
+                        icon: const Icon(Icons.alternate_email, color: Color(0xFFEEF2E6))),
+                      ProfileInfoTile(
+                        text: donorData['contact'], 
+                        icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
+                      ProfileInfoTile(
+                        text: donorData['address'], 
+                        icon: const Icon(Icons.house, color: Color(0xFFEEF2E6)))
+                    ],
+                  );
+                }
+                ),
             ]),
           )),
     );
@@ -57,7 +77,7 @@ class ProfileInfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16),
+      padding: const EdgeInsets.only(left: 32.0, right: 32.0, bottom: 10),
       child: ListTile(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),

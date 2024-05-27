@@ -34,4 +34,27 @@ class FirebaseDonorAPI {
   CollectionReference<Map<String, dynamic>> getDonorCollection() {
     return db.collection("donors");
   }
+
+  // // fetch donor address
+  // Future<String?> getDonorAddress(String id) async {
+  //   try {
+  //     DocumentSnapshot<Map<String, dynamic>> donorSnapshot =
+  //         await db.collection("donors").doc(id).get();
+
+  //     if (donorSnapshot.exists) {
+  //       // Check if the address field exists in the donor document
+  //       if (donorSnapshot.data()!.containsKey('address')) {
+  //         // Return the address field value
+  //         return donorSnapshot.data()!['address'] as String?;
+  //       } else {
+  //         return "Address field does not exist for this donor.";
+  //       }
+  //     } else {
+  //       return "Donor with ID $id does not exist.";
+  //     }
+  //   } on FirebaseException catch (e) {
+  //     // Handle Firebase exceptions
+  //     return "Error in ${e.code}: ${e.message}";
+  //   }
+  // }
 }

@@ -18,8 +18,9 @@ class UploadPhotoButtons extends StatefulWidget {
 }
 
 class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
+  
   File? _selectedImage;
-  // String? base64Image;
+  String? base64Image;
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +96,7 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
                   ],
                 )
               : const SizedBox(),
+          // if(base64Image != null ) Image.memory(base64Decode(base64Image!)), // for testing if encoding/decoding works
         ],
       );
       },
@@ -116,6 +118,9 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
 
     setState(() {
       _selectedImage = File(returnedImage.path);
+
+      // if(_selectedImage != null) base64Image = ImageConstants().convertToBase64(_selectedImage!);
+
       debugPrint(_selectedImage.toString());
 
     });
@@ -129,6 +134,9 @@ class _UploadPhotoButtonsState extends State<UploadPhotoButtons> {
 
     setState(() {
       _selectedImage = File(returnedImage.path);
+
+      // if(_selectedImage != null) base64Image = ImageConstants().convertToBase64(_selectedImage!);
+
       debugPrint(_selectedImage.toString());
     });
   }

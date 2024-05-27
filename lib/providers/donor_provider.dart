@@ -44,4 +44,9 @@ class DonorProvider with ChangeNotifier {
     _donorsCollection = firebaseService.getDonorCollection();
     notifyListeners();
   }
+
+  // // get donor address
+  // Future<String?> getDonorAddress(String id) async {
+  //   return await firebaseService.getDonorAddress(id);
+  // }
 }

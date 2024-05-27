@@ -26,7 +26,11 @@ class _DonorHomePageState extends State<DonorHomePage> {
   @override
   void initState() {
     super.initState();
+    
+      Future.delayed(Duration.zero, () { // need future.delayed so that it will fetchorganizations after build phase is complete
     context.read<OrganizationProvider>().fetchOrganizations();
+  });
+
     _searchController.addListener(() {
       setState(() {
         searchQuery = _searchController.text.toLowerCase();

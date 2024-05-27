@@ -10,8 +10,8 @@ class ImageConstants{
     List<int> imageBytes = file.readAsBytesSync();
     String base64Image = base64Encode(imageBytes);
 
-    // return 'data:image/jpeg;base64,$base64Image';
-    return base64Image;
+    // return 'data:image/jpeg;base64,$base64Image'; // di ko alam kung pano irender pag ganito format haha
+    return base64Image; // to render base64 Image.memory(base64Decode(string))
   }
   
   dynamic decodeBase64(String encoded) {
