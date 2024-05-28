@@ -14,7 +14,7 @@ class DonationDriveCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       elevation: 4,
       color: Colors.white, // Set the background color to white
       child: Column(
@@ -26,20 +26,20 @@ class DonationDriveCard extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   donationDrive.title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   donationDrive.description,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -52,7 +52,7 @@ class DonationDriveCard extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Text('See details'),
+                      child: const Text('See details'),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -63,14 +63,14 @@ class DonationDriveCard extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Text('Edit'),
+                      child: const Text('Edit'),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         Provider.of<DonationDriveProvider>(context, listen: false)
                             .deleteDonationDrive(donationDrive.id);
                       },
-                      child: Text('Delete'),
+                      child: const Text('Delete'),
                     ),
                   ],
                 ),
