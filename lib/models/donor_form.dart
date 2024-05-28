@@ -17,6 +17,9 @@ class DonorForm {
   String orgId;
   String orgName;
 
+  String donationDriveName;
+  String donationDriveId;
+
   List<String> donationTypes;
   bool forPickup;
   double weight;
@@ -28,6 +31,7 @@ class DonorForm {
   Status status;
 
   DonorForm({
+    required this.donationDriveName,
     required this.donorEmail,
     required this.orgId,
     required this.orgName,
@@ -37,6 +41,7 @@ class DonorForm {
     required this.weightUnit,
     required this.donationPhoto,
     required this.donationDateTime,
+    required this.donationDriveId,
     this.contactNo,
     this.pickupAddresses,
     required this.status,
@@ -44,6 +49,8 @@ class DonorForm {
 
   factory DonorForm.fromJson(Map<String, dynamic> json) {
     // add default values if null
+    String donationDriveName = json['donationDriveName'];
+    String donationDriveId = json['donationDriveId'];
     String donorEmail = json['donorEmail'];
     String orgId = json['orgId'];
     String orgName = json['orgName'];
@@ -60,6 +67,8 @@ class DonorForm {
     Status status = json['status'];
 
     return DonorForm(
+      donationDriveName: donationDriveName,
+      donationDriveId: donationDriveId,
       donorEmail: donorEmail,
       orgId: orgId,
       orgName: orgName,
@@ -77,6 +86,8 @@ class DonorForm {
 
   Map<String, dynamic> toJson() {
     return {
+      'donationDriveName': donationDriveName,
+      'donationDriveId': donationDriveId,
       'donorEmail': donorEmail,
       'orgId': orgId,
       'orgName': orgName,
