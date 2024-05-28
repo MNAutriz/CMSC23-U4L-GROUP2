@@ -17,36 +17,59 @@ class DonationDriveDetailsPage extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
-          title: Text("Donation Drive Info")
+          title: const Text("Donation Drive Info")
         ),
-        body: StreamBuilder(
-          stream: _formsStream,
-          builder: (context, snapshot) {
-              if (snapshot.hasError) {
-              return Center(child: Text("Error encountered! ${snapshot.error}"));
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return const Center(child: Text("No donation drives in collection."));
-            }
+        body: Column(
+          children: [
+            Column(
+              children: [
+                Text(donationDrive.title),
+                Text(donationDrive.description),
+                // Text(donationDrive.donations.toString()),
+                const Text("FORMS:")
+              ],
+            ),
+            Expanded(
+              child: StreamBuilder(
+                stream: _formsStream,
+                builder: (context, snapshot) {
 
-            // filter forms that have same orgemail
-            final docs = snapshot.data!.docs.where((doc) => doc['donationDriveId'] == donationDrive.id).toList();
-
-            return ListView.builder(
-              itemCount: docs.length,
-              itemBuilder: (context, index){
-                final formData = docs[index].data() as Map<String, dynamic>;
-                return Card(
-                  child: Column(
-                    children: [
-                      Text(docs[index].id)
-                    ]
-                  )
-                );
-              },
-            );
-          }
+                    if (snapshot.hasError) {
+                    return Center(child: Text("Error encountered! ${snapshot.error}"));
+                  } else if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Center(child: Text("No donation drives in collection."));
+                  }
+              
+                  // filter forms that have same orgemail
+                  final docs = snapshot.data!.docs.where((doc) => doc['donationDriveId'] == donationDrive.id).toList();
+              
+                  return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index){
+                      final formData = docs[index].data() as Map<String, dynamic>;
+                      return Card(
+                        clipBehavior: Clip.hardEdge,
+                        child: InkWell(
+                          onTap: () {
+                            // display form info
+                            // TODO: create form info page (can update status inside this page)
+                          },
+                          child: Column(
+                            children: [
+                              Text(docs[index].id),
+                              Text(formData['donationTypes'].toString()),
+                            ]
+                          ),
+                        )
+                      );
+                    },
+                  );
+                }
+              ),
+            ),
+          ],
         )
       );
 

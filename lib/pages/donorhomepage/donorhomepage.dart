@@ -164,7 +164,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                                   context, '/donor/donatedrives', arguments: {
                                     'selectedOrgEmail': _selectedOrgEmail,
                                     'orgID': org.id,
-                                    'orgName': org.name,
+                                    'orgName': org.organizationName,
                                   }); // include selected organization email as an argument to be used in donatedrives route
                             })),
                   ),
