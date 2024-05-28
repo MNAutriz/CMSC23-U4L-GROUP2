@@ -30,7 +30,7 @@ class _DonorViewState extends State<DonorView> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Homepage'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.file_copy), label: 'Forms'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Donations'),
         ],
         onTap: (index) {
           setState(() {
