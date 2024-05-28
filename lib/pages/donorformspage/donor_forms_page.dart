@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/models/donor_form.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class DonorFormsPage extends StatefulWidget {
@@ -15,12 +17,15 @@ class DonorFormsPage extends StatefulWidget {
 class _DonorFormsPageState extends State<DonorFormsPage> {
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> formsStream = context.watch<DonorFormProvider>().formsStream;
+    Stream<QuerySnapshot> formsStream =
+        context.watch<DonorFormProvider>().formsStream;
     User? user = context.watch<UserAuthProvider>().user;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Submitted Forms"),
+        title: const Text("My Submitted Forms",  style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF093731),
+        centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: formsStream,
@@ -38,7 +43,9 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
           }
 
           // filter forms where donorEmail is the same as logged in email
-          var docs = snapshot.data!.docs.where((doc) => doc['donorEmail'] == user!.email).toList();
+          var docs = snapshot.data!.docs
+              .where((doc) => doc['donorEmail'] == user!.email)
+              .toList();
 
           return ListView.builder(
             itemCount: docs.length,
@@ -46,38 +53,51 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
               var form = docs[index].data() as Map<String, dynamic>;
               var formId = docs[index].id;
 
-              return Card(
-                margin: const EdgeInsets.all(10.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Form ID: $formId"),
-                      const SizedBox(height: 5),
-                      Text("Donation Types: ${form['donationTypes'].join(', ')}",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 5),
-                      Text("Date and Time: ${form['donationDateTime']}",
-                          style: const TextStyle(fontSize: 14)),
-                      const SizedBox(height: 5),
-                      Text("Weight: ${form['weight']} ${form['weightUnit']}",
-                          style: const TextStyle(fontSize: 14)),
-                      const SizedBox(height: 5),
-                      Text("For Pickup: ${form['forPickup'] ? 'Yes' : 'No'}",
-                          style: const TextStyle(fontSize: 14)),
-                      const SizedBox(height: 5),
-                      form['forPickup']
-                          ? Text("Pickup Address: ${form['pickupAddresses'] ?? 'N/A'}",
-                              style: const TextStyle(fontSize: 14))
-                          : Container(),
-                      const SizedBox(height: 5),
-                      Text("Contact No: ${form['contactNo'] ?? 'N/A'}",
-                          style: const TextStyle(fontSize: 14)),
-                    ],
-                  ),
-                ),
-              );
+              return Row(
+  children: [
+    Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0), // Adjust padding here
+        child: Card(
+          clipBehavior: Clip.hardEdge,
+          color: const Color(0xFF3D8361),
+          child: InkWell(
+            onTap: (){
+              // show form information
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Donation to ${form['orgName']}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFFEEF2E6))),
+                  Text("Id: $formId"),
+                  Text("Donation Types: ${form['donationTypes'].join(", ")}"), // .join() concatenates elements into a single string with a separator
+                  Text("Status: ${getStatusString(form['status'] ?? -1)}", style: TextStyle(color: getStatusColor(form['status'] ?? -1), fontWeight: FontWeight.bold, fontSize: 15)), // if null status, return -1
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(4.0), // Adjust padding here
+      child: Card(
+        color: Colors.red,
+        clipBehavior: Clip.hardEdge,
+        child: InkWell(
+          onTap: (){},
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(child: Text("Cancel", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold))),
+          ),
+        ),
+      ),
+    )
+  ],
+);
+
             },
           );
         },
@@ -90,4 +110,44 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
       child: Text("No submitted forms yet."),
     );
   }
+
+  String getStatusString(int status) {
+    switch (status) {
+      case 0:
+        return 'Pending';
+      case 1:
+        return 'Confirmed';
+      case 2:
+        return 'Active';
+      case 3:
+        return 'Inactive';
+      case 4:
+        return 'Suspended';
+      case 5:
+        return 'Banned';
+      default:
+        return 'Unknown'; // Handle any other status value
+    }
+  }
+
+  // sample colors for donation status
+  Color getStatusColor(int status) {
+  switch (status) {
+    case 0:
+      return Colors.orange; // Pending
+    case 1:
+      return Colors.blue; // Confirmed
+    case 2:
+      return Colors.green; // Active
+    case 3:
+      return Colors.grey; // Inactive
+    case 4:
+      return Colors.yellow; // Suspended
+    case 5:
+      return Colors.red; // Banned
+    default:
+      return Colors.black; // Unknown status
+  }
+}
+
 }

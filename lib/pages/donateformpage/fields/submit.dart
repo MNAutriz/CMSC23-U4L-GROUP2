@@ -31,12 +31,12 @@ class _SubmitFormState extends State<SubmitForm> {
                 .save(); // trigger onSaved callback of each form field
             widget.formData.donorEmail = user!.email!;
 
-            final result =
+            // final result =
                 await donorFormProvider.addForm(widget.formData.toJson());
 
             // Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            // Navigator.pop(context);
             // Navigator.push(
             //   context,
             //   MaterialPageRoute(
@@ -44,7 +44,8 @@ class _SubmitFormState extends State<SubmitForm> {
             //   ),
             // );
 
-            // Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+            
             debugPrint(
                 'Donation Form Successfully Submitted!\nDonation Types: ${widget.formData.donationTypes}\n'
                 'For Pickup: ${widget.formData.forPickup}\n'

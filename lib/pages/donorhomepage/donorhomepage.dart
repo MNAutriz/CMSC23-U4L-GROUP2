@@ -119,7 +119,12 @@ class _DonorHomePageState extends State<DonorHomePage> {
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const SliverToBoxAdapter(
             child: Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                children: [
+                  Text("Loading organizations"),
+                  CircularProgressIndicator(),
+                ],
+              ),
             ),
           );
         } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
