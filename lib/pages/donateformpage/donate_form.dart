@@ -29,14 +29,26 @@ class _DonateFormState extends State<DonateForm> {
     weightUnit: "kg",
     donationPhoto: "",
     donationDateTime: DateTime.now(),
-    donorEmail: ''
+    donorEmail: '',
+    orgId: '',
+    status: Status.pending, // default status when uploading a form
+    orgName: ''
   );
 
   String selectedOrgEmail = ''; // when user clicks an organization, its email will be stored here
-
+  
   @override
   Widget build(BuildContext context) {
-    // bool isPickupChecked;
+    // extract navigator arguments
+    final Map<String, dynamic> arguments =
+    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
+    final orgEmail = arguments['selectedOrgEmail'];
+    final orgName = arguments['orgName'];
+    final orgId = arguments['orgID'];
+
+    formData.orgId = orgId;
+    formData.orgName = orgName;
 
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),
