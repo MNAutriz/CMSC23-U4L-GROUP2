@@ -34,7 +34,7 @@ class _DonateFormState extends State<DonateForm> {
     status: Status.pending, // default status when uploading a form
     orgName: '',
     donationDriveId: '',
-    donationDriveName: ''
+    donationDriveName: '',
   );
 
   String selectedOrgEmail = ''; // when user clicks an organization, its email will be stored here

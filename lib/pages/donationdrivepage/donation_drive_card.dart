@@ -6,10 +6,12 @@ import '../donationdrivepage/donation_drive_model.dart';
 import 'edit_donation_drive_page.dart';
 import 'donation_drive_details.dart';
 
+// template for a donation drive card in org view
 class DonationDriveCard extends StatelessWidget {
   final DonationDrive donationDrive;
+  final String orgEmail;
 
-  DonationDriveCard({required this.donationDrive});
+  DonationDriveCard({required this.donationDrive, required this.orgEmail});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class DonationDriveCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DonationDriveDetailsPage(donationDrive: donationDrive),
+                            builder: (context) => DonationDriveDetailsPage(donationDrive: donationDrive, orgEmail: orgEmail,),
                           ),
                         );
                       },
