@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/organization_model.dart';
+import 'package:cmsc23project/pages/adminpage/download_proof.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
@@ -88,7 +89,13 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           backgroundColor: const Color(0xFF3D8361)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DownloadProof(email: pending.email)));
+                      },
                       icon: const Icon(Icons.download)),
                   //approve button
                   IconButton(
