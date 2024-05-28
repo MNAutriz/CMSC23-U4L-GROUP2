@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
-import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +11,6 @@ class AddDonationDrivePage extends StatefulWidget {
   _AddDonationDrivePageState createState() => _AddDonationDrivePageState();
 }
 
-// form page that adds a donation drive
 class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
@@ -22,15 +19,15 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
   List<String> _proofOfDonationsUrls = [];
   List<Donation> _donations = [];
 
-  String organizationEmail = ''; // store organization email that is fetched from firebase and matched with organizations collection
+  final TextEditingController _donationTitleController = TextEditingController();
+  final TextEditingController _donationDescriptionController = TextEditingController();
+  final TextEditingController _donationImageUrlController = TextEditingController();
+  final TextEditingController _donationAmountRaisedController = TextEditingController();
+  final TextEditingController _donationGoalController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    
     final donationDriveProvider = Provider.of<DonationDriveProvider>(context);
-
-    User? user = context.watch<UserAuthProvider>().user;
-    organizationEmail = user!.email!; // assign logged in user as the organizationEmail
 
     return Scaffold(
       appBar: AppBar(
@@ -41,76 +38,122 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Title'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a title';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _title = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Description'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a description';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _description = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Cover Photo URL'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a cover photo URL';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _coverPhotoUrl = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Proof of Donations URLs (comma separated)'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter at least one proof of donations URL';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _proofOfDonationsUrls = value!.split(',').map((url) => url.trim()).toList();
-                },
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    DonationDrive newDonationDrive = DonationDrive(
-                      id: DateTime.now().millisecondsSinceEpoch.toString(),
-                      title: _title,
-                      description: _description,
-                      coverPhoto: _coverPhotoUrl,
-                      donationProofs: [..._proofOfDonationsUrls],
-                      donations: _donations,
-                      orgEmail: organizationEmail
-                    );
-                    await donationDriveProvider.addDonationDrive(newDonationDrive.toJson()); // convert object to a Map<String, dynamic> before passing to addDonationDrive
-                    Navigator.pop(context);
-                  }
-                },
-                child: const Text('Create'),
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Title'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a title';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _title = value!;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Description'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a description';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _description = value!;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Cover Photo URL'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a cover photo URL';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _coverPhotoUrl = value!;
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Proof of Donations URLs (comma separated)'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter at least one proof of donations URL';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _proofOfDonationsUrls = value!.split(',').map((url) => url.trim()).toList();
+                  },
+                ),
+                SizedBox(height: 20),
+                Text('Add Donations:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                TextFormField(
+                  controller: _donationTitleController,
+                  decoration: InputDecoration(labelText: 'Donation Title'),
+                ),
+                TextFormField(
+                  controller: _donationDescriptionController,
+                  decoration: InputDecoration(labelText: 'Donation Description'),
+                ),
+                TextFormField(
+                  controller: _donationImageUrlController,
+                  decoration: InputDecoration(labelText: 'Donation Image URL'),
+                ),
+                TextFormField(
+                  controller: _donationAmountRaisedController,
+                  decoration: InputDecoration(labelText: 'Amount Raised'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextFormField(
+                  controller: _donationGoalController,
+                  decoration: InputDecoration(labelText: 'Goal Amount'),
+                  keyboardType: TextInputType.number,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _donations.add(Donation(
+                        title: _donationTitleController.text,
+                        description: _donationDescriptionController.text,
+                        imageUrl: _donationImageUrlController.text,
+                        amountRaised: double.parse(_donationAmountRaisedController.text),
+                        goal: double.parse(_donationGoalController.text),
+                      ));
+                      _donationTitleController.clear();
+                      _donationDescriptionController.clear();
+                      _donationImageUrlController.clear();
+                      _donationAmountRaisedController.clear();
+                      _donationGoalController.clear();
+                    });
+                  },
+                  child: Text('Add Donation'),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      DonationDrive newDonationDrive = DonationDrive(
+                        id: DateTime.now().millisecondsSinceEpoch.toString(),
+                        title: _title,
+                        description: _description,
+                        coverPhoto: _coverPhotoUrl,
+                        donationProofs: [..._proofOfDonationsUrls],
+                        donations: _donations,
+                        orgEmail: 'example@example.com', // replace with actual email
+                      );
+                      await donationDriveProvider.addDonationDrive(newDonationDrive.toJson()); // convert object to a Map<String, dynamic> before passing to addDonationDrive
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: const Text('Create'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
