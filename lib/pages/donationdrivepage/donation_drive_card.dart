@@ -2,11 +2,10 @@ import '../../providers/donation_drive_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cmsc23project/providers/donation_drive_provider.dart' as provider;
-import 'donation_drive_model.dart';
+import '../donationdrivepage/donation_drive_model.dart';
 import 'edit_donation_drive_page.dart';
 import 'donation_drive_details.dart';
 
-// builder for a Donation Drive card
 class DonationDriveCard extends StatelessWidget {
   final DonationDrive donationDrive;
 
@@ -17,11 +16,12 @@ class DonationDriveCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(10),
       elevation: 4,
+      color: Colors.white, // Set the background color to white
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Image.network(
-            donationDrive.imageUrls.isNotEmpty ? donationDrive.imageUrls[0] : 'https://via.placeholder.com/150',
+            donationDrive.coverPhoto.isNotEmpty ? donationDrive.coverPhoto : 'https://via.placeholder.com/150',
             height: 200,
             fit: BoxFit.cover,
           ),

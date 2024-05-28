@@ -2,9 +2,8 @@ import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'donation_drive_model.dart';
+import '../donationdrivepage/donation_drive_model.dart';
 import '../../providers/donation_drive_provider.dart';
-import '../homepage/donation_model.dart';
 
 class EditDonationDrivePage extends StatefulWidget {
   final DonationDrive donationDrive;
@@ -19,21 +18,22 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
   final _formKey = GlobalKey<FormState>();
   late String _title;
   late String _description;
-  late List<String> _imageUrls;
+  late String _coverPhoto;
+  late List<String> _donationProofs;
 
   @override
   void initState() {
     super.initState();
-    _title = widget.donationDrive.title;
-    _description = widget.donationDrive.description;
-    _imageUrls = widget.donationDrive.imageUrls;
+    _title = widget.donationDrive.title ?? '';
+    _description = widget.donationDrive.description ?? '';
+    _coverPhoto = widget.donationDrive.coverPhoto ?? '';
+    _donationProofs = widget.donationDrive.donationProofs ?? [];
   }
 
   @override
   Widget build(BuildContext context) {
-
     User? user = context.watch<UserAuthProvider>().user;
-    String orgEmail = user!.email!;
+    String orgEmail = user?.email ?? '';
 
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +56,7 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _title = value!;
+                  _title = value ?? '';
                 },
               ),
               TextFormField(
@@ -69,20 +69,33 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _description = value!;
+                  _description = value ?? '';
                 },
               ),
               TextFormField(
-                initialValue: _imageUrls.join(', '),
-                decoration: InputDecoration(labelText: 'Image URLs (comma separated)'),
+                initialValue: _coverPhoto,
+                decoration: InputDecoration(labelText: 'Cover Photo URL'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter at least one image URL';
+                    return 'Please enter a cover photo URL';
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  _imageUrls = value!.split(',').map((url) => url.trim()).toList();
+                  _coverPhoto = value ?? '';
+                },
+              ),
+              TextFormField(
+                initialValue: _donationProofs.join(', '),
+                decoration: InputDecoration(labelText: 'Donation Proof URLs (comma separated)'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter at least one donation proof URL';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _donationProofs = value?.split(',').map((url) => url.trim()).toList() ?? [];
                 },
               ),
               ElevatedButton(
@@ -93,9 +106,10 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
                       id: widget.donationDrive.id,
                       title: _title,
                       description: _description,
-                      imageUrls: _imageUrls,
+                      coverPhoto: _coverPhoto,
+                      donationProofs: _donationProofs,
                       donations: widget.donationDrive.donations,
-                      orgEmail: orgEmail
+                      orgEmail: orgEmail,
                     );
                     Provider.of<DonationDriveProvider>(context, listen: false).editDonationDrive(updatedDrive.id, updatedDrive.toJson());
                     Navigator.pop(context);

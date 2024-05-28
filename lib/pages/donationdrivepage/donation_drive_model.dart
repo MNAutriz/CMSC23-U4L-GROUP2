@@ -4,8 +4,8 @@ class DonationDrive {
   String id;
   String title;
   String description;
-  String coverPhoto; // Updated property name
-  List<String> donationProofs; // Updated property name
+  String coverPhoto;
+  List<String> donationProofs;
   List<Donation> donations;
   String orgEmail;
 
@@ -24,8 +24,8 @@ class DonationDrive {
       'id': id,
       'title': title,
       'description': description,
-      'coverPhoto': coverPhoto, // Updated property name
-      'donationProofs': donationProofs, // Updated property name
+      'coverPhoto': coverPhoto,
+      'donationProofs': donationProofs,
       'donations': donations.map((donation) => donation.toJson()).toList(),
       'orgEmail': orgEmail,
     };
@@ -33,13 +33,13 @@ class DonationDrive {
 
   factory DonationDrive.fromJson(Map<String, dynamic> json) {
     return DonationDrive(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      coverPhoto: json['coverPhoto'], // Updated property name
-      donationProofs: List<String>.from(json['donationProofs']), // Updated property name
-      donations: List<Donation>.from(json['donations'].map((donation) => Donation.fromJson(donation))),
-      orgEmail: json['orgEmail'],
+      id: json['id'] ?? '',
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      coverPhoto: json['coverPhoto'] ?? '',
+      donationProofs: List<String>.from(json['donationProofs'] ?? []),
+      donations: List<Donation>.from(json['donations']?.map((donation) => Donation.fromJson(donation)) ?? []),
+      orgEmail: json['orgEmail'] ?? '',
     );
   }
 }
