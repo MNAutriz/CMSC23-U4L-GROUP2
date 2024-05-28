@@ -7,6 +7,11 @@ import '../../providers/donation_drive_provider.dart';
 import '../homepage/donation_model.dart';
 
 class AddDonationDrivePage extends StatefulWidget {
+  
+  String orgEmail;
+  
+  AddDonationDrivePage({super.key, required this.orgEmail});
+
   @override
   _AddDonationDrivePageState createState() => _AddDonationDrivePageState();
 }
@@ -31,7 +36,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Donation Drive'),
+        title: const Text('Create Donation Drive'),
         backgroundColor: Color(0xFF093731),
       ),
       body: Padding(
@@ -42,7 +47,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
             child: Column(
               children: [
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Title'),
+                  decoration: const InputDecoration(labelText: 'Title'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a title';
@@ -54,7 +59,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Description'),
+                  decoration: const InputDecoration(labelText: 'Description'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a description';
@@ -66,7 +71,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Cover Photo URL'),
+                  decoration: const InputDecoration(labelText: 'Cover Photo URL'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a cover photo URL';
@@ -78,7 +83,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Proof of Donations URLs (comma separated)'),
+                  decoration: const InputDecoration(labelText: 'Proof of Donations URLs (comma separated)'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter at least one proof of donations URL';
@@ -89,28 +94,28 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                     _proofOfDonationsUrls = value!.split(',').map((url) => url.trim()).toList();
                   },
                 ),
-                SizedBox(height: 20),
-                Text('Add Donations:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
+                const Text('Add Donations:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 TextFormField(
                   controller: _donationTitleController,
-                  decoration: InputDecoration(labelText: 'Donation Title'),
+                  decoration: const InputDecoration(labelText: 'Donation Title'),
                 ),
                 TextFormField(
                   controller: _donationDescriptionController,
-                  decoration: InputDecoration(labelText: 'Donation Description'),
+                  decoration: const InputDecoration(labelText: 'Donation Description'),
                 ),
                 TextFormField(
                   controller: _donationImageUrlController,
-                  decoration: InputDecoration(labelText: 'Donation Image URL'),
+                  decoration: const InputDecoration(labelText: 'Donation Image URL'),
                 ),
                 TextFormField(
                   controller: _donationAmountRaisedController,
-                  decoration: InputDecoration(labelText: 'Amount Raised'),
+                  decoration: const InputDecoration(labelText: 'Amount Raised'),
                   keyboardType: TextInputType.number,
                 ),
                 TextFormField(
                   controller: _donationGoalController,
-                  decoration: InputDecoration(labelText: 'Goal Amount'),
+                  decoration: const InputDecoration(labelText: 'Goal Amount'),
                   keyboardType: TextInputType.number,
                 ),
                 ElevatedButton(
@@ -130,9 +135,9 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                       _donationGoalController.clear();
                     });
                   },
-                  child: Text('Add Donation'),
+                  child: const Text('Add Donation'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -144,7 +149,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                         coverPhoto: _coverPhotoUrl,
                         donationProofs: [..._proofOfDonationsUrls],
                         donations: _donations,
-                        orgEmail: 'example@example.com', // replace with actual email
+                        orgEmail: widget.orgEmail, // replace with actual email
                       );
                       await donationDriveProvider.addDonationDrive(newDonationDrive.toJson()); // convert object to a Map<String, dynamic> before passing to addDonationDrive
                       Navigator.pop(context);
