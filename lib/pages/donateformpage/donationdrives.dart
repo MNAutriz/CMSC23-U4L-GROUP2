@@ -42,6 +42,7 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
             return const Center(child: Text("Collection has no drives"));
           }
 
+          // filter donation drives that belong to orgEmail
           var docs = snapshot.data!.docs
               .where((doc) => doc['orgEmail'] == orgEmail)
               .toList();
@@ -58,6 +59,7 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
           return ListView.builder(
             itemCount: docs.length,
             itemBuilder: (context, index) {
+
               var drive = docs[index].data() as Map<String, dynamic>;
 
               return Padding(
@@ -70,6 +72,8 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
                           'selectedOrgEmail': orgEmail,
                           'orgID': orgId,
                           'orgName': orgName,
+                          'donationDriveId': docs[index].id,
+                          'donationDriveName': drive['title'],
                         });
                   },
                   child: Card(

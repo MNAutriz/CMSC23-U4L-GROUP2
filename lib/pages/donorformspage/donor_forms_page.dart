@@ -70,6 +70,8 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Donation to ${form['orgName']}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFFEEF2E6))),
+                                Text("Donation Drive Id: ${form['donationDriveId']}"),
+                                Text("Donation Drive Name: ${form['donationDriveName']}"),
                                 Text("Id: $formId"),
                                 Text("Donation Types: ${form['donationTypes'].join(", ")}"), // .join() concatenates elements into a single string with a separator
                                 Text("Status: ${getStatusString(form['status'] ?? -1)}", style: TextStyle(color: getStatusColor(form['status'] ?? -1), fontWeight: FontWeight.bold, fontSize: 15)), // if null status, return -1
@@ -136,7 +138,14 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
 
   Widget emptyForms() {
     return const Center(
-      child: Text("No submitted forms yet."),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("No donations submitted yet.", style: TextStyle(fontSize: 15, color: Color(0xFF093731))),
+          Text("Donate Now!", style: TextStyle(fontSize: 15, color: Color(0xFF093731))),
+        ],
+      ),
     );
   }
 

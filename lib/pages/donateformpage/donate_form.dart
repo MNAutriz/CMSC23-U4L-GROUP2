@@ -32,7 +32,9 @@ class _DonateFormState extends State<DonateForm> {
     donorEmail: '',
     orgId: '',
     status: Status.pending, // default status when uploading a form
-    orgName: ''
+    orgName: '',
+    donationDriveId: '',
+    donationDriveName: ''
   );
 
   String selectedOrgEmail = ''; // when user clicks an organization, its email will be stored here
@@ -46,9 +48,13 @@ class _DonateFormState extends State<DonateForm> {
     final orgEmail = arguments['selectedOrgEmail'];
     final orgName = arguments['orgName'];
     final orgId = arguments['orgID'];
+    final donationDriveId = arguments['donationDriveId'];
+    final donationDriveName = arguments['donationDriveName'];
 
     formData.orgId = orgId;
     formData.orgName = orgName;
+    formData.donationDriveId = donationDriveId;
+    formData.donationDriveName = donationDriveName;
 
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),

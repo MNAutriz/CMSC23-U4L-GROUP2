@@ -43,8 +43,9 @@ class _SubmitFormState extends State<SubmitForm> {
             //     builder: (context) => SubmittedPage(formData: widget.formData),
             //   ),
             // );
-
-            Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+            if(mounted) {
+              Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+            }
             
             debugPrint(
                 'Donation Form Successfully Submitted!\nDonation Types: ${widget.formData.donationTypes}\n'
