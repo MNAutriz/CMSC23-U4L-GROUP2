@@ -63,15 +63,17 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                         child: InkWell(
                           onTap: () {
                             // show form information
+                            // TODO: create page to show form info
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Donation to ${form['orgName']}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFFEEF2E6))),
+                                Text("${form['orgName']}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Color(0xFF093731))),
+                                Text("${form['donationDriveName']}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF093731))),
                                 Text("Donation Drive Id: ${form['donationDriveId']}"),
-                                Text("Donation Drive Name: ${form['donationDriveName']}"),
+                                // Text("Donation Drive Name: ${form['donationDriveName']}"),
                                 Text("Id: $formId"),
                                 Text("Donation Types: ${form['donationTypes'].join(", ")}"), // .join() concatenates elements into a single string with a separator
                                 Text("Status: ${getStatusString(form['status'] ?? -1)}", style: TextStyle(color: getStatusColor(form['status'] ?? -1), fontWeight: FontWeight.bold, fontSize: 15)), // if null status, return -1
