@@ -172,7 +172,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                 Positioned.fill(
                   // so that text will fill the entire card and the center widget will center according to entire card
                   child: Center(
-                    child: Text(org.name,
+                    child: Text(org.organizationName,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
