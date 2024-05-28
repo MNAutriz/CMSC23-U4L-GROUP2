@@ -47,7 +47,7 @@ class DonationDrivesPage extends StatelessWidget {
               final drive = DonationDrive.fromJson(driveData);
               drive.id = docs[index].id; // set the document id
 
-              return DonationDriveCard(donationDrive: drive);
+              return DonationDriveCard(donationDrive: drive, orgEmail: user!.email.toString());
             },
           );
         },

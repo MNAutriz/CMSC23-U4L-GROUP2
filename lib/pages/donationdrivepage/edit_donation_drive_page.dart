@@ -83,7 +83,7 @@ class _EditDonationDrivePageState extends State<EditDonationDrivePage> {
                 ),
                 TextFormField(
                   initialValue: _coverPhotoUrl,
-                  decoration: InputDecoration(labelText: 'Cover Photo URL'),
+                  decoration: const InputDecoration(labelText: 'Cover Photo URL'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a cover photo URL';
