@@ -30,12 +30,13 @@ class _DownloadProofState extends State<DownloadProof> {
 
     final tempDir = await getExternalStorageDirectory();
     final path = '${tempDir!.path}/${ref.name}';
+    //download the file
     await Dio().download(url, path);
 
     print(path);
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Downloaded ${ref.name}'),
+      content: Text('Successfully downloaded ${ref.name}. Stored in ${path}'),
       backgroundColor: const Color(0xFF3D8361),
     ));
   }
