@@ -119,7 +119,12 @@ class _DonorHomePageState extends State<DonorHomePage> {
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const SliverToBoxAdapter(
             child: Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                children: [
+                  Text("Loading organizations"),
+                  CircularProgressIndicator(),
+                ],
+              ),
             ),
           );
         } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -141,7 +146,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
               Organization org = Organization.fromJson(
                   docs[index].data() as Map<String, dynamic>);
               org.id = docs[index].id;
-
+              
               return Stack(children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -159,6 +164,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                                   context, '/donor/donatedrives', arguments: {
                                     'selectedOrgEmail': _selectedOrgEmail,
                                     'orgID': org.id,
+                                    'orgName': org.organizationName,
                                   }); // include selected organization email as an argument to be used in donatedrives route
                             })),
                   ),
@@ -166,7 +172,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                 Positioned.fill(
                   // so that text will fill the entire card and the center widget will center according to entire card
                   child: Center(
-                    child: Text(org.name,
+                    child: Text(org.organizationName,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,

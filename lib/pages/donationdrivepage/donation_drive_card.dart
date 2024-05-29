@@ -6,15 +6,17 @@ import '../donationdrivepage/donation_drive_model.dart';
 import 'edit_donation_drive_page.dart';
 import 'donation_drive_details.dart';
 
+// template for a donation drive card in org view
 class DonationDriveCard extends StatelessWidget {
   final DonationDrive donationDrive;
+  final String orgEmail;
 
-  DonationDriveCard({required this.donationDrive});
+  DonationDriveCard({required this.donationDrive, required this.orgEmail});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       elevation: 4,
       color: Colors.white, // Set the background color to white
       child: Column(
@@ -26,20 +28,20 @@ class DonationDriveCard extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   donationDrive.title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   donationDrive.description,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -48,11 +50,11 @@ class DonationDriveCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DonationDriveDetailsPage(donationDrive: donationDrive),
+                            builder: (context) => DonationDriveDetailsPage(donationDrive: donationDrive, orgEmail: orgEmail,),
                           ),
                         );
                       },
-                      child: Text('See details'),
+                      child: const Text('See details'),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -63,14 +65,14 @@ class DonationDriveCard extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Text('Edit'),
+                      child: const Text('Edit'),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         Provider.of<DonationDriveProvider>(context, listen: false)
                             .deleteDonationDrive(donationDrive.id);
                       },
-                      child: Text('Delete'),
+                      child: const Text('Delete'),
                     ),
                   ],
                 ),

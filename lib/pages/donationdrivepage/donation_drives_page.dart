@@ -5,8 +5,10 @@ import 'package:cmsc23project/pages/donationdrivepage/donation_drive_model.dart'
 import 'package:cmsc23project/pages/donationpage/donation_page.dart';
 import 'package:cmsc23project/pages/homepage/home_page.dart';
 import 'package:cmsc23project/pages/profilepage/profile_page.dart';
+import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donation_drive_provider.dart';
 import 'package:cmsc23project/providers/donation_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +18,7 @@ class DonationDrivesPage extends StatelessWidget {
     final Stream<QuerySnapshot> _drivesStream =
         Provider.of<DonationDriveProvider>(context).drivesStream;
     final selectedIndex = Provider.of<DonationProvider>(context).selectedIndex;
+    User? user = context.watch<UserAuthProvider>().user;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,7 +38,10 @@ class DonationDrivesPage extends StatelessWidget {
                 child: Text("No donation drives in collection."));
           }
 
-          final docs = snapshot.data!.docs;
+          // filter according to org email
+          final docs = snapshot.data!.docs.where((doc) => doc['orgEmail'] == user!.email).toList();
+
+          if(docs.isEmpty) return Center(child: Text("No donation drives associated with organization"));
 
           return ListView.builder(
             itemCount: docs.length,
@@ -44,7 +50,7 @@ class DonationDrivesPage extends StatelessWidget {
               final drive = DonationDrive.fromJson(driveData);
               drive.id = docs[index].id; // set the document id
 
-              return DonationDriveCard(donationDrive: drive);
+              return DonationDriveCard(donationDrive: drive, orgEmail: user!.email.toString());
             },
           );
         },
@@ -53,8 +59,13 @@ class DonationDrivesPage extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddDonationDrivePage()),
+            MaterialPageRoute(builder: (context) => AddDonationDrivePage(orgEmail: user!.email.toString())),
           );
+          
+          // // change to pushnamed so that i can pass arguments 
+          // Navigator.pushNamed(context, '/organization/donationdrives/add', arguments: {
+          //   'orgEmail': user!.email
+          // });
         },
         child: Icon(Icons.add),
         backgroundColor: Color(0xFF093731), // Dark green color for the button
