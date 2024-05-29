@@ -23,7 +23,9 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
-        title: const Text('Donation Drives', style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
+        title: const Text('Donation Drives',
+            style: TextStyle(
+                color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF093731),
       ),
       backgroundColor: const Color(0xFFEEF2E6),

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/donor_model.dart';
+import 'package:cmsc23project/pages/adminpage/donor_donations.dart';
+import 'package:cmsc23project/pages/adminpage/view_donor_details.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +24,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
           children: [
             Center(
               child: Text(
-                "View Donors Here",
+                "View Donors",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -67,15 +69,18 @@ class _DisplayDonorsState extends State<DisplayDonors> {
             Donor donor = Donor.fromJson(
                 snapshot.data?.docs[index].data() as Map<String, dynamic>);
 
-            //get the id of a document
-            //donor.id = snapshot.data?.docs[index].id;
             //card containing list tile of donors database
             return Card(
               //list tile of each donor
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DonorDonations(donor: donor)));
+                },
                 leading: const Icon(Icons.person),
-                title: Text(donor.email),
+                title: Text(donor.name),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                   //view button
                   IconButton(
@@ -84,7 +89,13 @@ class _DisplayDonorsState extends State<DisplayDonors> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           backgroundColor: const Color(0xFF3D8361)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ViewDonorDetails(donor: donor)));
+                      },
                       icon: const Icon(Icons.mail))
                 ]),
               ),
