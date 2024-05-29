@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/pages/adminpage/download_proof.dart';
+import 'package:cmsc23project/pages/adminpage/view_org_details.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
@@ -26,7 +27,7 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
           children: [
             Center(
               child: Text(
-                "View Pending Applications Here",
+                "Pending Applications",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -78,8 +79,14 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
             return Card(
               //list tile of each pending application
               child: ListTile(
-                onTap: () {},
-                leading: const Icon(Icons.person),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ViewOrganizationDetails(organization: pending)));
+                },
+                leading: const Icon(Icons.pending_actions),
                 title: Text(pending.organizationName),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                   //download button for proof of legitimacy
@@ -133,15 +140,6 @@ class _OrganizationApprovalState extends State<OrganizationApproval> {
                             .deletePending(pending.id!);
                       },
                       icon: const Icon(Icons.close)),
-                  //view button
-                  IconButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          backgroundColor: const Color(0xFF3D8361)),
-                      onPressed: () {},
-                      icon: const Icon(Icons.mail))
                 ]),
               ),
             );

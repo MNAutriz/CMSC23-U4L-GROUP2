@@ -23,7 +23,7 @@ class _DisplayOrganizationsState extends State<DisplayOrganizations> {
           children: [
             Center(
               child: Text(
-                "View Organizations Here",
+                "View Organizations",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,

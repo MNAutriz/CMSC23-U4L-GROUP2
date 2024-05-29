@@ -23,7 +23,7 @@ class _DisplayDonorsState extends State<DisplayDonors> {
           children: [
             Center(
               child: Text(
-                "View Donors Here",
+                "View Donors",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
