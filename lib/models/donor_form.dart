@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 enum Status{
   pending, // 0
   confirmed, // 1
-  active, // 2
-  inactive, // 3
-  suspended, // 4
-  banned // 5
+  scheduledForPickup,
+  complete,
+  cancelled
 }
 
 class DonorForm {

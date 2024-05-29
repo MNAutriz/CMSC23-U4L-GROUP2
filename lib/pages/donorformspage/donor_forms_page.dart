@@ -1,3 +1,4 @@
+import 'package:cmsc23project/models/donor_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -84,47 +85,52 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0), 
-                    child: Card(
-                      color: Colors.red,
-                      clipBehavior: Clip.hardEdge,
-                      child: InkWell(
-                        onTap: () {
-                          // Show confirmation dialog
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: const Color(0xFF093731),
-                                title: Text("Confirmation", style: TextStyle(color: Color(0xFFEEF2E6))),
-                                content: Text("Are you sure you want to cancel?", style: TextStyle(color: Color(0xFFEEF2E6))),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      // Close the dialog
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("No", style: TextStyle(color: Color(0xFFEEF2E6))),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      // delete form
-                                      if(form['status'] != 1){
-                                        donorFormProvider.deleteForm(formId);
-                                      }
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("Yes", style: TextStyle(color: Color(0xFFEEF2E6))),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Center(child: Text("Cancel", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold))),
+                  Visibility(
+                    visible: form['status'] != 4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0), 
+                      child: Card(
+                        color: Colors.red,
+                        clipBehavior: Clip.hardEdge,
+                        child: InkWell(
+                          onTap: () {
+                            // Show confirmation dialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: const Color(0xFF093731),
+                                  title: const Text("Confirmation", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                  content: const Text("Are you sure you want to cancel?", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        // Close the dialog
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("No", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // update form status to cancelled
+                                        if (form['status'] == 0) {
+                    
+                                          form['status'] = 4;
+                                          donorFormProvider.updateForm(formId, form); // pass updated form back to provider
+                                        }
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Yes", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Center(child: Text("Cancel", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold))),
+                          ),
                         ),
                       ),
                     ),
@@ -158,13 +164,11 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
       case 1:
         return 'Confirmed';
       case 2:
-        return 'Active';
+        return 'Scheduled for Pickup';
       case 3:
-        return 'Inactive';
+        return 'Complete';
       case 4:
-        return 'Suspended';
-      case 5:
-        return 'Banned';
+        return 'Cancelled';
       default:
         return 'Unknown'; // Handle any other status value
     }
@@ -178,15 +182,14 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
       case 1:
         return Colors.blue; // Confirmed
       case 2:
-        return Colors.green; // Active
+        return Colors.purple; // Scheduled for Pickup
       case 3:
-        return Colors.grey; // Inactive
+        return Colors.green; // Complete
       case 4:
-        return Colors.yellow; // Suspended
-      case 5:
-        return Colors.red; // Banned
+        return Colors.red; // Cancelled
       default:
         return Colors.black; // Unknown status
     }
   }
 }
+
