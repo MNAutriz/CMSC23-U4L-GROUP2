@@ -90,7 +90,7 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(4.0), 
                       child: Card(
-                        color: Colors.red,
+                        color: Colors.orange,
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
@@ -129,7 +129,55 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(16.0),
-                            child: Center(child: Text("Cancel", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold))),
+                            child: Center(child: Text("CANCEL", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold))),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: form['status'] == 4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0), 
+                      child: Card(
+                        color: Colors.red,
+                        clipBehavior: Clip.hardEdge,
+                        child: InkWell(
+                          onTap: () {
+                            // Show confirmation dialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: const Color(0xFF093731),
+                                  title: const Text("Confirmation", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                  content: const Text("Are you sure you want to DELETE?", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        // Close the dialog
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("No", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // delete form
+                                        if (form['status'] == 4) {
+                                          donorFormProvider.deleteForm(formId);
+                                        }
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Yes", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Center(child: Text("DELETE", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold))),
                           ),
                         ),
                       ),
