@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/donor_model.dart';
+import 'package:cmsc23project/pages/adminpage/donor_donations.dart';
 import 'package:cmsc23project/pages/adminpage/view_donor_details.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,12 @@ class _DisplayDonorsState extends State<DisplayDonors> {
             return Card(
               //list tile of each donor
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DonorDonations(donor: donor)));
+                },
                 leading: const Icon(Icons.person),
                 title: Text(donor.name),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [
