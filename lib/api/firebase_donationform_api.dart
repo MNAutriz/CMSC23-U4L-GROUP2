@@ -26,4 +26,14 @@ class FirebaseDonationFormAPI {
       return "Error in ${e.code}: ${e.message}";
     }
   }
+
+  Future<String> updateForm(String id, Map<String, dynamic> updatedForm) async {
+    try{
+      await db.collection("donation forms").doc(id).update(updatedForm);
+
+      return "Successfully updated form";
+    } on FirebaseException catch (e) {
+      return "Error in ${e.code}: ${e.message}";
+    }
+  }
 }

@@ -19,4 +19,9 @@ class DonorFormProvider with ChangeNotifier{
   Future<String> deleteForm(String id) async {
     return firebaseService.deleteForm(id);
   }
+
+  Future<void> updateForm(String id, Map<String, dynamic> updatedForm) async {
+    await firebaseService.updateForm(id, updatedForm);
+    notifyListeners();
+  }
 }
