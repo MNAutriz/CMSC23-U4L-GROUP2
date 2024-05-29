@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/organization_model.dart';
+import 'package:cmsc23project/pages/adminpage/organization_drives.dart';
 import 'package:cmsc23project/pages/adminpage/view_org_details.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,13 @@ class _DisplayOrganizationsState extends State<DisplayOrganizations> {
             return Card(
               //list tile of each organization
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              OrganizationDrives(organization: organization)));
+                },
                 leading: const Icon(Icons.people),
                 title: Text(organization.organizationName),
                 trailing: Row(mainAxisSize: MainAxisSize.min, children: [

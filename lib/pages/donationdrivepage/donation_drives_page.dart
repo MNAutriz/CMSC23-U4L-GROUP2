@@ -13,12 +13,14 @@ import 'package:provider/provider.dart';
 class DonationDrivesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _drivesStream = Provider.of<DonationDriveProvider>(context).drivesStream;
+    final Stream<QuerySnapshot> _drivesStream =
+        Provider.of<DonationDriveProvider>(context).drivesStream;
     final selectedIndex = Provider.of<DonationProvider>(context).selectedIndex;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Donation Drives Page', style: TextStyle(color: Colors.white)),
+        title: const Text('Donation Drives Page',
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Color(0xFF093731), // Dark green color for the app bar
       ),
       body: StreamBuilder(
@@ -29,7 +31,8 @@ class DonationDrivesPage extends StatelessWidget {
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text("No donation drives in collection."));
+            return const Center(
+                child: Text("No donation drives in collection."));
           }
 
           final docs = snapshot.data!.docs;
@@ -57,7 +60,8 @@ class DonationDrivesPage extends StatelessWidget {
         backgroundColor: Color(0xFF093731), // Dark green color for the button
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF093731), // Dark green color for the bottom navigation bar
+        backgroundColor:
+            Color(0xFF093731), // Dark green color for the bottom navigation bar
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white,
         currentIndex: selectedIndex,
@@ -65,10 +69,13 @@ class DonationDrivesPage extends StatelessWidget {
           Provider.of<DonationProvider>(context, listen: false).setIndex(index);
           switch (index) {
             case 0:
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
               break;
             case 1:
-              final donations = Provider.of<DonationProvider>(context, listen: false).donations;
+              final donations =
+                  Provider.of<DonationProvider>(context, listen: false)
+                      .donations;
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -80,17 +87,20 @@ class DonationDrivesPage extends StatelessWidget {
               );
               break;
             case 2:
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DonationDrivesPage()));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DonationDrivesPage()));
               break;
             case 3:
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()));
               break;
             default:
               break;
           }
         },
         items: const [
-          
           BottomNavigationBarItem(
             backgroundColor: Color(0xFF093731), // Dark green
             icon: Icon(Icons.home),
