@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/models/donor_form.dart';
 import 'package:cmsc23project/pages/donationdrivepage/form_details_page/form_details.dart';
 import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,13 @@ class DonationDriveDetailsPage extends StatelessWidget {
   final DonationDrive donationDrive;
   final String orgEmail;
 
-  DonationDriveDetailsPage({required this.donationDrive, required this.orgEmail});
+  DonationDriveDetailsPage(
+      {required this.donationDrive, required this.orgEmail});
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> _formsStream = context.watch<DonorFormProvider>().formsStream;
+    Stream<QuerySnapshot> _formsStream =
+        context.watch<DonorFormProvider>().formsStream;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Donation Drive Info")),
@@ -50,11 +53,14 @@ class DonationDriveDetailsPage extends StatelessWidget {
               stream: _formsStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return Center(child: Text("Error encountered! ${snapshot.error}"));
-                } else if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                      child: Text("Error encountered! ${snapshot.error}"));
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text("No donation drives in collection."));
+                  return const Center(
+                      child: Text("No donation drives in collection."));
                 }
 
                 final docs = snapshot.data!.docs
@@ -113,6 +119,34 @@ class DonationDriveDetailsPage extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                   ),
                                 ],
+                              ),
+                              trailing: PopupMenuButton<int>(
+                                itemBuilder: (context) => [
+                                  const PopupMenuItem(
+                                    value: 0,
+                                    child: Text('Pending'),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 1,
+                                    child: Text('Confirmed'),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 2,
+                                    child: Text('Scheduled for Pickup'),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 3,
+                                    child: Text('Complete'),
+                                  ),
+                                  const PopupMenuItem(
+                                    value: 4,
+                                    child: Text('Cancelled'),
+                                  ),
+                                ],
+                                onSelected: (value) {
+                                  formData['status'] = value;
+                                  context.read<DonorFormProvider>().updateForm(docs[index].id, formData);
+                                },
                               ),
                             ),
                           ],
