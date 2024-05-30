@@ -19,7 +19,13 @@ class DonationDriveDetailsPage extends StatelessWidget {
         context.watch<DonorFormProvider>().formsStream;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Donation Drive Info")),
+      appBar: AppBar(
+        title: const Text("Donation Drive Info",
+            style: TextStyle(
+                color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF093731),
+        iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
+      ),
       backgroundColor: const Color(0xFFEEF2E6),
       body: Column(
         children: [
@@ -45,7 +51,11 @@ class DonationDriveDetailsPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text("Donations:")
+              const Text("Donor Donations:",
+                  style: TextStyle(
+                      color: Color(0xFF1C6758),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold))
             ],
           ),
           Expanded(
@@ -145,7 +155,9 @@ class DonationDriveDetailsPage extends StatelessWidget {
                                 ],
                                 onSelected: (value) {
                                   formData['status'] = value;
-                                  context.read<DonorFormProvider>().updateForm(docs[index].id, formData);
+                                  context
+                                      .read<DonorFormProvider>()
+                                      .updateForm(docs[index].id, formData);
                                 },
                               ),
                             ),
