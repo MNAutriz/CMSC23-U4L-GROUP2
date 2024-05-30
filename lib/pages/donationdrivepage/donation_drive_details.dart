@@ -27,39 +27,35 @@ class DonationDriveDetailsPage extends StatelessWidget {
         iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
       ),
       backgroundColor: const Color(0xFFEEF2E6),
-      body: Column(
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  donationDrive.title,
-                  style: const TextStyle(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                donationDrive.title,
+                style: const TextStyle(
+                  color: Color(0xFF1C6758),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                donationDrive.description,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text("Donor Donations:",
+                style: TextStyle(
                     color: Color(0xFF1C6758),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  donationDrive.description,
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text("Donor Donations:",
-                  style: TextStyle(
-                      color: Color(0xFF1C6758),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold))
-            ],
-          ),
-          Expanded(
-            child: StreamBuilder(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            StreamBuilder(
               stream: _formsStream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -72,12 +68,14 @@ class DonationDriveDetailsPage extends StatelessWidget {
                   return const Center(
                       child: Text("No donation drives in collection."));
                 }
-
+                    
                 final docs = snapshot.data!.docs
                     .where((doc) => doc['donationDriveId'] == donationDrive.id)
                     .toList();
-
+                    
                 return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   itemCount: docs.length,
                   itemBuilder: (context, index) {
                     final formData = docs[index].data() as Map<String, dynamic>;
@@ -169,8 +167,8 @@ class DonationDriveDetailsPage extends StatelessWidget {
                 );
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
