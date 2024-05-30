@@ -36,4 +36,8 @@ class FirebaseDonationFormAPI {
       return "Error in ${e.code}: ${e.message}";
     }
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getFormById(String id) {
+    return db.collection("donation forms").doc(id).get();
+  }
 }
