@@ -25,7 +25,9 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Submitted Forms", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
+        title: const Text("My Submitted Forms",
+            style: TextStyle(
+                color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF093731),
         centerTitle: true,
       ),
@@ -45,7 +47,9 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
           }
 
           // filter forms where donorEmail is the same as logged in email
-          var docs = snapshot.data!.docs.where((doc) => doc['donorEmail'] == user!.email).toList();
+          var docs = snapshot.data!.docs
+              .where((doc) => doc['donorEmail'] == user!.email)
+              .toList();
 
           return ListView.builder(
             itemCount: docs.length,
@@ -57,7 +61,9 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0), // Adjust padding here
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 4.0), // Adjust padding here
                       child: Card(
                         clipBehavior: Clip.hardEdge,
                         color: Colors.green[100],
@@ -71,13 +77,30 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("${form['orgName']}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Color(0xFF093731))),
-                                Text("${form['donationDriveName']}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF093731))),
-                                Text("Donation Drive Id: ${form['donationDriveId']}"),
+                                Text("${form['orgName']}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                        color: Color(0xFF093731))),
+                                Text("${form['donationDriveName']}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Color(0xFF093731))),
+                                Text(
+                                    "Donation Drive Id: ${form['donationDriveId']}"),
                                 // Text("Donation Drive Name: ${form['donationDriveName']}"),
                                 Text("Id: $formId"),
-                                Text("Donation Types: ${form['donationTypes'].join(", ")}"), // .join() concatenates elements into a single string with a separator
-                                Text("Status: ${getStatusString(form['status'] ?? -1)}", style: TextStyle(color: getStatusColor(form['status'] ?? -1), fontWeight: FontWeight.bold, fontSize: 15)), // if null status, return -1
+                                Text(
+                                    "Donation Types: ${form['donationTypes'].join(", ")}"), // .join() concatenates elements into a single string with a separator
+                                Text(
+                                    "Status: ${getStatusString(form['status'] ?? -1)}",
+                                    style: TextStyle(
+                                        color: getStatusColor(
+                                            form['status'] ?? -1),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            15)), // if null status, return -1
                               ],
                             ),
                           ),
@@ -88,7 +111,7 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                   Visibility(
                     visible: form['status'] != 4,
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0), 
+                      padding: const EdgeInsets.all(4.0),
                       child: Card(
                         color: Colors.red,
                         clipBehavior: Clip.hardEdge,
@@ -100,27 +123,36 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   backgroundColor: const Color(0xFF093731),
-                                  title: const Text("Confirmation", style: TextStyle(color: Color(0xFFEEF2E6))),
-                                  content: const Text("Are you sure you want to cancel?", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                  title: const Text("Confirmation",
+                                      style:
+                                          TextStyle(color: Color(0xFFEEF2E6))),
+                                  content: const Text(
+                                      "Are you sure you want to cancel?",
+                                      style:
+                                          TextStyle(color: Color(0xFFEEF2E6))),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         // Close the dialog
                                         Navigator.of(context).pop();
                                       },
-                                      child: const Text("No", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                      child: const Text("No",
+                                          style: TextStyle(
+                                              color: Color(0xFFEEF2E6))),
                                     ),
                                     TextButton(
                                       onPressed: () {
                                         // update form status to cancelled
                                         if (form['status'] == 0) {
-                    
                                           form['status'] = 4;
-                                          donorFormProvider.updateForm(formId, form); // pass updated form back to provider
+                                          donorFormProvider.updateForm(formId,
+                                              form); // pass updated form back to provider
                                         }
                                         Navigator.of(context).pop();
                                       },
-                                      child: const Text("Yes", style: TextStyle(color: Color(0xFFEEF2E6))),
+                                      child: const Text("Yes",
+                                          style: TextStyle(
+                                              color: Color(0xFFEEF2E6))),
                                     ),
                                   ],
                                 );
@@ -129,7 +161,11 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(16.0),
-                            child: Center(child: Text("Cancel", style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold))),
+                            child: Center(
+                                child: Text("Cancel",
+                                    style: TextStyle(
+                                        color: Color(0xFFEEF2E6),
+                                        fontWeight: FontWeight.bold))),
                           ),
                         ),
                       ),
@@ -145,13 +181,37 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
   }
 
   Widget emptyForms() {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("No donations submitted yet.", style: TextStyle(fontSize: 15, color: Color(0xFF093731))),
-          Text("Donate Now!", style: TextStyle(fontSize: 15, color: Color(0xFF093731))),
+          const Text("No donations submitted yet.",
+              style: TextStyle(fontSize: 15, color: Color(0xFF093731))),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color(0xFFEEF2E6),
+                backgroundColor: const Color(0xFF093731), // text color
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16), // rounded corners
+                ),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 16, horizontal: 32), // padding
+              ),
+              child: const Text(
+                "DONATE NOW!",
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -192,4 +252,3 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
     }
   }
 }
-
