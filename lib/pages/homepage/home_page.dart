@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.only(bottom: 8),
-              title: const Text('Welcome to ElGive'),
+              title: const Text('Welcome to ElGives'),
               centerTitle: true,
               background: Container(
                 decoration: const BoxDecoration(
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
                     children: [
                       Icon(Icons.favorite, size: 50, color: Colors.white),
                       Text(
-                        'ElGive',
+                        'ElGives',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 28,

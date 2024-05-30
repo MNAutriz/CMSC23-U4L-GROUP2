@@ -19,12 +19,12 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       drawer: drawer,
       appBar: AppBar(
-        title: Text("Organization's View"),
+        title: const Text("Organization's View"),
         foregroundColor: Colors.white,
         backgroundColor: Color(0xFF093731), // Dark green
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,

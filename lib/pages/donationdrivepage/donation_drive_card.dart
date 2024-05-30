@@ -122,10 +122,47 @@ class DonationDriveCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            Provider.of<DonationDriveProvider>(context,
-                                    listen: false)
-                                .deleteDonationDrive(donationDrive.id);
+                                                        showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: const Color(0xFF093731),
+                                  title: const Text(
+                                    "Confirmation",
+                                    style: TextStyle(color: Color(0xFFEEF2E6)),
+                                  ),
+                                  content: const Text(
+                                    "Are you sure you want to delete this donation drive?",
+                                    style: TextStyle(color: Color(0xFFEEF2E6)),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        "No",
+                                        style: TextStyle(color: Color(0xFFEEF2E6)),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Provider.of<DonationDriveProvider>(context,
+                                        listen: false)
+                                        .deleteDonationDrive(donationDrive.id);
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text(
+                                        "Yes",
+                                        style: TextStyle(color: Color(0xFFEEF2E6)),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
+                          
                           style: ElevatedButton.styleFrom(
                             foregroundColor: const Color(0xFFEEF2E6),
                             backgroundColor: Colors.red, // text color
