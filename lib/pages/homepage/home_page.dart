@@ -19,16 +19,16 @@ class HomePage extends StatelessWidget {
           SliverAppBar(
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Welcome to ElGive'),
+              title: const Text('Welcome to ElGive'),
               background: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Color(0xFF093731), Color(0xFF1F5C44)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                 ),
-                child: Center(
+                child: const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -57,13 +57,13 @@ class HomePage extends StatelessWidget {
           SliverToBoxAdapter(
             child: Container(
               color: Colors.white,
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
                   Image.asset('images/headerorga.png'),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  const SizedBox(height: 5),
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
                     child: Text(
                       'Our mission at ElGive is to empower communities through impactful donations. We aim to connect generous donors with causes that need their support, fostering a spirit of giving and making a significant difference in the lives of those in need. Join us in our journey to create a better world, one donation at a time.',
                       textAlign: TextAlign.center,
@@ -83,12 +83,12 @@ class HomePage extends StatelessWidget {
                       _buildIcon(context, Icons.person, 'Profile', 3),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     'Top Donations',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -104,10 +104,10 @@ class HomePage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF093731),
+        backgroundColor: const Color(0xFF093731),
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white.withOpacity(0.6),
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             backgroundColor: Color(0xFF093731),
             icon: Icon(Icons.home),
