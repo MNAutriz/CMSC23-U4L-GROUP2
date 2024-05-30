@@ -193,6 +193,7 @@ class _DonorFormsPageState extends State<DonorFormsPage> {
             child: ElevatedButton(
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+                // Navigator.pushNamed(context, '/donor');
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: const Color(0xFFEEF2E6),
