@@ -19,7 +19,9 @@ class HomePage extends StatelessWidget {
           SliverAppBar(
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
+              titlePadding: const EdgeInsets.only(bottom: 8),
               title: const Text('Welcome to ElGive'),
+              centerTitle: true,
               background: Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -73,7 +75,7 @@ class HomePage extends StatelessWidget {
                   GridView.count(
                     crossAxisCount: 4, // Increase the number of icons
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     mainAxisSpacing: 10.0,
                     crossAxisSpacing: 10.0,
                     children: [
