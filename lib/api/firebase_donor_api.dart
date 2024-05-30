@@ -30,6 +30,16 @@ class FirebaseDonorAPI {
     }
   }
 
+  // update donor 
+  Future<String> updateDonor(String id, Map<String, dynamic> updatedFields) async {
+    try {
+      await db.collection("donors").doc(id).update(updatedFields);
+      return "Successfully updated donor!";
+    } on FirebaseException catch (e) {
+      return "Error in ${e.code}: ${e.message}";
+    }
+  }
+
   //fetch the collection of donors
   CollectionReference<Map<String, dynamic>> getDonorCollection() {
     return db.collection("donors");

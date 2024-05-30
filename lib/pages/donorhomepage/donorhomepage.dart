@@ -240,9 +240,9 @@ class _DonorHomePageState extends State<DonorHomePage> {
                 ),
               ),
               onTap: () {
+                // band aid solution
                 // Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                 context.read<UserAuthProvider>().signOut();
-                // band aid solution
               },
             ),
           ]),
