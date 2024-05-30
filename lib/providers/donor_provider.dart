@@ -35,11 +35,6 @@ class DonorProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateDonor(String id, Map<String, dynamic> updatedFields) async {
-    await firebaseService.updateDonor(id, updatedFields);
-    notifyListeners();
-  }
-
   // getter for donor collection
   CollectionReference<Map<String, dynamic>> get donorCollection =>
       _donorsCollection;
