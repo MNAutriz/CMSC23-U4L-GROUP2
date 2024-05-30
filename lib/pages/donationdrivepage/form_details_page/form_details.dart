@@ -1,61 +1,74 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
-class FormDetailsPage extends StatelessWidget {
+class FormDetailsPage extends StatefulWidget {
   final Map<String, dynamic> formData;
 
-  FormDetailsPage({required this.formData});
+  FormDetailsPage({Key? key, required this.formData}) : super(key: key);
+
+  @override
+  _FormDetailsPageState createState() => _FormDetailsPageState();
+}
+
+class _FormDetailsPageState extends State<FormDetailsPage> {
+  late Uint8List? _imageBytes;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImage();
+  }
+
+  void _loadImage() {
+    String? base64String = widget.formData['donationPhoto'];
+    if (base64String != null && base64String.isNotEmpty) {
+      setState(() {
+        _imageBytes = base64Decode(base64String);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Form Details")),
+      appBar: AppBar(
+        title: Text("Form Details"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            ListTile(
-              title: const Text('Donation Drive Name'),
-              subtitle: Text(formData['donationDriveName'] ?? 'N/A'),
-            ),
-            ListTile(
-              title: const Text('Donation Types'),
-              subtitle: Text(formData['donationTypes'].join(', ') ?? 'N/A'),
-            ),
-            ListTile(
-              title: const Text('Donor Email'),
-              subtitle: Text(formData['donorEmail'] ?? 'N/A'),
-            ),
-            ListTile(
-              title: const Text('For Pickup'),
-              subtitle: Text(formData['forPickup'] ? 'Yes' : 'No'),
-            ),
-            ListTile(
-              title: const Text('Organization ID'),
-              subtitle: Text(formData['orgId'] ?? 'N/A'),
-            ),
-            ListTile(
-              title: const Text('Organization Name'),
-              subtitle: Text(formData['orgName'] ?? 'N/A'),
-            ),
-            ListTile(
-              title: const Text('Pickup Addresses'),
-              subtitle: Text(formData['pickupAddresses'] ?? 'N/A'),
-            ),
-            ListTile(
-              title: const Text('Status'),
-              subtitle: Text(getStatusString(formData['status'])),
-            ),
-            ListTile(
-              title: const Text('Weight'),
-              subtitle: Text('${formData['weight']} ${formData['weightUnit']}'),
-            ),
+            _buildTextTile('Donation Drive Name', widget.formData['donationDriveName'] ?? 'N/A'),
+            _buildTextTile('Donation Types', widget.formData['donationTypes']?.join(', ') ?? 'N/A'),
+            _buildTextTile('Donor Email', widget.formData['donorEmail'] ?? 'N/A'),
+            _buildTextTile('For Pickup', widget.formData['forPickup'] ? 'Yes' : 'No'),
+            _buildTextTile('Organization ID', widget.formData['orgId'] ?? 'N/A'),
+            _buildTextTile('Organization Name', widget.formData['orgName'] ?? 'N/A'),
+            _buildTextTile('Pickup Addresses', widget.formData['pickupAddresses'] ?? 'N/A'),
+            _buildTextTile('Status', getStatusString(widget.formData['status'])),
+            _buildTextTile('Weight', '${widget.formData['weight'] ?? ''} ${widget.formData['weightUnit'] ?? ''}'),
+            _imageBytes != null
+                ? ListTile(
+                    title: const Text('Donation Photo'),
+                    subtitle: Image.memory(_imageBytes!),
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
       ),
     );
   }
 
-  String getStatusString(int status) {
+Widget _buildTextTile(String title, dynamic subtitle) {
+  return ListTile(
+    title: Text(title),
+    subtitle: Text(subtitle is List ? subtitle.join(', ') : subtitle.toString()),
+  );
+}
+
+
+  String getStatusString(int? status) {
     switch (status) {
       case 0:
         return 'Pending';
