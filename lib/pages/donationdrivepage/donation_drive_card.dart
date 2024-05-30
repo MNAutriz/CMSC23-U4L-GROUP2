@@ -1,8 +1,6 @@
 import '../../providers/donation_drive_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cmsc23project/providers/donation_drive_provider.dart'
-    as provider;
 import '../donationdrivepage/donation_drive_model.dart';
 import 'edit_donation_drive_page.dart';
 import 'donation_drive_details.dart';

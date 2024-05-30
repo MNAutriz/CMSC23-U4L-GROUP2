@@ -114,8 +114,7 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
                                 drive['description'] ?? 'No description',
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  // color: Color(0xFF3D8361),
-                                  color: Color.fromARGB(255, 48, 47, 47)
+                                  color: Color(0xFF3D8361),
                                 ),
                               ),
                             ],
