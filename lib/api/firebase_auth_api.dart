@@ -44,7 +44,7 @@ class FirebaseAuthAPI {
       idToken: googleAuth?.idToken,
     );
 
-    // Once signed in, return the UserCredential
+    //Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 

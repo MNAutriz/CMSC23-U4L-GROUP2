@@ -230,39 +230,44 @@ class _SignInPageState extends State<SignInPage> {
               UserCredential message =
                   await context.read<UserAuthProvider>().signInWithGoogle();
 
+              print(message);
+
               //check if org
-              await context
+              context
                   .read<OrganizationProvider>()
                   .orgCollection
                   .where("email", isEqualTo: message.user!.email)
                   .get()
                   .then((QuerySnapshot querySnapshot) {
-                querySnapshot.docs.forEach((doc) {
+                for (var doc in querySnapshot.docs) {
                   setState(() {
                     //contain query in admin
                     googleUser = doc['email'];
                   });
-                });
+                }
               });
 
               //check if donor
-              await context
+              context
                   .read<DonorProvider>()
                   .donorCollection
                   .where("email", isEqualTo: message.user!.email)
                   .get()
                   .then((QuerySnapshot querySnapshot) {
-                querySnapshot.docs.forEach((doc) {
+                for (var doc in querySnapshot.docs) {
                   setState(() {
                     //contain query in donor
                     googleUser = doc['email'];
                   });
-                });
+                }
               });
 
               //check if user finished google sign in and if user already exists in either donor or organization
-              if (message.user != null && googleUser == null) {
+              if (message.user!.email != null && googleUser == null) {
+                print("TEST");
+                print(message.user!.email);
                 await Navigator.pushNamed(context, '/google/donor');
+                if (mounted) Navigator.pop(context);
               }
             },
             child: Image.asset(

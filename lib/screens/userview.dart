@@ -195,24 +195,4 @@ class _UserViewState extends State<UserView> {
               textAlign: TextAlign.center,
             )),
       );
-
-  //widget for authorization
-  Widget authorization() {
-    //if the user is in the admin database
-    if (admin != null) {
-      return AdminView();
-      //if the user is in the organization database
-    } else if (org != null) {
-      return DonationApp();
-    }
-
-    //else return authDonor
-    else if (donor != null) {
-      return DonorView();
-    }
-
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
 }

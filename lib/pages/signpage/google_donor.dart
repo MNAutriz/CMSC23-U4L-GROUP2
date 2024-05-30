@@ -1,10 +1,7 @@
 import 'package:cmsc23project/models/donor_model.dart';
-import 'package:cmsc23project/models/username_model.dart';
 import 'package:cmsc23project/pages/signpage/google_org.dart';
-import 'package:cmsc23project/pages/signpage/signup_org.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
-import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
