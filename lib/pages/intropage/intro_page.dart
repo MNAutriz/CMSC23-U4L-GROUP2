@@ -29,7 +29,7 @@ class _IntroPageState extends State<IntroPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               'Make a Difference Today!',
               style: TextStyle(
                 fontSize: 28.0,
@@ -38,8 +38,8 @@ class _IntroPageState extends State<IntroPage> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20.0),
-            Text(
+            const SizedBox(height: 20.0),
+            const Text(
               'Your donations can change lives. Choose a cause and contribute today.',
               style: TextStyle(
                 fontSize: 18.0,
@@ -47,13 +47,13 @@ class _IntroPageState extends State<IntroPage> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 40.0),
+            const SizedBox(height: 40.0),
             Image.asset(
               'images/coverpage.png',
               height: 400.0,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 40.0),
+            const SizedBox(height: 40.0),
             ElevatedButton(
               onPressed: () {
                 // Navigate to home page
@@ -69,7 +69,7 @@ class _IntroPageState extends State<IntroPage> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Donate Now',
                 style: TextStyle(
                   fontSize: 18.0,
