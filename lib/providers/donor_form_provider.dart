@@ -25,8 +25,36 @@ class DonorFormProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  Future getFormById(String id) async {
-    await firebaseService.getFormById(id);
-    notifyListeners();
+  // Future getFormById(String id) async {
+  //   await firebaseService.getFormById(id);
+  //   notifyListeners();
+  // }
+  Future<Map<String, dynamic>?> getFormById(String id) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await firebaseService.getFormById(id);
+    return snapshot.data();
+  }
+
+  Future<void> updateDonationFormStatus(String documentId) async {
+    try {
+      // Fetch the donation form from Firestore
+      DocumentSnapshot<Map<String, dynamic>> donationFormSnapshot = await firebaseService.getFormById(documentId);
+      
+      if (donationFormSnapshot.exists) {
+        // Update the status to "completed"
+        await firebaseService.updateForm(documentId, {
+          'status': 3, // update status 
+        });
+        
+        // Notify user or handle success as needed
+        print('Donation form status updated successfully');
+      } else {
+        // Document not found, handle accordingly
+        print('Donation form not found');
+      }
+    } catch (e) {
+      // Handle errors
+      print('Error updating donation form status: $e');
+    }
   }
 }
+
