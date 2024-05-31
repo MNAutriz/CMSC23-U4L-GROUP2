@@ -5,7 +5,7 @@ class Donor {
   String email;
   String username;
   String name;
-  String address;
+  List<String> address;
   String contact;
 
   Donor(

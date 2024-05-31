@@ -232,7 +232,7 @@ class _SignUpState extends State<GoogleDonor> {
                     email: user!.email!,
                     username: username!,
                     name: name!,
-                    address: address!,
+                    address: [address!],
                     contact: contact!);
 
                 context.read<DonorProvider>().addDonor(donor);
