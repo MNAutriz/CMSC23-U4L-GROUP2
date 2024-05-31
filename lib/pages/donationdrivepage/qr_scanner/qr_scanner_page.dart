@@ -1,6 +1,3 @@
-import 'dart:ffi';
-import 'dart:typed_data';
-
 import 'package:cmsc23project/pages/donationdrivepage/qr_scanner/scanner_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -13,6 +10,8 @@ class QrScannerPage extends StatefulWidget {
 }
 
 class _QrScannerPageState extends State<QrScannerPage> {
+
+  String documentId="";
 
   MobileScannerController cameraController = MobileScannerController(
     detectionSpeed: DetectionSpeed.noDuplicates,
@@ -31,12 +30,11 @@ class _QrScannerPageState extends State<QrScannerPage> {
           MobileScanner(
             controller: cameraController,
             onDetect: (capture) {
-              print(capture);
-              // final Uint8List? image = capture.image;
-
-              // for(final barcode in barcodes) {
-              //   print('Barcode found! ${barcode.rawValue}');
-              // }
+              final List<Barcode> barcodes = capture.barcodes;
+              for(final barcode in barcodes){
+                documentId = barcode.rawValue ?? "";
+                print("barcode found! ${documentId}");
+              }
             },
           ),
           QRScannerOverlay(overlayColour: Colors.black.withOpacity(0.5))
