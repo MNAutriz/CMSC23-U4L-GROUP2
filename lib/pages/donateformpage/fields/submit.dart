@@ -1,5 +1,5 @@
 import 'package:cmsc23project/models/donor_form.dart';
-import 'package:cmsc23project/pages/donateformpage/submitted_page.dart';
+import 'package:cmsc23project/pages/donateformpage/qr_code_page.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SubmitForm extends StatefulWidget {
+
   GlobalKey<FormState> formKey;
   DonorForm formData;
+  bool isPickupChecked;
 
-  SubmitForm({super.key, required this.formKey, required this.formData});
+  SubmitForm({super.key, required this.formKey, required this.formData, required this.isPickupChecked});
 
   @override
   State<SubmitForm> createState() => _SubmitFormState();
@@ -43,7 +45,12 @@ class _SubmitFormState extends State<SubmitForm> {
             //     builder: (context) => SubmittedPage(formData: widget.formData),
             //   ),
             // );
-            if(mounted) {
+              // Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+            if(mounted && widget.isPickupChecked == false) {
+              // generate qr code
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QrCodePage(formData: widget.formData,)));
+            } else if(mounted && widget.isPickupChecked == true) {
+              // go back to homepage
               Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
             }
             
