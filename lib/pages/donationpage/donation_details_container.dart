@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../homepage/donation_model.dart';
 
+//Creates and showcases the container for the donation drive.
 class DonationDetailsContainer extends StatelessWidget {
   final Widget coverPage;
   final Donation donation;
