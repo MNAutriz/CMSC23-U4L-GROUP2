@@ -287,7 +287,7 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
                       email: user!.email!,
                       username: username!,
                       name: name!,
-                      address: address!,
+                      address: [address!],
                       contact: contact!);
 
                   context.read<PendingProvider>().addPending(org);

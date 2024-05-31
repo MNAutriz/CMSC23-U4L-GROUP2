@@ -13,7 +13,7 @@ class DonorProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     User? user = context.watch<UserAuthProvider>().user;
     Stream<QuerySnapshot> donorStream = context.read<DonorProvider>().donor;
-    
+
     return SafeArea(
       // so that first widget is rendered under the status bar
       child: Scaffold(
@@ -22,46 +22,49 @@ class DonorProfilePage extends StatelessWidget {
             child: Column(children: [
               const ProfilePictureStack(),
               const SizedBox(height: 100),
-
               StreamBuilder(
-                stream: donorStream, 
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Text('No data available');
-                  }
+                  stream: donorStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return const Text('No data available');
+                    }
 
-                   // Get donor information based on user's email
-                  var donorData = snapshot.data!.docs
-                      .firstWhere((doc) => doc['email'] == user!.email);
+                    // Get donor information based on user's email
+                    var donorData = snapshot.data!.docs
+                        .firstWhere((doc) => doc['email'] == user!.email);
 
-                  return Column(
-                    children: [
-                      ProfileInfoTile(
-                        text: donorData['name'],
-                        icon: const Icon(Icons.person, color: Color(0xFFEEF2E6)),
-                      ),
-                      ProfileInfoTile(
-                        text: donorData['username'], 
-                        icon: const Icon(Icons.alternate_email, color: Color(0xFFEEF2E6))),
-                      ProfileInfoTile(
-                        text: donorData['email'], 
-                        icon: const Icon(Icons.email_rounded, color: Color(0xFFEEF2E6))),
-                      ProfileInfoTile(
-                        text: donorData['contact'], 
-                        icon: const Icon(Icons.phone, color: Color(0xFFEEF2E6))),
-                      ProfileInfoTile(
-                        text: donorData['address'], 
-                        icon: const Icon(Icons.house, color: Color(0xFFEEF2E6)))
-                    ],
-                  );
-                }
-                ),
+                    return Column(
+                      children: [
+                        ProfileInfoTile(
+                          text: donorData['name'],
+                          icon: const Icon(Icons.person,
+                              color: Color(0xFFEEF2E6)),
+                        ),
+                        ProfileInfoTile(
+                            text: donorData['username'],
+                            icon: const Icon(Icons.alternate_email,
+                                color: Color(0xFFEEF2E6))),
+                        ProfileInfoTile(
+                            text: donorData['email'],
+                            icon: const Icon(Icons.email_rounded,
+                                color: Color(0xFFEEF2E6))),
+                        ProfileInfoTile(
+                            text: donorData['contact'],
+                            icon: const Icon(Icons.phone,
+                                color: Color(0xFFEEF2E6))),
+                        ProfileInfoTile(
+                            text: donorData['address'].first,
+                            icon: const Icon(Icons.house,
+                                color: Color(0xFFEEF2E6)))
+                      ],
+                    );
+                  }),
             ]),
           )),
     );

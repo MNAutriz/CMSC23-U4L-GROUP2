@@ -302,7 +302,7 @@ class _SignUpState extends State<SignUpPage> {
                       email: email!,
                       username: username!,
                       name: name!,
-                      address: address!,
+                      address: [address!],
                       contact: contact!);
 
                   //create username object for saving username and email
