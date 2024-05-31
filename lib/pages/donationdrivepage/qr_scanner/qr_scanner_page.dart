@@ -38,7 +38,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
                 print("barcode found! ${documentId}");
 
                 if(documentId.isNotEmpty){
-                  await context.read<DonorFormProvider>().updateDonationFormStatus(documentId);
+                  await context.read<DonorFormProvider>().updateDonationFormStatus(documentId).then((val) => Navigator.pop(context));
                 }
               }
             },

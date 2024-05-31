@@ -119,6 +119,7 @@ class DonationDriveDetailsPage extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                   ),
                                   Text(formData['donationTypes'].toString()),
+                                  Text("pickup ${formData['forPickup'] ? "Yes": "No"}"),
                                   Text(
                                     "Status: ${getStatusString(formData['status'])}",
                                     style: TextStyle(
