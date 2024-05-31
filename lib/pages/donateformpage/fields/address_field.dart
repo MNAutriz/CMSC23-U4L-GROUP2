@@ -64,8 +64,8 @@ class _AddressFieldState extends State<AddressField> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: addresses.length,
                   itemBuilder: (context, index) {
-                    return _buildListTile(addresses[
-                        index]); // custom method to build each address
+                    return _buildListTile(addresses[index],
+                        id); // custom method to build each address
                   },
                 ),
                 Padding(
@@ -98,6 +98,11 @@ class _AddressFieldState extends State<AddressField> {
                                   _textFieldController.clear();
                                   debugPrint(addresses.toString());
                                 });
+
+                                //update donor address in the firebase
+                                context
+                                    .read<DonorProvider>()
+                                    .editDonor(id, addresses);
                               }
                             },
                           ),
@@ -129,7 +134,7 @@ class _AddressFieldState extends State<AddressField> {
     );
   }
 
-  Widget _buildListTile(String address) {
+  Widget _buildListTile(String address, String id) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Card(
@@ -161,6 +166,9 @@ class _AddressFieldState extends State<AddressField> {
                     addresses.remove(address);
                     _selectedAddresses.remove(address);
                   });
+
+                  //update donor address in the firebase
+                  context.read<DonorProvider>().editDonor(id, addresses);
                 },
               ),
             ],
