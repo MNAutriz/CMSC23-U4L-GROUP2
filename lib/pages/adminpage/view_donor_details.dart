@@ -139,7 +139,7 @@ class _ViewDonorDetailsState extends State<ViewDonorDetails> {
                         ),
                         Expanded(
                             child: Text(
-                          widget.donor.address.first,
+                          "${widget.donor.address.first}",
                           style: const TextStyle(fontSize: 20),
                         )),
                       ],

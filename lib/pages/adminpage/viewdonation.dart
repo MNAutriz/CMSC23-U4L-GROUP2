@@ -1,9 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cmsc23project/providers/auth_provider.dart';
-import 'package:cmsc23project/providers/donor_form_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ViewDonation extends StatefulWidget {
   //donor form instance
@@ -15,6 +10,7 @@ class ViewDonation extends StatefulWidget {
 }
 
 class _DonorDonationsState extends State<ViewDonation> {
+  //status values
   static const Map<int, String> status = {
     0: "Pending",
     1: "Confirmed",

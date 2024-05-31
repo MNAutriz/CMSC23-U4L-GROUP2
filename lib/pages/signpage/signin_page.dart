@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cmsc23project/models/username_model.dart';
-import 'package:cmsc23project/pages/signpage/google_donor.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'signup_page.dart';
@@ -78,6 +75,7 @@ class _SignInPageState extends State<SignInPage> {
             )));
   }
 
+  //header
   Widget get heading => const Padding(
         padding: EdgeInsets.only(bottom: 30, top: 50),
         child: Text(
@@ -87,6 +85,7 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
 
+  //email field
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -109,6 +108,7 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
 
+  //password field
   Widget get passwordField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -132,6 +132,7 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
 
+  //error message
   Widget get signInErrorMessage => const Padding(
         padding: EdgeInsets.only(bottom: 30),
         child: Text(
@@ -140,6 +141,7 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
 
+  //submit button
   Widget get submitButton => SizedBox(
       width: 350,
       child: ElevatedButton(
@@ -203,6 +205,7 @@ class _SignInPageState extends State<SignInPage> {
                 color: Colors.white,
               ))));
 
+  //sign up button
   Widget get signUpButton => Padding(
         padding: const EdgeInsets.all(30),
         child: Row(
@@ -226,6 +229,7 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
 
+  //google sign in button
   Widget get googleSignIn => Center(
           child: Column(
         children: [
@@ -238,6 +242,7 @@ class _SignInPageState extends State<SignInPage> {
 
               print(message);
 
+              //check if org
               await orgCollection!
                   .where("email", isEqualTo: message.user!.email)
                   .get()
@@ -267,14 +272,9 @@ class _SignInPageState extends State<SignInPage> {
                 });
               }
 
-              //check if org
-
               //check if user finished google sign in and if user already exists in either donor or organization
               if (message.user!.email != null && googleUser == null) {
-                print(googleUser);
-                print("TEST");
-                //print(message.user!.email);
-
+                //go to google/donor page
                 Navigator.pushNamed(context, "/google/donor");
               }
             },

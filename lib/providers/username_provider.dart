@@ -15,7 +15,7 @@ class UsernameProvider with ChangeNotifier {
   // getter
   Stream<QuerySnapshot> get username => _usernamesStream;
 
-  //fetch organizations
+  //fetch usernames
   void fetchUsernames() {
     _usernamesStream = firebaseService.getAllUsernames();
     notifyListeners();

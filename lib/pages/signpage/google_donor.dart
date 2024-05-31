@@ -54,6 +54,7 @@ class _SignUpState extends State<GoogleDonor> {
     );
   }
 
+  //header
   Widget get heading => const Padding(
       padding: EdgeInsets.only(bottom: 30),
       child: Center(
@@ -65,7 +66,7 @@ class _SignUpState extends State<GoogleDonor> {
         ),
       ));
 
-  //first name field
+  //complete name field
   Widget get nameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -137,7 +138,7 @@ class _SignUpState extends State<GoogleDonor> {
         ),
       );
 
-  //last name field
+  //username field
   Widget get usernameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -173,7 +174,7 @@ class _SignUpState extends State<GoogleDonor> {
         ),
       );
 
-  //last name field
+  //address field
   Widget get addressField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -196,6 +197,7 @@ class _SignUpState extends State<GoogleDonor> {
         ),
       );
 
+  //sign up as org button
   Widget get signUpOrgButton => Padding(
         padding: const EdgeInsets.all(30),
         child: Row(
@@ -219,6 +221,7 @@ class _SignUpState extends State<GoogleDonor> {
         ),
       );
 
+  //submit button
   Widget get submitButton => SizedBox(
         width: 350,
         child: ElevatedButton(
