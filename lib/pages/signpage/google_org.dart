@@ -60,6 +60,8 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
 
   @override
   Widget build(BuildContext context) {
+    //get user
+    user = context.read<UserAuthProvider>().user;
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),
       appBar: AppBar(
@@ -269,8 +271,6 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
                     backgroundColor: Colors.red,
                   ));
                 } else {
-                  //get user
-                  user = context.read<UserAuthProvider>().user;
                   //create organization object for applying
                   Organization org = Organization(
                       id: user!.uid,

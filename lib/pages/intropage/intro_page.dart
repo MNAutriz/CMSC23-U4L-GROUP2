@@ -109,6 +109,7 @@ class _IntroPageState extends State<IntroPage> {
             ),
             onTap: () {
               context.read<UserAuthProvider>().signOut();
+              Navigator.pushReplacementNamed(context, '/');
             },
           ),
         ]),

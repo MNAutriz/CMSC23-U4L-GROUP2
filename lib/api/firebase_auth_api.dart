@@ -44,7 +44,7 @@ class FirebaseAuthAPI {
       idToken: googleAuth?.idToken,
     );
 
-    // Once signed in, return the UserCredential
+    //Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
@@ -83,11 +83,12 @@ class FirebaseAuthAPI {
   }
 
   Future<void> signOut() async {
-    await auth.signOut();
-    try {
+    if (GoogleSignIn().currentUser != null) {
       await GoogleSignIn().disconnect();
-    } catch (e) {
-      print(e);
     }
+
+    GoogleSignIn().signOut();
+
+    await auth.signOut();
   }
 }

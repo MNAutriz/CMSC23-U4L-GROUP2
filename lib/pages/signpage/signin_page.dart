@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/username_model.dart';
+import 'package:cmsc23project/pages/signpage/google_donor.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
@@ -25,9 +26,14 @@ class _SignInPageState extends State<SignInPage> {
   bool showSignInErrorMessage = false;
   dynamic userLogin;
   dynamic googleUser;
+  CollectionReference? donorCollection;
+  CollectionReference? orgCollection;
 
   @override
   Widget build(BuildContext context) {
+    donorCollection = context.watch<DonorProvider>().donorCollection;
+    orgCollection = context.read<OrganizationProvider>().orgCollection;
+
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -230,39 +236,46 @@ class _SignInPageState extends State<SignInPage> {
               UserCredential message =
                   await context.read<UserAuthProvider>().signInWithGoogle();
 
-              //check if org
-              await context
-                  .read<OrganizationProvider>()
-                  .orgCollection
+              print(message);
+
+              await orgCollection!
                   .where("email", isEqualTo: message.user!.email)
                   .get()
                   .then((QuerySnapshot querySnapshot) {
                 querySnapshot.docs.forEach((doc) {
                   setState(() {
-                    //contain query in admin
-                    googleUser = doc['email'];
+                    //contain org
+                    googleUser = doc;
+                    print(googleUser);
                   });
                 });
               });
 
               //check if donor
-              await context
-                  .read<DonorProvider>()
-                  .donorCollection
-                  .where("email", isEqualTo: message.user!.email)
-                  .get()
-                  .then((QuerySnapshot querySnapshot) {
-                querySnapshot.docs.forEach((doc) {
-                  setState(() {
-                    //contain query in donor
-                    googleUser = doc['email'];
+              if (googleUser == null) {
+                await donorCollection!
+                    .where("email", isEqualTo: message.user!.email)
+                    .get()
+                    .then((QuerySnapshot querySnapshot) {
+                  querySnapshot.docs.forEach((doc) {
+                    setState(() {
+                      //contain donor
+                      googleUser = doc;
+                      print(googleUser);
+                    });
                   });
                 });
-              });
+              }
+
+              //check if org
 
               //check if user finished google sign in and if user already exists in either donor or organization
-              if (message.user != null && googleUser == null) {
-                await Navigator.pushNamed(context, '/google/donor');
+              if (message.user!.email != null && googleUser == null) {
+                print(googleUser);
+                print("TEST");
+                //print(message.user!.email);
+
+                Navigator.pushNamed(context, "/google/donor");
               }
             },
             child: Image.asset(

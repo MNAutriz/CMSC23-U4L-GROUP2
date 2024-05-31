@@ -1,8 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+/// Service class for handling notifications and SMS.
 class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
+  /// Initializes the notification service by requesting permission and setting up message listeners.
   void initialize() {
     _firebaseMessaging.requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {

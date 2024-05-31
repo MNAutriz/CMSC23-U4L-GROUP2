@@ -33,8 +33,10 @@ class _SubmitFormState extends State<SubmitForm> {
                 .save(); // trigger onSaved callback of each form field
             widget.formData.donorEmail = user!.email!;
 
+
             final resultId =
                 await donorFormProvider.addForm(widget.formData.toJson());
+
 
             // Navigator.pop(context);
             // Navigator.pop(context);
@@ -45,6 +47,7 @@ class _SubmitFormState extends State<SubmitForm> {
             //     builder: (context) => SubmittedPage(formData: widget.formData),
             //   ),
             // );
+
               // Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
             if(mounted && widget.isPickupChecked == false) {
               // generate qr code
@@ -52,8 +55,9 @@ class _SubmitFormState extends State<SubmitForm> {
             } else if(mounted && widget.isPickupChecked == true) {
               // go back to homepage
               Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+
             }
-            
+
             debugPrint(
                 'Donation Form Successfully Submitted!\nDonation Types: ${widget.formData.donationTypes}\n'
                 'For Pickup: ${widget.formData.forPickup}\n'

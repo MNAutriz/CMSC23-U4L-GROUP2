@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'donation_drive_model.dart';
 
+/// A stateless widget that displays detailed information about a specific donation drive.
+/// It also streams and displays donor forms associated with the donation drive.
 class DonationDriveDetailsPage extends StatelessWidget {
   final DonationDrive donationDrive;
   final String orgEmail;

@@ -173,7 +173,9 @@ class _DonorHomePageState extends State<DonorHomePage> {
                                     'selectedOrgEmail': _selectedOrgEmail,
                                     'orgID': org.id,
                                     'orgName': org.organizationName,
-                                  }); // include selected organization email as an argument to be used in donatedrives route
+                                  });
+
+                              // include selected organization email as an argument to be used in donatedrives route
                             })),
                   ),
                 ),
@@ -241,8 +243,11 @@ class _DonorHomePageState extends State<DonorHomePage> {
               ),
               onTap: () {
                 // band aid solution
+
                 // Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                 context.read<UserAuthProvider>().signOut();
+                Navigator.pushReplacementNamed(context, '/');
+
               },
             ),
           ]),

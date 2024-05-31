@@ -1,10 +1,7 @@
 import 'package:cmsc23project/models/donor_model.dart';
-import 'package:cmsc23project/models/username_model.dart';
 import 'package:cmsc23project/pages/signpage/google_org.dart';
-import 'package:cmsc23project/pages/signpage/signup_org.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
-import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +23,8 @@ class _SignUpState extends State<GoogleDonor> {
   User? user;
   @override
   Widget build(BuildContext context) {
+    //get user
+    user = context.read<UserAuthProvider>().user;
     return Scaffold(
       backgroundColor: const Color(0xFFEEF2E6),
       appBar: AppBar(
@@ -223,12 +222,9 @@ class _SignUpState extends State<GoogleDonor> {
   Widget get submitButton => SizedBox(
         width: 350,
         child: ElevatedButton(
-            onPressed: () async {
+            onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-
-                //get user
-                user = context.read<UserAuthProvider>().user;
 
                 //create donor object to save
                 Donor donor = Donor(
@@ -241,8 +237,9 @@ class _SignUpState extends State<GoogleDonor> {
 
                 context.read<DonorProvider>().addDonor(donor);
 
-                // check if the widget hasn't been disposed of after an asynchronous action
-                if (mounted) Navigator.pop(context);
+                if (mounted) {
+                  Navigator.pop(context);
+                }
               }
             },
             style: ElevatedButton.styleFrom(
