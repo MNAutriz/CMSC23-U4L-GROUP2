@@ -12,7 +12,7 @@ class FormDetailsPage extends StatefulWidget {
 }
 
 class _FormDetailsPageState extends State<FormDetailsPage> {
-  late Uint8List? _imageBytes;
+  Uint8List? _imageBytes;
 
   @override
   void initState() {
