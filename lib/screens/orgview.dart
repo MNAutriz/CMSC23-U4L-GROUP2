@@ -11,9 +11,9 @@ class DonationApp extends StatelessWidget {
       // Use MultiProvider to combine multiple providers
       providers: [
         ChangeNotifierProvider(create: (context) => DonationProvider()),
-        ChangeNotifierProvider(
-            create: (context) =>
-                OrganizationProvider()), // Provide the OrganizationProvider
+        // ChangeNotifierProvider(
+        //     create: (context) =>
+        //         OrganizationProvider()), // Provide the OrganizationProvider
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

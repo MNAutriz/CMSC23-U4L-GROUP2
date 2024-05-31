@@ -8,7 +8,12 @@ import '../homepage/home_page.dart';
 import '../donationpage/donation_page.dart';
 import '../donationdrivepage/donation_drives_page.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   final List<String> galleryImageUrls = [
     'https://usjr.edu.ph/wp-content/uploads/2019/12/F-350x350.jpg',
     'https://cdn.amebaowndme.com/madrid-prd/madrid-web/images/sites/1194991/1d141e9e26385a9af8b94ae468dc0645_19d705977f655bd13aeabba92126d894.jpg?width=512',
@@ -16,9 +21,11 @@ class ProfilePage extends StatelessWidget {
     'https://cpu.edu.ph/wp-content/uploads/2023/11/Ms.-Jaren-Marr-P.-Jaco-CESLC-Secretary-discussed-the-necessary-requirements-before-and-after-the-extension-works-to-the-outreach-coordinators.jpg',
   ];
 
+  bool status = true;
+
   @override
   Widget build(BuildContext context) {
-    final organizationProvider = Provider.of<OrganizationProvider>(context);
+    // final organizationProvider = Provider.of<OrganizationProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +46,7 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              organizationProvider.organization.name,
+              "Empowerment for All",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
@@ -54,7 +61,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    organizationProvider.organization.about,
+                    'Our mission is to break the cycle of poverty by addressing its root causes and equipping individuals with the tools and opportunities they need to achieve economic self-sufficiency. We believe in a holistic approach to development that encompasses education, healthcare, livelihood training, and community empowerment.',
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
@@ -70,9 +77,11 @@ class ProfilePage extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       Switch(
-                        value: organizationProvider.organization.donationsOpen,
+                        value: status,
                         onChanged: (value) {
-                          organizationProvider.updateDonationsStatus(value);
+                          setState(() {
+                            status = value;
+                          });
                         },
                         activeTrackColor: Colors.green[700],
                         inactiveTrackColor: Colors.grey[400],
