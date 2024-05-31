@@ -28,10 +28,11 @@ class _DonorHomePageState extends State<DonorHomePage> {
   @override
   void initState() {
     super.initState();
-    
-      Future.delayed(Duration.zero, () { // need future.delayed so that it will fetchorganizations after build phase is complete
-    context.read<OrganizationProvider>().fetchOrganizations();
-  });
+
+    Future.delayed(Duration.zero, () {
+      // need future.delayed so that it will fetchorganizations after build phase is complete
+      context.read<OrganizationProvider>().fetchOrganizations();
+    });
 
     _searchController.addListener(() {
       setState(() {
@@ -146,7 +147,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
               Organization org = Organization.fromJson(
                   docs[index].data() as Map<String, dynamic>);
               org.id = docs[index].id;
-              
+
               return Stack(children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -156,16 +157,20 @@ class _DonorHomePageState extends State<DonorHomePage> {
                     child: Card(
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
-                            child:
-                                Image.network(backgroundImage, fit: BoxFit.cover),
+                            child: Image.network(backgroundImage,
+                                fit: BoxFit.cover),
                             onTap: () {
-                              _selectedOrgEmail = org.email; // pass email of organization to a variable
+                              _selectedOrgEmail = org
+                                  .email; // pass email of organization to a variable
                               Navigator.pushNamed(
-                                  context, '/donor/donatedrives', arguments: {
+                                  context, '/donor/donatedrives',
+                                  arguments: {
                                     'selectedOrgEmail': _selectedOrgEmail,
                                     'orgID': org.id,
                                     'orgName': org.organizationName,
-                                  }); // include selected organization email as an argument to be used in donatedrives route
+                                  });
+
+                              // include selected organization email as an argument to be used in donatedrives route
                             })),
                   ),
                 ),
@@ -234,7 +239,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
               onTap: () {
                 context.read<UserAuthProvider>().signOut();
                 // band aid solution
-                // Navigator.pushNamed(context, '/');
+                Navigator.pushReplacementNamed(context, '/');
               },
             ),
           ]),

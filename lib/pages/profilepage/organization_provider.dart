@@ -5,11 +5,14 @@ import 'organizational_model.dart';
 class OrganizationProvider with ChangeNotifier {
   Organization _organization = Organization(
     name: 'Empowerment for All',
-    about: 'Our mission is to break the cycle of poverty by addressing its root causes and equipping individuals with the tools and opportunities they need to achieve economic self-sufficiency. We believe in a holistic approach to development that encompasses education, healthcare, livelihood training, and community empowerment.',
+    about:
+        'Our mission is to break the cycle of poverty by addressing its root causes and equipping individuals with the tools and opportunities they need to achieve economic self-sufficiency. We believe in a holistic approach to development that encompasses education, healthcare, livelihood training, and community empowerment.',
     donationsOpen: true, // Set to true or false based on donations status
   );
 
   Organization get organization => _organization;
+
+  get orgCollection => null;
 
   // Update organization name
   void updateName(String newName) {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23project/pages/signpage/google_donor.dart';
 import 'package:cmsc23project/providers/admin_provider.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
@@ -31,7 +32,7 @@ class _UserViewState extends State<UserView> {
 
     //check if user is in the admins database
     context
-        .read<AdminProvider>()
+        .watch<AdminProvider>()
         .admin
         .where("email", isEqualTo: user!.email!)
         .get()
@@ -46,7 +47,7 @@ class _UserViewState extends State<UserView> {
 
     //check if org
     context
-        .read<OrganizationProvider>()
+        .watch<OrganizationProvider>()
         .orgCollection
         .where("email", isEqualTo: user!.email!)
         .get()
@@ -61,7 +62,7 @@ class _UserViewState extends State<UserView> {
 
     //check if donor
     context
-        .read<DonorProvider>()
+        .watch<DonorProvider>()
         .donorCollection
         .where("email", isEqualTo: user!.email!)
         .get()
@@ -85,11 +86,13 @@ class _UserViewState extends State<UserView> {
     //else return authDonor
     else if (donor != null) {
       return DonorView();
+    } else {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
     }
-
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
   }
 
   //logout
