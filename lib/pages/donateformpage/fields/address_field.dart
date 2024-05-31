@@ -25,7 +25,7 @@ class _AddressFieldState extends State<AddressField> {
   List<String> addresses = [];
   TextEditingController _textFieldController = TextEditingController();
   List<dynamic>? firestoreAddress;
-  List<String> _selectedAddresses = [];
+  String? _selectedAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +53,7 @@ class _AddressFieldState extends State<AddressField> {
           addresses = firestoreAddress!.map((a) => a.toString()).toList();
         }
 
-        return FormField<List<String>>(
-          initialValue: addresses,
+        return FormField<String>(
           builder: (state) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,8 +63,7 @@ class _AddressFieldState extends State<AddressField> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: addresses.length,
                   itemBuilder: (context, index) {
-                    return _buildListTile(addresses[index],
-                        id); // custom method to build each address
+                    return _buildListTile(addresses[index], id);
                   },
                 ),
                 Padding(
@@ -90,11 +88,8 @@ class _AddressFieldState extends State<AddressField> {
                               final newAddress = _textFieldController.text;
                               if (newAddress.isNotEmpty) {
                                 setState(() {
-                                  // when plus button pressed, add new address to address list and clear textfieldcontroller
                                   addresses.add(newAddress);
-
-                                  _selectedAddresses.add(
-                                      newAddress); // Add the new address to the selected list
+                                  _selectedAddress = newAddress;
                                   _textFieldController.clear();
                                   debugPrint(addresses.toString());
                                 });
@@ -115,18 +110,18 @@ class _AddressFieldState extends State<AddressField> {
             );
           },
           validator: (value) {
-            if (widget.isPickupChecked && _selectedAddresses.isEmpty) {
+            if (widget.isPickupChecked && _selectedAddress == null) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Please select at least one address.'),
+                  content: Text('Please select an address.'),
                 ),
               );
-              return 'Please select at least one address';
+              return 'Please select an address';
             }
             return null;
           },
           onSaved: (value) {
-            widget.formData.pickupAddresses = _selectedAddresses.toList();
+            widget.formData.pickupAddresses = [_selectedAddress!];
             debugPrint(widget.formData.pickupAddresses.toString());
           },
         );
@@ -139,7 +134,7 @@ class _AddressFieldState extends State<AddressField> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Card(
         clipBehavior: Clip.hardEdge,
-        color: _selectedAddresses.contains(address)
+        color: address == _selectedAddress
             ? Colors.green[100]
             : Colors.white,
         child: ListTile(
@@ -151,7 +146,7 @@ class _AddressFieldState extends State<AddressField> {
                   child: Text(
                     address,
                     style: TextStyle(
-                      color: _selectedAddresses.contains(address)
+                      color: address == _selectedAddress
                           ? Colors.green[800]
                           : const Color(0xFF3D8361),
                       fontWeight: FontWeight.bold,
@@ -159,29 +154,12 @@ class _AddressFieldState extends State<AddressField> {
                   ),
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.remove, color: const Color(0xFF3D8361)),
-                onPressed: () {
-                  setState(() {
-                    addresses.remove(address);
-                    _selectedAddresses.remove(address);
-                  });
-
-                  //update donor address in the firebase
-                  context.read<DonorProvider>().editDonor(id, addresses);
-                },
-              ),
             ],
           ),
           onTap: () {
             // on tap card
             setState(() {
-              if (_selectedAddresses.contains(address)) {
-                // if address is already in _selectedAdresses
-                _selectedAddresses.remove(address); // remove
-              } else {
-                _selectedAddresses.add(address); // add
-              }
+              _selectedAddress = address;
             });
           },
         ),
@@ -189,3 +167,4 @@ class _AddressFieldState extends State<AddressField> {
     );
   }
 }
+
