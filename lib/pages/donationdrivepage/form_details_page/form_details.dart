@@ -53,6 +53,32 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Header(text: "Donation Information"),
+            if (!widget.formData['forPickup'])
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFD95F2A), // orange medyo
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const QrScannerPage(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Update Status using QR',
+                    style: TextStyle(color: Color(0xFFEEF2E6)),
+                  ),
+                ),
+              ),
             _buildTextTile('Donation Drive Name',
                 widget.formData['donationDriveName'] ?? 'N/A'),
             _buildTextTile('Donation Types',
@@ -98,29 +124,6 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
                   ],
                 ),
               ),
-            if (!widget.formData['forPickup'])
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF093731),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
-                    textStyle: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const QrScannerPage(),
-                      ),
-                    );
-                  },
-                  child: const Text('Open QR Scanner'),
-                ),
-              ),
           ],
         ),
       ),
@@ -135,14 +138,14 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
           title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontSize: 18,
             color: Color(0xFF093731),
           ),
         ),
         subtitle: Text(
           subtitle is List ? subtitle.join(', ') : subtitle.toString(),
           style: const TextStyle(
-            fontSize: 14,
+            fontSize: 16,
             color: Colors.black87,
           ),
         ),

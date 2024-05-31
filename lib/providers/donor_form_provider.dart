@@ -25,9 +25,13 @@ class DonorFormProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  Future getFormById(String id) async {
-    await firebaseService.getFormById(id);
-    notifyListeners();
+  // Future getFormById(String id) async {
+  //   await firebaseService.getFormById(id);
+  //   notifyListeners();
+  // }
+  Future<Map<String, dynamic>?> getFormById(String id) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await firebaseService.getFormById(id);
+    return snapshot.data();
   }
 
   Future<void> updateDonationFormStatus(String documentId) async {
