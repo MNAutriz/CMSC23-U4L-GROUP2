@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'donation_details_container.dart';
 import '../homepage/donation_model.dart';
 
+//Contains the entirety of the donations that is passed in the mobile application.
 class DonationPage extends StatelessWidget {
   final List<Donation> donations;
   final String driveTitle;

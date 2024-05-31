@@ -3,6 +3,7 @@ import '../homepage/donation_model.dart';
 
 import 'package:flutter/material.dart';
 
+//Used to display the donation drives page.
 class DonationDetailPage extends StatelessWidget {
   final Donation donation;
 

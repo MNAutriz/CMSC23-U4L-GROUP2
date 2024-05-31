@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//PResents the details along with the status for changing it in the donation drive.
 class DonationDetails extends StatefulWidget {
   @override
   _DonationDetailsState createState() => _DonationDetailsState();
