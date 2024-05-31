@@ -1,5 +1,9 @@
 # El Gives - Mobile Donation Application
 
+Welcome to **El Gives**, a revolutionary mobile donation application designed to simplify and enhance the donation experience for both donors and charitable organizations. Built using the powerful Flutter framework and Dart programming language, El Gives offers a seamless and user-friendly platform that bridges the gap between those who want to give and those in need.
+
+Whether you are a donor looking to contribute to worthy causes or an organization aiming to manage and track donations efficiently, El Gives provides the tools and features to make the entire process smooth, transparent, and impactful. With a focus on secure authentication, comprehensive management views, and intuitive interfaces, El Gives is here to support charitable activities and foster stronger connections within the community.
+
 ## Group Details
 We are a group of three students—Mark Neil Autriz, Kervin Samson, and Michael Uriel—who collaborated to create El Gives, a mobile donation application using Flutter and Dart. Each of us has a specific role:
 - **Mark Neil Autriz**: Responsible for the organization's view in the app. His work ensures that organizations can efficiently manage donations, create and monitor donation drives, and communicate effectively with donors.
