@@ -1,6 +1,8 @@
 import 'package:cmsc23project/pages/donationdrivepage/qr_scanner/scanner_overlay.dart';
+import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:provider/provider.dart';
 
 class QrScannerPage extends StatefulWidget {
   const QrScannerPage({super.key});
@@ -29,11 +31,15 @@ class _QrScannerPageState extends State<QrScannerPage> {
         children: [
           MobileScanner(
             controller: cameraController,
-            onDetect: (capture) {
+            onDetect: (capture) async {
               final List<Barcode> barcodes = capture.barcodes;
               for(final barcode in barcodes){
                 documentId = barcode.rawValue ?? "";
                 print("barcode found! ${documentId}");
+
+                if(documentId.isNotEmpty){
+                  await context.read<DonorFormProvider>().updateDonationFormStatus(documentId);
+                }
               }
             },
           ),
