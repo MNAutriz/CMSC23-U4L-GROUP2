@@ -27,9 +27,13 @@ class DonationDrivesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Donation Drives Page', style: TextStyle(color: Colors.white)),
-        backgroundColor: Color(0xFF093731), // Dark green color for the app bar
+        title: const Text('Donation Drives Page',
+            style: TextStyle(color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF093731), // Dark green color for the app bar
+        iconTheme: const IconThemeData(color: Color(0xFFEEF2E6)),
+
       ),
+      backgroundColor: const Color(0xFFEEF2E6),
       body: StreamBuilder(
         stream: _drivesStream,
         builder: (context, snapshot) {
@@ -44,7 +48,7 @@ class DonationDrivesPage extends StatelessWidget {
           // Filter donation drives according to organization email.
           final docs = snapshot.data!.docs.where((doc) => doc['orgEmail'] == user!.email).toList();
 
-          if(docs.isEmpty) return Center(child: Text("No donation drives associated with organization"));
+          if(docs.isEmpty) return const Center(child: Text("No donation drives associated with organization"));
 
           return ListView.builder(
             itemCount: docs.length,

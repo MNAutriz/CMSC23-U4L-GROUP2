@@ -1,5 +1,5 @@
 import 'package:cmsc23project/models/donor_form.dart';
-import 'package:cmsc23project/pages/donateformpage/submitted_page.dart';
+import 'package:cmsc23project/pages/donateformpage/qr_code_page.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SubmitForm extends StatefulWidget {
+
   GlobalKey<FormState> formKey;
   DonorForm formData;
+  bool isPickupChecked;
 
-  SubmitForm({super.key, required this.formKey, required this.formData});
+  SubmitForm({super.key, required this.formKey, required this.formData, required this.isPickupChecked});
 
   @override
   State<SubmitForm> createState() => _SubmitFormState();
@@ -31,8 +33,10 @@ class _SubmitFormState extends State<SubmitForm> {
                 .save(); // trigger onSaved callback of each form field
             widget.formData.donorEmail = user!.email!;
 
-            // final result =
-            await donorFormProvider.addForm(widget.formData.toJson());
+
+            final resultId =
+                await donorFormProvider.addForm(widget.formData.toJson());
+
 
             // Navigator.pop(context);
             // Navigator.pop(context);
@@ -43,10 +47,15 @@ class _SubmitFormState extends State<SubmitForm> {
             //     builder: (context) => SubmittedPage(formData: widget.formData),
             //   ),
             // );
-            if (mounted) {
-              //Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
-              Navigator.pop(context);
-              Navigator.pop(context);
+
+              // Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+            if(mounted && widget.isPickupChecked == false) {
+              // generate qr code
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QrCodePage(documentId: resultId,)));
+            } else if(mounted && widget.isPickupChecked == true) {
+              // go back to homepage
+              Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
+
             }
 
             debugPrint(

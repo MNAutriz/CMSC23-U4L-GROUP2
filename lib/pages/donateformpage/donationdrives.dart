@@ -59,7 +59,6 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
           return ListView.builder(
             itemCount: docs.length,
             itemBuilder: (context, index) {
-
               var drive = docs[index].data() as Map<String, dynamic>;
 
               return Padding(
@@ -119,6 +118,34 @@ class _DisplayDonationDrivesState extends State<DisplayDonationDrives> {
                                 ),
                               ),
                             ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/donor/donationdrives/form', arguments: {
+                                'selectedOrgEmail': orgEmail,
+                                'orgID': orgId,
+                                'orgName': orgName,
+                                'donationDriveId': docs[index].id,
+                                'donationDriveName': drive['title'],
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: const Color(0xFFEEF2E6), backgroundColor: const Color(0xFF093731), // text color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16), // rounded corners
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32), // padding
+                            ),
+                            child: const Text(
+                              "DONATE HERE!",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ],
