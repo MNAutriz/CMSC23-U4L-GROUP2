@@ -6,10 +6,14 @@ import '../donationdrivepage/donation_drive_model.dart';
 import '../../providers/donation_drive_provider.dart';
 import '../homepage/donation_model.dart';
 
+/// The AddDonationDrivePage class is a stateful widget that represents a page where
+/// users can create a new donation drive.
 class AddDonationDrivePage extends StatefulWidget {
   
-  String orgEmail;
+  /// The organization email associated with the donation drive.
+  final String orgEmail;
   
+  /// Constructor for AddDonationDrivePage which takes an organization email as a required parameter.
   AddDonationDrivePage({super.key, required this.orgEmail});
 
   @override
@@ -32,6 +36,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Access the DonationDriveProvider to manage donation drive data.
     final donationDriveProvider = Provider.of<DonationDriveProvider>(context);
 
     return Scaffold(
@@ -46,6 +51,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                /// Form field to input the title of the donation drive.
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Title'),
                   validator: (value) {
@@ -58,6 +64,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                     _title = value!;
                   },
                 ),
+                /// Form field to input the description of the donation drive.
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Description'),
                   validator: (value) {
@@ -70,6 +77,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                     _description = value!;
                   },
                 ),
+                /// Form field to input the cover photo URL of the donation drive.
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Cover Photo URL'),
                   validator: (value) {
@@ -82,6 +90,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                     _coverPhotoUrl = value!;
                   },
                 ),
+                /// Form field to input the proof of donations URLs.
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Proof of Donations URLs (comma separated)'),
                   validator: (value) {
@@ -96,6 +105,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                 ),
                 const SizedBox(height: 20),
                 const Text('Add Donations:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                /// Form fields to input details about each donation.
                 TextFormField(
                   controller: _donationTitleController,
                   decoration: const InputDecoration(labelText: 'Donation Title'),
@@ -118,6 +128,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                   decoration: const InputDecoration(labelText: 'Goal Amount'),
                   keyboardType: TextInputType.number,
                 ),
+                /// Button to add a donation to the list of donations.
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -138,6 +149,7 @@ class _AddDonationDrivePageState extends State<AddDonationDrivePage> {
                   child: const Text('Add Donation'),
                 ),
                 const SizedBox(height: 20),
+                /// Button to create a new donation drive.
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {

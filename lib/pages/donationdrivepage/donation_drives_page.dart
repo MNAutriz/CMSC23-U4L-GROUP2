@@ -12,18 +12,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+/// A stateless widget that represents the donation drives page.
+/// Displays a list of donation drives and allows navigation between different sections of the app.
 class DonationDrivesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Stream of donation drives from the DonationDriveProvider.
     final Stream<QuerySnapshot> _drivesStream =
         Provider.of<DonationDriveProvider>(context).drivesStream;
+    // Index of the selected item in the bottom navigation bar.
     final selectedIndex = Provider.of<DonationProvider>(context).selectedIndex;
+    // Current user from the UserAuthProvider.
     User? user = context.watch<UserAuthProvider>().user;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Donation Drives Page',
-            style: TextStyle(color: Colors.white)),
+        title: const Text('Donation Drives Page', style: TextStyle(color: Colors.white)),
         backgroundColor: Color(0xFF093731), // Dark green color for the app bar
       ),
       body: StreamBuilder(
@@ -34,11 +38,10 @@ class DonationDrivesPage extends StatelessWidget {
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
-                child: Text("No donation drives in collection."));
+            return const Center(child: Text("No donation drives in collection."));
           }
 
-          // filter according to org email
+          // Filter donation drives according to organization email.
           final docs = snapshot.data!.docs.where((doc) => doc['orgEmail'] == user!.email).toList();
 
           if(docs.isEmpty) return Center(child: Text("No donation drives associated with organization"));
@@ -48,7 +51,7 @@ class DonationDrivesPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final driveData = docs[index].data() as Map<String, dynamic>;
               final drive = DonationDrive.fromJson(driveData);
-              drive.id = docs[index].id; // set the document id
+              drive.id = docs[index].id; // Set the document ID
 
               return DonationDriveCard(donationDrive: drive, orgEmail: user!.email.toString());
             },
@@ -61,18 +64,12 @@ class DonationDrivesPage extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => AddDonationDrivePage(orgEmail: user!.email.toString())),
           );
-          
-          // // change to pushnamed so that i can pass arguments 
-          // Navigator.pushNamed(context, '/organization/donationdrives/add', arguments: {
-          //   'orgEmail': user!.email
-          // });
         },
         child: Icon(Icons.add),
         backgroundColor: Color(0xFF093731), // Dark green color for the button
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor:
-            Color(0xFF093731), // Dark green color for the bottom navigation bar
+        backgroundColor: Color(0xFF093731), // Dark green color for the bottom navigation bar
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white,
         currentIndex: selectedIndex,
