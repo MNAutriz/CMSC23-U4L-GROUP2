@@ -38,18 +38,21 @@ class _ViewDonationDriveState extends State<ViewDonationDrive> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //donation drive title
               Center(
                 child: Text("${widget.donationDrive['title']}",
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold)),
               ),
               const SizedBox(height: 5),
+              //photo of donation drive
               Center(
                 child: Image.network(widget.donationDrive['coverPhoto']),
               ),
               const SizedBox(height: 5),
               Column(
                 children: [
+                  //description of donation drive
                   Text(
                     "Description:",
                     style: const TextStyle(

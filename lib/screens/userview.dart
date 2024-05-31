@@ -28,54 +28,52 @@ class _UserViewState extends State<UserView> {
   @override
   Widget build(BuildContext context) {
     //get user
-    user = context.watch<UserAuthProvider>().user;
+    user = context.read<UserAuthProvider>().user;
 
-    if (user != null) {
-      //check if user is in the admins database
-      context
-          .watch<AdminProvider>()
-          .admin
-          .where("email", isEqualTo: user!.email!)
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          setState(() {
-            //contain query in admin
-            admin = doc;
-          });
+    //check if user is in the admins database
+    context
+        .watch<AdminProvider>()
+        .admin
+        .where("email", isEqualTo: user!.email!)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          //contain query in admin
+          admin = doc;
         });
       });
+    });
 
-      //check if org
-      context
-          .watch<OrganizationProvider>()
-          .orgCollection
-          .where("email", isEqualTo: user!.email!)
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          setState(() {
-            //contain query in admin
-            org = doc;
-          });
+    //check if org
+    context
+        .watch<OrganizationProvider>()
+        .orgCollection
+        .where("email", isEqualTo: user!.email!)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          //contain query in admin
+          org = doc;
         });
       });
+    });
 
-      //check if donor
-      context
-          .watch<DonorProvider>()
-          .donorCollection
-          .where("email", isEqualTo: user!.email!)
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          setState(() {
-            //contain query in donor
-            donor = doc;
-          });
+    //check if donor
+    context
+        .watch<DonorProvider>()
+        .donorCollection
+        .where("email", isEqualTo: user!.email!)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          //contain query in donor
+          donor = doc;
         });
       });
-    }
+    });
 
     //if the user is in the admin database
     if (admin != null) {

@@ -15,6 +15,14 @@ class ViewDonation extends StatefulWidget {
 }
 
 class _DonorDonationsState extends State<ViewDonation> {
+  static const Map<int, String> status = {
+    0: "Pending",
+    1: "Confirmed",
+    2: "Scheduled for Pick-up",
+    3: "Complete",
+    4: "Canceled",
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,34 +51,44 @@ class _DonorDonationsState extends State<ViewDonation> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Donation Drive: ${widget.form['donationDriveName']}",
+              //donation drive name
+              Text("${widget.form['donationDriveName']}",
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+                      fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 5),
+              //organization name
               Text("Organization: ${widget.form['orgName']}",
-                  style: const TextStyle(fontSize: 14)),
+                  style: const TextStyle(fontSize: 17)),
               const SizedBox(height: 5),
+              //donation types
               Text("Donation Types: ${widget.form['donationTypes'].join(', ')}",
-                  style: const TextStyle(fontSize: 14)),
+                  style: const TextStyle(fontSize: 17)),
               const SizedBox(height: 5),
+              //date and time
               Text("Date and Time: ${widget.form['donationDateTime']}",
-                  style: const TextStyle(fontSize: 14)),
+                  style: const TextStyle(fontSize: 17)),
               const SizedBox(height: 5),
+              //weight and unit
               Text(
                   "Weight: ${widget.form['weight']} ${widget.form['weightUnit']}",
-                  style: const TextStyle(fontSize: 14)),
+                  style: const TextStyle(fontSize: 17)),
               const SizedBox(height: 5),
-              Text("For Pickup: ${widget.form['forPickup'] ? 'Yes' : 'No'}",
-                  style: const TextStyle(fontSize: 14)),
+              //isForPickup
+              Text("For Pick-up: ${widget.form['forPickup'] ? 'Yes' : 'No'}",
+                  style: const TextStyle(fontSize: 17)),
               const SizedBox(height: 5),
               widget.form['forPickup']
                   ? Text(
-                      "Pickup Address: ${widget.form['pickupAddresses'] ?? 'N/A'}",
-                      style: const TextStyle(fontSize: 14))
+                      "Pick-up Address: ${widget.form['pickupAddresses'] ?? 'N/A'}",
+                      style: const TextStyle(fontSize: 17))
                   : Container(),
               const SizedBox(height: 5),
               Text("Contact No: ${widget.form['contactNo'] ?? 'N/A'}",
-                  style: const TextStyle(fontSize: 14)),
+                  style: const TextStyle(fontSize: 17)),
+              const SizedBox(height: 5),
+              Text("Status: ${status[widget.form['status']]}",
+                  style: const TextStyle(fontSize: 17)),
             ],
           ),
         ),
