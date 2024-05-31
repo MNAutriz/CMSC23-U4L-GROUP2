@@ -1,158 +1,165 @@
-import 'package:cmsc23project/pages/donationdrivepage/donation_drives_page.dart';
-import 'package:cmsc23project/pages/homepage/home_page.dart';
-import 'package:cmsc23project/pages/profilepage/profile_page.dart';
-import 'package:cmsc23project/providers/donation_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'donation_details_container.dart';
-import '../homepage/donation_model.dart';
+import 'package:cmsc23project/providers/donor_form_provider.dart';
+import 'package:cmsc23project/pages/donationdrivepage/form_details_page/form_details.dart';
 
 class DonationPage extends StatelessWidget {
-  final List<Donation> donations;
-  final String driveTitle;
-
-  DonationPage({required this.donations, required this.driveTitle});
+  const DonationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(driveTitle),
-        foregroundColor: Colors.white,
-        backgroundColor: Color(0xFF093731), // Dark green
+        backgroundColor: const Color(0xFF093731),
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: donations.length,
-        itemBuilder: (context, index) {
-          final donation = donations[index];
-          return Card(
-            margin: EdgeInsets.all(10),
-            elevation: 4,
-            color: Color(0xFFF2EEE6),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Image.network(
-                  donation.imageUrl,
-                  height: 200,
-                  fit: BoxFit.cover,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        donation.title,
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        donation.description,
-                        style: TextStyle(fontSize: 14, color: const Color.fromARGB(255, 0, 0, 0)),
-                      ),
-                      if (donation.driveDetails != null)
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Text(
-                            'Part of: ${donation.driveDetails}',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: Provider.of<DonorFormProvider>(context).formsStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text(
+                "No donations available.",
+                style: TextStyle(color: Colors.black),
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                final formData =
+                    snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Card(
+                    color: Colors.white,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FormDetailsPage(formData: formData),
                           ),
+                        );
+                      },
+                      child: ListTile(
+                        // title: Text(
+                        //   "Donation by: ${formData['donorEmail']}",
+                        //   style: const TextStyle(
+                        //     fontWeight: FontWeight.bold,
+                        //     fontSize: 16,
+                        //     color: Color(0xFF1C6758),
+                        //   ),
+                        //   textAlign: TextAlign.center,
+                        // ),
+                        title: FutureBuilder<DocumentSnapshot>(
+                          future: FirebaseFirestore.instance
+                              .collection('donation_drives')
+                              .doc(formData['donationDriveId'])
+                              .get(),
+                          builder: (context, driveSnapshot) {
+                            if (driveSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Text(
+                                "Fetching donation drive name...",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black87,
+                                ),
+                              );
+                            }
+                            if (driveSnapshot.hasError) {
+                              return Text(
+                                "Error: ${driveSnapshot.error}",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.red,
+                                ),
+                              );
+                            }
+                            final driveData = driveSnapshot.data!;
+                            return Text(
+                              driveData['title'],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Color(0xFF1C6758),
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          },
                         ),
-                      SizedBox(height: 10),
-                      Text(
-                        '\$${donation.amountRaised.toStringAsFixed(2)} raised of \$${donation.goal.toStringAsFixed(2)} goal',
-                        style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 27, 118, 30), fontWeight: FontWeight.bold),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 5),
+                            Text(
+                              "Donation Type: ${formData['donationTypes']}",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            FutureBuilder<DocumentSnapshot>(
+                              future: FirebaseFirestore.instance
+                                  .collection('donation_drives')
+                                  .doc(formData['donationDriveId'])
+                                  .get(),
+                              builder: (context, driveSnapshot) {
+                                if (driveSnapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Text(
+                                    "Fetching donation drive name...",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black87,
+                                    ),
+                                  );
+                                }
+                                if (driveSnapshot.hasError) {
+                                  return Text(
+                                    "Error: ${driveSnapshot.error}",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.red,
+                                    ),
+                                  );
+                                }
+                                final driveData = driveSnapshot.data!;
+                                return Text(
+                                  "Donation Drive: ${driveData['title']}",
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black87,
+                                  ),
+                                );
+                              },
+                            ),
+                            Text(
+                          "Donation by: ${formData['donorEmail']}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Status:',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      DropdownButton<String>(
-                        value: donation.status,
-                        onChanged: (newValue) {
-                          // Handle status change
-                        },
-                        items: <String>[
-                          'Pending',
-                          'Confirmed',
-                          'Scheduled for Pick-up',
-                          'Complete',
-                          'Canceled',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        style: TextStyle(color: Colors.black), // Text color
-                        dropdownColor: Color.fromRGBO(238, 242, 230, 1), // Background color
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF093731), // Dark green
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(0.6),
-        currentIndex: Provider.of<DonationProvider>(context).selectedIndex,
-        onTap: (index) {
-          Provider.of<DonationProvider>(context, listen: false).setIndex(index);
-          switch (index) {
-            case 0:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-              break;
-            case 1:
-              // Already on DonationPage, no action needed
-              break;
-            case 2:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => DonationDrivesPage()),
-              );
-              break;
-            case 3:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
-              break;
-            default:
-              break;
+                );
+              },
+            );
           }
         },
-        items: [
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
-            icon: Icon(Icons.monetization_on),
-            label: 'Donation',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
-            icon: Icon(Icons.event),
-            label: 'Donation Drives',
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
       ),
     );
   }

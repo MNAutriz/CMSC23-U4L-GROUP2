@@ -53,7 +53,8 @@ class ProfilePage extends StatelessWidget {
                       children: [
                         Text(
                           'About the Organization',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         Text(
@@ -69,13 +70,16 @@ class ProfilePage extends StatelessWidget {
                             SizedBox(width: 10),
                             Text(
                               'Donation Status:',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(width: 10),
                             Switch(
-                              value: organizationProvider.organization.donationsOpen,
+                              value: organizationProvider
+                                  .organization.donationsOpen,
                               onChanged: (value) {
-                                organizationProvider.updateDonationsStatus(value);
+                                organizationProvider
+                                    .updateDonationsStatus(value);
                               },
                               activeTrackColor: Colors.green[700],
                               inactiveTrackColor: Colors.grey[400],
@@ -86,13 +90,15 @@ class ProfilePage extends StatelessWidget {
                         SizedBox(height: 20),
                         Text(
                           'Gallery',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         GridView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
@@ -113,7 +119,8 @@ class ProfilePage extends StatelessWidget {
                         SizedBox(height: 20),
                         Text(
                           'Mission',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         Text(
@@ -124,7 +131,8 @@ class ProfilePage extends StatelessWidget {
                         SizedBox(height: 20),
                         Text(
                           'Vision',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         Text(
@@ -159,10 +167,7 @@ class ProfilePage extends StatelessWidget {
             case 1:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => DonationPage(
-                  donations: donations, 
-                  driveTitle: 'All Donations'
-                )),
+                MaterialPageRoute(builder: (context) => const DonationPage()),
               );
               break;
             case 2:

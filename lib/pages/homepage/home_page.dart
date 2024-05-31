@@ -144,7 +144,7 @@ class HomePage extends StatelessWidget {
             case 1:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => DonationPage(donations: donations, driveTitle: 'All Donations')),
+                MaterialPageRoute(builder: (context) => const DonationPage()),
               );
               break;
             case 2:
@@ -181,7 +181,7 @@ class HomePage extends StatelessWidget {
           case 1:
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => DonationPage(donations: Provider.of<DonationProvider>(context, listen: false).donations, driveTitle: 'All Donations')),
+              MaterialPageRoute(builder: (context) => const DonationPage()),
             );
             break;
           case 2:

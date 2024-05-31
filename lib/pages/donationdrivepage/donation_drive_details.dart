@@ -10,11 +10,13 @@ class DonationDriveDetailsPage extends StatelessWidget {
   final DonationDrive donationDrive;
   final String orgEmail;
 
-  DonationDriveDetailsPage({required this.donationDrive, required this.orgEmail});
+  DonationDriveDetailsPage(
+      {required this.donationDrive, required this.orgEmail});
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> _formsStream = context.watch<DonorFormProvider>().formsStream;
+    Stream<QuerySnapshot> _formsStream =
+        context.watch<DonorFormProvider>().formsStream;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,7 +67,8 @@ class DonationDriveDetailsPage extends StatelessWidget {
                       style: const TextStyle(color: Colors.red),
                     ),
                   );
-                } else if (snapshot.connectionState == ConnectionState.waiting) {
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                   return const Center(
@@ -76,7 +79,9 @@ class DonationDriveDetailsPage extends StatelessWidget {
                   );
                 }
 
-                final docs = snapshot.data!.docs.where((doc) => doc['donationDriveId'] == donationDrive.id).toList();
+                final docs = snapshot.data!.docs
+                    .where((doc) => doc['donationDriveId'] == donationDrive.id)
+                    .toList();
 
                 return ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
@@ -85,103 +90,106 @@ class DonationDriveDetailsPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final formData = docs[index].data() as Map<String, dynamic>;
                     return Card(
-  color: Colors.white,
-  elevation: 2,
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(10),
-  ),
-  child: InkWell(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => FormDetailsPage(formData: formData),
-        ),
-      );
-    },
-    child: ListTile(
-      title: Text(
-        "Donation by: ${formData['donorEmail']}",
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-          color: Color(0xFF1C6758), // Change color to match the header
-        ),
-        textAlign: TextAlign.center,
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 5), // Add some spacing
-          Text(
-            "ID: ${docs[index].id}",
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: Colors.black87,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 5), // Add some spacing
-          Text(
-            "Donation Types: ${formData['donationTypes'].toString()}",
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 5), // Add some spacing
-          Text(
-            "Pickup: ${formData['forPickup'] ? 'Yes' : 'No'}",
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 5), // Add some spacing
-          Text(
-            "Status: ${getStatusString(formData['status'])}",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: getStatusColor(formData['status']),
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-      trailing: PopupMenuButton<int>(
-        itemBuilder: (context) => [
-          const PopupMenuItem(
-            value: 0,
-            child: Text('Pending'),
-          ),
-          const PopupMenuItem(
-            value: 1,
-            child: Text('Confirmed'),
-          ),
-          const PopupMenuItem(
-            value: 2,
-            child: Text('Scheduled for Pickup'),
-          ),
-          const PopupMenuItem(
-            value: 3,
-            child: Text('Complete'),
-          ),
-          const PopupMenuItem(
-            value: 4,
-            child: Text('Cancelled'),
-          ),
-        ],
-        onSelected: (value) {
-          formData['status'] = value;
-          context.read<DonorFormProvider>().updateForm(docs[index].id, formData);
-        },
-      ),
-    ),
-  ),
-);
-
+                      color: Colors.white,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  FormDetailsPage(formData: formData),
+                            ),
+                          );
+                        },
+                        child: ListTile(
+                          title: Text(
+                            "Donation by: ${formData['donorEmail']}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color(
+                                  0xFF1C6758), // Change color to match the header
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 5), // Add some spacing
+                              Text(
+                                "ID: ${docs[index].id}",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.black87,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 5), // Add some spacing
+                              Text(
+                                "Donation Types: ${formData['donationTypes'].toString()}",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 5), // Add some spacing
+                              Text(
+                                "Pickup: ${formData['forPickup'] ? 'Yes' : 'No'}",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 5), // Add some spacing
+                              Text(
+                                "Status: ${getStatusString(formData['status'])}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: getStatusColor(formData['status']),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                          trailing: PopupMenuButton<int>(
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 0,
+                                child: Text('Pending'),
+                              ),
+                              const PopupMenuItem(
+                                value: 1,
+                                child: Text('Confirmed'),
+                              ),
+                              const PopupMenuItem(
+                                value: 2,
+                                child: Text('Scheduled for Pickup'),
+                              ),
+                              const PopupMenuItem(
+                                value: 3,
+                                child: Text('Complete'),
+                              ),
+                              const PopupMenuItem(
+                                value: 4,
+                                child: Text('Cancelled'),
+                              ),
+                            ],
+                            onSelected: (value) {
+                              formData['status'] = value;
+                              context
+                                  .read<DonorFormProvider>()
+                                  .updateForm(docs[index].id, formData);
+                            },
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 );
               },
@@ -228,13 +236,9 @@ class DonationDriveDetailsPage extends StatelessWidget {
 }
 
 class Header extends StatelessWidget {
-
   final String text;
 
-  const Header({
-    super.key,
-    required this.text
-  });
+  const Header({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -242,18 +246,19 @@ class Header extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF093731),
-          borderRadius: BorderRadius.circular(100)
-        ),
+            color: const Color(0xFF093731),
+            borderRadius: BorderRadius.circular(100)),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8 ),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
           child: Center(
-            child: Text(text , style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Color(0xFFEEF2E6)
+            child: Text(
+              text,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Color(0xFFEEF2E6)),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,),
           ),
         ),
       ),

@@ -91,9 +91,7 @@ class DonationDrivesPage extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DonationPage(
-                    donations: donations,
-                    driveTitle: 'All Donations',
+                  builder: (context) => const DonationPage(
                   ),
                 ),
               );
