@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/models/organization_model.dart';
 import 'package:cmsc23project/models/username_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
-import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
 import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:file_picker/file_picker.dart';
@@ -93,6 +91,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
     );
   }
 
+  //sign up as org header
   Widget get heading => const Padding(
         padding: EdgeInsets.only(bottom: 30),
         child: Text(
@@ -103,6 +102,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
         ),
       );
 
+  //email field
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -125,6 +125,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
         ),
       );
 
+  //password field
   Widget get passwordField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -160,7 +161,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
         ),
       );
 
-  //first name field
+  //complete name field
   Widget get nameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -206,7 +207,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
         ),
       );
 
-  //first name field
+  //contact field
   Widget get contactField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -255,7 +256,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
         ),
       );
 
-  //last name field
+  //username field
   Widget get usernameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -291,7 +292,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
         ),
       );
 
-  //last name field
+  //address field
   Widget get addressField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -314,6 +315,7 @@ class _SignUpAsOrganizationState extends State<SignUpAsOrganization> {
         ),
       );
 
+  //submit button
   Widget get submitButton => SizedBox(
         width: 350,
         child: ElevatedButton(

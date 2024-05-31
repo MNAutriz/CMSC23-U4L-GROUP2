@@ -15,17 +15,20 @@ class UserAuthProvider with ChangeNotifier {
   Stream<User?> get userStream => _uStream;
   User? get user => authService.getUser();
 
+  //fetch signed in user
   void fetchAuthentication() {
     _uStream = authService.userSignedIn();
 
     notifyListeners();
   }
 
+  //sign up method
   Future<void> signUp(String email, String password) async {
     await authService.signUp(email, password);
     notifyListeners();
   }
 
+  //sign in method
   Future<String?> signIn(String email, String password) async {
     String? message = await authService.signIn(email, password);
     notifyListeners();
@@ -33,6 +36,7 @@ class UserAuthProvider with ChangeNotifier {
     return message;
   }
 
+  //sign in with google method
   Future<UserCredential> signInWithGoogle() async {
     UserCredential message = await authService.signInWithGoogle();
     notifyListeners();
@@ -40,6 +44,7 @@ class UserAuthProvider with ChangeNotifier {
     return message;
   }
 
+  //sign out method
   Future<void> signOut() async {
     await authService.signOut();
     notifyListeners();

@@ -57,6 +57,7 @@ class _SignUpState extends State<SignUpPage> {
     );
   }
 
+  //header
   Widget get heading => const Padding(
       padding: EdgeInsets.only(bottom: 30),
       child: Center(
@@ -68,6 +69,7 @@ class _SignUpState extends State<SignUpPage> {
         ),
       ));
 
+  //email field
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -90,6 +92,7 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
+  //password field
   Widget get passwordField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -125,7 +128,7 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
-  //first name field
+  //complete name field
   Widget get nameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -148,7 +151,7 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
-  //first name field
+  //contact field
   Widget get contactField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -197,7 +200,7 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
-  //last name field
+  //username field
   Widget get usernameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -233,7 +236,7 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
-  //last name field
+  //address field
   Widget get addressField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -256,6 +259,7 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
+  //sign up as org
   Widget get signUpOrgButton => Padding(
         padding: const EdgeInsets.all(30),
         child: Row(
@@ -279,6 +283,7 @@ class _SignUpState extends State<SignUpPage> {
         ),
       );
 
+  //submit button
   Widget get submitButton => SizedBox(
         width: 350,
         child: ElevatedButton(
