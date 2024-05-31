@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-import 'package:cmsc23project/models/donor_form.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,7 +15,9 @@ class QrCodePage extends StatelessWidget {
     final Uint8List? uint8list = await screenshotController.capture();
 
     if (uint8list != null) {
-      final PermissionStatus status = await Permission.storage.request();
+      // final PermissionStatus status = await Permission.storage.request();
+      final PermissionStatus status = await Permission.manageExternalStorage.request();
+
 
       if (status.isGranted) {
         final result = await ImageGallerySaver.saveImage(uint8list);
@@ -42,47 +42,49 @@ class QrCodePage extends StatelessWidget {
                 style: TextStyle(
                     color: Color(0xFFEEF2E6), fontWeight: FontWeight.bold))),
         backgroundColor: const Color(0xFFEEF2E6),
-        body: Column(children: [
-          // put donation form id here
-          Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.green[100],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Screenshot(
-                            controller: screenshotController,
-                            child: QrImageView(data: documentId)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          "Reference Id: $documentId",
-                          style: const TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                          "Let our representative scan this at the drop-off point to update your donation status",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
+        body: SingleChildScrollView(
+          child: Column(children: [
+            // put donation form id here
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.green[100],
                   ),
-                )),
-          ),
-          _saveQrButton()
-        ]));
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Screenshot(
+                              controller: screenshotController,
+                              child: QrImageView(data: documentId)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            "Reference Id: $documentId",
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 16.0),
+                          child: Text(
+                            "Let our representative scan this at the drop-off point to update your donation status",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+            _saveQrButton()
+          ]),
+        ));
   }
 
   Widget _saveQrButton() {
