@@ -15,9 +15,8 @@ class QrCodePage extends StatelessWidget {
     final Uint8List? uint8list = await screenshotController.capture();
 
     if (uint8list != null) {
-      // final PermissionStatus status = await Permission.storage.request();
-      final PermissionStatus status = await Permission.manageExternalStorage.request();
-
+      final PermissionStatus status = await Permission.storage.request();
+      // final PermissionStatus status = await Permission.manageExternalStorage.request();
 
       if (status.isGranted) {
         final result = await ImageGallerySaver.saveImage(uint8list);
