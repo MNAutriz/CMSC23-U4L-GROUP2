@@ -98,6 +98,7 @@ class _AdminViewState extends State<AdminView> {
             ),
             onTap: () {
               context.read<UserAuthProvider>().signOut();
+              Navigator.pushReplacementNamed(context, '/');
             },
           ),
         ]),

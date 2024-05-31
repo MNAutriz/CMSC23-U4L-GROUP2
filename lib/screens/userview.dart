@@ -95,36 +95,6 @@ class _UserViewState extends State<UserView> {
     }
   }
 
-  //logout
-  Drawer get drawer => Drawer(
-          child: Container(
-        color: const Color(0xFFEEF2E6),
-        child: ListView(padding: EdgeInsets.zero, children: [
-          const DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xFF1C6758)),
-              child: Text("Settings",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: Color(0xFFEEF2E6)))),
-          ListTile(
-            title: const Center(
-              child: Text(
-                "Log out",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Color(0xFF1C6758)),
-              ),
-            ),
-            onTap: () {
-              context.read<UserAuthProvider>().signOut();
-            },
-          ),
-        ]),
-      ));
-
   Widget get authOrg => //authorized as org widget
       SizedBox(
         height: 150,

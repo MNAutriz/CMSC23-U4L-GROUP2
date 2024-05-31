@@ -37,7 +37,7 @@ class _SignInPageState extends State<SignInPage> {
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("images/sign_image.jpg"), fit: BoxFit.cover)),
+                image: AssetImage("images/el_gives.png"), fit: BoxFit.fill)),
         child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Column(
