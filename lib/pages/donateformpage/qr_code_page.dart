@@ -3,16 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QrCodePage extends StatefulWidget {
-  DonorForm formData;
+class QrCodePage extends StatelessWidget {
 
-  QrCodePage({super.key, required this.formData});
+  String documentId;
 
-  @override
-  State<QrCodePage> createState() => _QrCodePageState();
-}
+  QrCodePage({super.key, required this.documentId});
 
-class _QrCodePageState extends State<QrCodePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +38,7 @@ class _QrCodePageState extends State<QrCodePage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text("Reference Id: 63h4u12-182h4h4yh3", style: TextStyle(fontSize: 15),),
+                        child: Text("Reference Id: $documentId", style: const TextStyle(fontSize: 15),),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 16.0),

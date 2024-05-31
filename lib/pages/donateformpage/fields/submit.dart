@@ -33,7 +33,7 @@ class _SubmitFormState extends State<SubmitForm> {
                 .save(); // trigger onSaved callback of each form field
             widget.formData.donorEmail = user!.email!;
 
-            // final result =
+            final resultId =
                 await donorFormProvider.addForm(widget.formData.toJson());
 
             // Navigator.pop(context);
@@ -48,7 +48,7 @@ class _SubmitFormState extends State<SubmitForm> {
               // Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
             if(mounted && widget.isPickupChecked == false) {
               // generate qr code
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QrCodePage(formData: widget.formData,)));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QrCodePage(documentId: resultId,)));
             } else if(mounted && widget.isPickupChecked == true) {
               // go back to homepage
               Navigator.pushNamedAndRemoveUntil(context, '/donor', (route) => false);
