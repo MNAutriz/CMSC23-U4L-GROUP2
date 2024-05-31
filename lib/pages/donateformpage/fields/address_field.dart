@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmsc23project/models/donor_form.dart';
+import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +24,7 @@ class AddressField extends StatefulWidget {
 class _AddressFieldState extends State<AddressField> {
   List<String> addresses = [];
   TextEditingController _textFieldController = TextEditingController();
-  String? firestoreAddress;
+  List<dynamic>? firestoreAddress;
   List<String> _selectedAddresses = [];
 
   @override
@@ -39,13 +40,17 @@ class _AddressFieldState extends State<AddressField> {
           return Text('Error: ${snapshot.error}');
         }
 
+        //get id of donor
+        String id = snapshot.data!.docs
+            .firstWhere((doc) => doc['email'] == user!.email)['id'];
+
         // Extract address of logged in user from donor collection
         firestoreAddress = snapshot.data!.docs
             .firstWhere((doc) => doc['email'] == user!.email)['address'];
 
-        // Ensure Firestore address is added only once
+        // Add existing addresses from firebase
         if (addresses.isEmpty && firestoreAddress != null) {
-          addresses.add(firestoreAddress!);
+          addresses = firestoreAddress!.map((a) => a.toString()).toList();
         }
 
         return FormField<List<String>>(
@@ -59,10 +64,12 @@ class _AddressFieldState extends State<AddressField> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: addresses.length,
                   itemBuilder: (context, index) {
-                    return _buildListTile(addresses[index]); // custom method to build each address
+                    return _buildListTile(addresses[
+                        index]); // custom method to build each address
                   },
                 ),
-                Padding( // widget for new address field
+                Padding(
+                  // widget for new address field
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Card(
                     color: Colors.white,
@@ -77,13 +84,17 @@ class _AddressFieldState extends State<AddressField> {
                             color: const Color(0xFF3D8361).withOpacity(0.3),
                           ),
                           suffixIcon: IconButton(
-                            icon: const Icon(Icons.add, color: Color(0xFF3D8361)),
+                            icon:
+                                const Icon(Icons.add, color: Color(0xFF3D8361)),
                             onPressed: () {
                               final newAddress = _textFieldController.text;
                               if (newAddress.isNotEmpty) {
-                                setState(() { // when plus button pressed, add new address to address list and clear textfieldcontroller
+                                setState(() {
+                                  // when plus button pressed, add new address to address list and clear textfieldcontroller
                                   addresses.add(newAddress);
-                                  _selectedAddresses.add(newAddress); // Add the new address to the selected list
+
+                                  _selectedAddresses.add(
+                                      newAddress); // Add the new address to the selected list
                                   _textFieldController.clear();
                                   debugPrint(addresses.toString());
                                 });
@@ -123,7 +134,9 @@ class _AddressFieldState extends State<AddressField> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Card(
         clipBehavior: Clip.hardEdge,
-        color: _selectedAddresses.contains(address) ? Colors.green[100] : Colors.white,
+        color: _selectedAddresses.contains(address)
+            ? Colors.green[100]
+            : Colors.white,
         child: ListTile(
           title: Row(
             children: [
@@ -133,7 +146,9 @@ class _AddressFieldState extends State<AddressField> {
                   child: Text(
                     address,
                     style: TextStyle(
-                      color: _selectedAddresses.contains(address) ? Colors.green[800] : const Color(0xFF3D8361),
+                      color: _selectedAddresses.contains(address)
+                          ? Colors.green[800]
+                          : const Color(0xFF3D8361),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -150,10 +165,12 @@ class _AddressFieldState extends State<AddressField> {
               ),
             ],
           ),
-          onTap: () { // on tap card
-            setState(() { 
-              if (_selectedAddresses.contains(address)) { // if address is already in _selectedAdresses
-                _selectedAddresses.remove(address); // remove 
+          onTap: () {
+            // on tap card
+            setState(() {
+              if (_selectedAddresses.contains(address)) {
+                // if address is already in _selectedAdresses
+                _selectedAddresses.remove(address); // remove
               } else {
                 _selectedAddresses.add(address); // add
               }

@@ -14,6 +14,21 @@ class FirebaseDonorAPI {
     }
   }
 
+  //edit slambook entry
+  Future<String> editDonor(String id, List<String> address) async {
+    try {
+      //update the friend's fields in the firebase
+      await db.collection("donors").doc(id).update({
+        "address": address,
+      });
+
+      return "Successfully edited address!";
+      //error catching
+    } on FirebaseException catch (e) {
+      return "Error in ${e.code}: ${e.message}";
+    }
+  }
+
   //get all donors
   Stream<QuerySnapshot> getAllDonors() {
     return db.collection("donors").snapshots();
@@ -30,7 +45,7 @@ class FirebaseDonorAPI {
     }
   }
 
-  // update donor 
+  // update donor
   // Future<String> updateDonor(String id, Map<String, dynamic> updatedFields) async {
   //   try {
   //     await db.collection("donors").doc(id).update(updatedFields);
