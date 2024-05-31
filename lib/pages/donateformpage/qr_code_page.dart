@@ -1,16 +1,36 @@
+import 'dart:typed_data';
 import 'package:cmsc23project/models/donor_form.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 
 class QrCodePage extends StatelessWidget {
-
   String documentId;
 
   QrCodePage({super.key, required this.documentId});
 
   final ScreenshotController screenshotController = ScreenshotController();
+  Future<void> captureAndSaveImage() async {
+    final Uint8List? uint8list = await screenshotController.capture();
+
+    if (uint8list != null) {
+      final PermissionStatus status = await Permission.storage.request();
+
+      if (status.isGranted) {
+        final result = await ImageGallerySaver.saveImage(uint8list);
+        if (result['isSuccess']) {
+          debugPrint("Successfully saved image");
+        } else {
+          debugPrint("Failed to save image: ${result['error']}");
+        }
+      } else {
+        debugPrint("Permission to access storage denied.");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +57,16 @@ class QrCodePage extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: QrImageView(data: documentId),
+                        child: Screenshot(
+                            controller: screenshotController,
+                            child: QrImageView(data: documentId)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text("Reference Id: $documentId", style: const TextStyle(fontSize: 15),),
+                        child: Text(
+                          "Reference Id: $documentId",
+                          style: const TextStyle(fontSize: 15),
+                        ),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 16.0),
@@ -62,8 +87,10 @@ class QrCodePage extends StatelessWidget {
 
   Widget _saveQrButton() {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         // save qr to device
+        await captureAndSaveImage();
+        
       },
       style: ElevatedButton.styleFrom(
         foregroundColor: const Color(0xFFEEF2E6),
