@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cmsc23project/pages/signpage/google_donor.dart';
-import 'package:cmsc23project/providers/admin_provider.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
 import 'package:cmsc23project/providers/organization_provider.dart';
@@ -71,8 +69,10 @@ class _HomePageState extends State<SignPage> {
                 child: Text("Error encountered! ${snapshot.error}"),
               ),
             );
+            //no user sign in data
           } else if (!snapshot.hasData) {
             return const SignInPage();
+            //user sign in with no role yet
           } else if (user != null && role == null) {
             return const SignInPage();
           } else if (snapshot.connectionState == ConnectionState.waiting) {

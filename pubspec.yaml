@@ -52,7 +52,6 @@ dependencies:
   qr_bar_code_scanner_dialog: ^0.0.5
   mobile_scanner: ^5.1.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -83,6 +82,7 @@ flutter:
     - images/headerorg.png
     - images/headerorga.png
     - images/google-logo.png
+    - images/el_gives.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:cmsc23project/providers/donor_form_provider.dart';
 import 'package:cmsc23project/pages/donationdrivepage/form_details_page/form_details.dart';
 
+//Contains the entirety of the donations that is passed in the mobile application.
 class DonationPage extends StatelessWidget {
   const DonationPage({Key? key}) : super(key: key);
 

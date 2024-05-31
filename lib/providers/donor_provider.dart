@@ -29,6 +29,13 @@ class DonorProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  //edit donor address method
+  void editDonor(String id, List<String> address) async {
+    String message = await firebaseService.editDonor(id, address);
+    print(message);
+    notifyListeners();
+  }
+
   //delete donor method
   void deleteDonor(String id) async {
     await firebaseService.deleteDonor(id);
@@ -44,9 +51,4 @@ class DonorProvider with ChangeNotifier {
     _donorsCollection = firebaseService.getDonorCollection();
     notifyListeners();
   }
-
-  // // get donor address
-  // Future<String?> getDonorAddress(String id) async {
-  //   return await firebaseService.getDonorAddress(id);
-  // }
 }

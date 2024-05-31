@@ -1,3 +1,4 @@
+// Importing necessary packages and files
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/donation_provider.dart';
@@ -7,21 +8,25 @@ import '../donationpage/donation_page.dart';
 import '../donationdrivepage/donation_drives_page.dart';
 import '../profilepage/profile_page.dart';
 
-
+// Creating a stateless widget for the HomePage
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Getting the list of donations from the donation provider
     final donations = Provider.of<DonationProvider>(context).donations;
 
+    // Building the scaffold for the HomePage
     return Scaffold(
       body: CustomScrollView(
         slivers: [
+          // SliverAppBar widget for displaying the app bar
           SliverAppBar(
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.only(bottom: 8),
-              title: const Text('Welcome to ElGives'),
+              title: const Text('Welcome to ElGives'), // Title for the app bar
               centerTitle: true,
+              // Background decoration for the flexible space
               background: Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -30,13 +35,14 @@ class HomePage extends StatelessWidget {
                     end: Alignment.bottomRight,
                   ),
                 ),
+                // Centering content in the flexible space
                 child: const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.favorite, size: 50, color: Colors.white),
+                      Icon(Icons.favorite, size: 50, color: Colors.white), // Icon
                       Text(
-                        'ElGives',
+                        'ElGives', // App name
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 28,
@@ -44,7 +50,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Making a Difference Together',
+                        'Making a Difference Together', // Slogan
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: 16,
@@ -56,18 +62,19 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+          // SliverToBoxAdapter for static content
           SliverToBoxAdapter(
             child: Container(
               color: Colors.white,
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  Image.asset('images/headerorga.png'),
+                  Image.asset('images/headerorga.png'), // Header image
                   const SizedBox(height: 5),
                   const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      'Our mission at ElGive is to empower communities through impactful donations. We aim to connect generous donors with causes that need their support, fostering a spirit of giving and making a significant difference in the lives of those in need. Join us in our journey to create a better world, one donation at a time.',
+                      'Our mission at ElGive is to empower communities through impactful donations. We aim to connect generous donors with causes that need their support, fostering a spirit of giving and making a significant difference in the lives of those in need. Join us in our journey to create a better world, one donation at a time.', // Mission statement
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.black87),
                     ),
@@ -79,15 +86,15 @@ class HomePage extends StatelessWidget {
                     mainAxisSpacing: 10.0,
                     crossAxisSpacing: 10.0,
                     children: [
-                      _buildIcon(context, Icons.home, 'Home', 0),
-                      _buildIcon(context, Icons.monetization_on, 'Donate', 1),
-                      _buildIcon(context, Icons.event, 'Drives', 2),
-                      _buildIcon(context, Icons.person, 'Profile', 3),
+                      _buildIcon(context, Icons.home, 'Home', 0), // Home icon
+                      _buildIcon(context, Icons.monetization_on, 'Donate', 1), // Donation icon
+                      _buildIcon(context, Icons.event, 'Drives', 2), // Drives icon
+                      _buildIcon(context, Icons.person, 'Profile', 3), // Profile icon
                     ],
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Top Donations',
+                    'Top Donations', // Section title
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
@@ -95,6 +102,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+          // SliverList for displaying donation cards
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -105,6 +113,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      // Bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color(0xFF093731),
         selectedItemColor: Colors.white,
@@ -131,9 +140,12 @@ class HomePage extends StatelessWidget {
             label: 'Profile',
           ),
         ],
+        // Setting the current index of the bottom navigation bar
         currentIndex: Provider.of<DonationProvider>(context).selectedIndex,
+        // onTap event handler for bottom navigation bar items
         onTap: (index) {
           Provider.of<DonationProvider>(context, listen: false).setIndex(index);
+          // Navigating to different pages based on the selected index
           switch (index) {
             case 0:
               Navigator.pushReplacement(
@@ -167,10 +179,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // Widget to build individual icons in the grid
   Widget _buildIcon(BuildContext context, IconData icon, String label, int index) {
     return GestureDetector(
       onTap: () {
         Provider.of<DonationProvider>(context, listen: false).setIndex(index);
+        // Navigating to different pages based on the selected index
         switch (index) {
           case 0:
             Navigator.pushReplacement(
@@ -214,7 +228,7 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Text(
-            label,
+            label, // Icon label
             style: TextStyle(color: Colors.black, fontSize: 12.0),
           ),
         ],

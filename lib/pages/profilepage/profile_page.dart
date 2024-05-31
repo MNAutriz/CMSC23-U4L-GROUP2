@@ -1,3 +1,4 @@
+// Importing necessary packages and files
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cmsc23project/providers/donation_provider.dart';
@@ -17,193 +18,150 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final donations = Provider.of<DonationProvider>(context).donations;
+    final organizationProvider = Provider.of<OrganizationProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Organization Profile'),
         foregroundColor: Colors.white,
-        backgroundColor: Color(0xFF093731), // Dark green
+        backgroundColor: Color(0xFF093731),
       ),
-      body: ChangeNotifierProvider<OrganizationProvider>(
-        create: (context) => OrganizationProvider(),
-        child: Consumer<OrganizationProvider>(
-          builder: (context, organizationProvider, _) {
-            return SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 20),
+            CircleAvatar(
+              radius: 80,
+              backgroundColor: Colors.grey[200],
+              backgroundImage: NetworkImage(
+                  'https://images-platform.99static.com//NnfsZfhWECwMKeuj4yxeInkbKN8=/0x126:874x1000/fit-in/500x500/99designs-contests-attachments/35/35657/attachment_35657633'),
+            ),
+            SizedBox(height: 20),
+            Text(
+              organizationProvider.organization.name,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Text(
+                    'About the Organization',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    organizationProvider.organization.about,
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
                   SizedBox(height: 20),
-                  CircleAvatar(
-                    radius: 80,
-                    backgroundColor: Colors.grey[200],
-                    backgroundImage: NetworkImage(
-                        'https://images-platform.99static.com//NnfsZfhWECwMKeuj4yxeInkbKN8=/0x126:874x1000/fit-in/500x500/99designs-contests-attachments/35/35657/attachment_35657633'), // Sample image URL
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.green[700]),
+                      SizedBox(width: 10),
+                      Text(
+                        'Donation Status:',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 10),
+                      Switch(
+                        value: organizationProvider.organization.donationsOpen,
+                        onChanged: (value) {
+                          organizationProvider.updateDonationsStatus(value);
+                        },
+                        activeTrackColor: Colors.green[700],
+                        inactiveTrackColor: Colors.grey[400],
+                        inactiveThumbColor: Colors.grey[700],
+                      ),
+                    ],
                   ),
                   SizedBox(height: 20),
                   Text(
-                    organizationProvider.organization.name,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    'Gallery',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'About the Organization',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          organizationProvider.organization.about,
-                          style: TextStyle(fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.check_circle, color: Colors.green[700]),
-                            SizedBox(width: 10),
-                            Text(
-                              'Donation Status:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(width: 10),
-                            Switch(
-                              value: organizationProvider
-                                  .organization.donationsOpen,
-                              onChanged: (value) {
-                                organizationProvider
-                                    .updateDonationsStatus(value);
-                              },
-                              activeTrackColor: Colors.green[700],
-                              inactiveTrackColor: Colors.grey[400],
-                              inactiveThumbColor: Colors.grey[700],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          'Gallery',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 10),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
-                          itemCount: galleryImageUrls.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(
-                                  image: NetworkImage(galleryImageUrls[index]),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          'Mission',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Our mission is to make a difference by providing essential resources and support to those in need.',
-                          style: TextStyle(fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          'Vision',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Our vision is a world where every individual has access to basic necessities and the opportunity to thrive.',
-                          style: TextStyle(fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 20),
-                      ],
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                     ),
+                    itemCount: galleryImageUrls.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          image: DecorationImage(
+                            image: NetworkImage(galleryImageUrls[index]),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
                   ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Mission',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Our mission is to make a difference by providing essential resources and support to those in need.',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Vision',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Our vision is a world where every individual has access to basic necessities and the opportunity to thrive.',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20),
                 ],
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF093731), // Dark green
+        backgroundColor: Color(0xFF093731),
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey[300],
-        currentIndex: Provider.of<DonationProvider>(context).selectedIndex,
+        currentIndex: 0,
         onTap: (index) {
-          Provider.of<DonationProvider>(context, listen: false).setIndex(index);
-          switch (index) {
-            case 0:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-              break;
-            case 1:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const DonationPage()),
-              );
-              break;
-            case 2:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => DonationDrivesPage()),
-              );
-              break;
-            case 3:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
-              break;
-            default:
-              break;
-          }
+          // Handle navigation based on the index
         },
         items: [
           BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
+            backgroundColor: Color(0xFF093731),
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
+            backgroundColor: Color(0xFF093731),
             icon: Icon(Icons.monetization_on),
             label: 'Donation',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
+            backgroundColor: Color(0xFF093731),
             icon: Icon(Icons.event),
             label: 'Donation Drives',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color(0xFF093731), // Dark green
+            backgroundColor: Color(0xFF093731),
             icon: Icon(Icons.person),
             label: 'Profile',
           ),

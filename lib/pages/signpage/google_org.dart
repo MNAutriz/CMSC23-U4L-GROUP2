@@ -1,13 +1,9 @@
 import 'dart:io';
-
 import 'package:cmsc23project/models/donor_model.dart';
 import 'package:cmsc23project/models/organization_model.dart';
-import 'package:cmsc23project/models/username_model.dart';
 import 'package:cmsc23project/providers/auth_provider.dart';
 import 'package:cmsc23project/providers/donor_provider.dart';
-import 'package:cmsc23project/providers/organization_provider.dart';
 import 'package:cmsc23project/providers/pending_provider.dart';
-import 'package:cmsc23project/providers/username_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -92,6 +88,7 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
     );
   }
 
+  //header
   Widget get heading => const Padding(
         padding: EdgeInsets.only(bottom: 30),
         child: Text(
@@ -102,7 +99,7 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
         ),
       );
 
-  //first name field
+  //complete name field
   Widget get nameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -148,7 +145,7 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
         ),
       );
 
-  //first name field
+  //contact field
   Widget get contactField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -197,7 +194,7 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
         ),
       );
 
-  //last name field
+  //username field
   Widget get usernameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -233,7 +230,7 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
         ),
       );
 
-  //last name field
+  //address field
   Widget get addressField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -256,6 +253,7 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
         ),
       );
 
+  //submit button
   Widget get submitButton => SizedBox(
         width: 350,
         child: ElevatedButton(
@@ -287,9 +285,10 @@ class _SignUpAsOrganizationState extends State<GoogleOrganization> {
                       email: user!.email!,
                       username: username!,
                       name: name!,
-                      address: address!,
+                      address: [address!],
                       contact: contact!);
 
+                  //add to pending and donor collection
                   context.read<PendingProvider>().addPending(org);
                   context.read<DonorProvider>().addDonor(donor);
 
