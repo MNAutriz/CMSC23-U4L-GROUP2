@@ -1,17 +1,18 @@
 import '../../providers/donation_drive_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cmsc23project/providers/donation_drive_provider.dart'
-    as provider;
+import 'package:cmsc23project/providers/donation_drive_provider.dart' as provider;
 import '../donationdrivepage/donation_drive_model.dart';
 import 'edit_donation_drive_page.dart';
 import 'donation_drive_details.dart';
 
-// template for a donation drive card in org view
+/// A stateless widget that displays a card with information about a donation drive.
+/// It provides options to see details, edit, or delete the donation drive.
 class DonationDriveCard extends StatelessWidget {
   final DonationDrive donationDrive;
   final String orgEmail;
 
+  /// Constructor for DonationDriveCard which takes a donation drive and organization email as parameters.
   DonationDriveCard({required this.donationDrive, required this.orgEmail});
 
   @override
@@ -24,6 +25,7 @@ class DonationDriveCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          /// Display the cover photo of the donation drive or a placeholder image if not available.
           Image.network(
             donationDrive.coverPhoto.isNotEmpty
                 ? donationDrive.coverPhoto
@@ -36,12 +38,14 @@ class DonationDriveCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                /// Display the title of the donation drive.
                 Text(
                   donationDrive.title,
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 5),
+                /// Display the description of the donation drive.
                 Text(
                   donationDrive.description,
                   style: const TextStyle(fontSize: 14),
@@ -50,6 +54,7 @@ class DonationDriveCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    /// Button to navigate to the details page of the donation drive.
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
@@ -66,15 +71,12 @@ class DonationDriveCard extends StatelessWidget {
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: const Color(0xFFEEF2E6),
-                          backgroundColor:
-                              const Color(0xFF093731), // text color
+                          backgroundColor: const Color(0xFF093731), // text color
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(16), // rounded corners
+                            borderRadius: BorderRadius.circular(16), // rounded corners
                           ),
                           padding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 16), // padding
-                              // minimumSize: const Size(double.infinity, 0)
                         ),
                         child: const Text(
                           "See Details",
@@ -100,11 +102,9 @@ class DonationDriveCard extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: const Color(0xFFEEF2E6),
-                            backgroundColor:
-                                const Color(0xFF093731), // text color
+                            backgroundColor: const Color(0xFF093731), // text color
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(16), // rounded corners
+                              borderRadius: BorderRadius.circular(16), // rounded corners
                             ),
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 16), // padding
@@ -132,8 +132,7 @@ class DonationDriveCard extends StatelessWidget {
                             foregroundColor: const Color(0xFFEEF2E6),
                             backgroundColor: Colors.red, // text color
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(16), // rounded corners
+                              borderRadius: BorderRadius.circular(16), // rounded corners
                             ),
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 16), // padding
@@ -148,40 +147,6 @@ class DonationDriveCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => DonationDriveDetailsPage(
-                    //           donationDrive: donationDrive,
-                    //           orgEmail: orgEmail,
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: const Text('See details'),
-                    // ),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => EditDonationDrivePage(
-                    //             donationDrive: donationDrive),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: const Text('Edit'),
-                    // ),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     Provider.of<DonationDriveProvider>(context,
-                    //             listen: false)
-                    //         .deleteDonationDrive(donationDrive.id);
-                    //   },
-                    //   child: const Text('Delete'),
-                    // ),
                   ],
                 ),
               ],
