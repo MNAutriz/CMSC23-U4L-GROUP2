@@ -6,8 +6,9 @@ class FirebaseDonationFormAPI {
   // add donation form
   Future<String> addForm(Map<String, dynamic> form) async {
     try{
-      await db.collection("donation forms").doc(form['id']).set(form);
-      return "Successfully added donation form to Firebase!";
+      DocumentReference ref = await db.collection("donation forms").add(form);
+      return ref.id;
+      // return "Successfully added donation form to Firebase!";
     } on FirebaseException catch (e) {
       return "Error in ${e.code}: ${e.message}";
     }
@@ -35,5 +36,9 @@ class FirebaseDonationFormAPI {
     } on FirebaseException catch (e) {
       return "Error in ${e.code}: ${e.message}";
     }
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getFormById(String id) {
+    return db.collection("donation forms").doc(id).get();
   }
 }

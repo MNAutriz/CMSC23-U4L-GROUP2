@@ -107,7 +107,7 @@ class _DonateFormState extends State<DonateForm> {
                   ],
                 ),
               ),
-              SubmitForm(formKey: _formKey, formData: formData)
+              SubmitForm(formKey: _formKey, formData: formData, isPickupChecked: isPickupChecked,)
             ],
           ),
         ),

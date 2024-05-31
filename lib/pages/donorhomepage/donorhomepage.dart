@@ -29,15 +29,20 @@ class _DonorHomePageState extends State<DonorHomePage> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration.zero, () {
-      // need future.delayed so that it will fetchorganizations after build phase is complete
-      context.read<OrganizationProvider>().fetchOrganizations();
-    });
+    if (mounted) {
+      Future.delayed(Duration.zero, () {
+        // need future.delayed so that it will fetchorganizations after build phase is complete
+        context.read<OrganizationProvider>().fetchOrganizations();
+      });
+    }
 
     _searchController.addListener(() {
-      setState(() {
-        searchQuery = _searchController.text.toLowerCase();
-      });
+      if (mounted) {
+        // add this to prevent memory leak yeah boi
+        setState(() {
+          searchQuery = _searchController.text.toLowerCase();
+        });
+      }
     });
   }
 
@@ -238,8 +243,8 @@ class _DonorHomePageState extends State<DonorHomePage> {
               ),
               onTap: () {
                 context.read<UserAuthProvider>().signOut();
-
                 Navigator.pushReplacementNamed(context, '/');
+
               },
             ),
           ]),

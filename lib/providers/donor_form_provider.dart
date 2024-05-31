@@ -24,4 +24,9 @@ class DonorFormProvider with ChangeNotifier{
     await firebaseService.updateForm(id, updatedForm);
     notifyListeners();
   }
+
+  Future getFormById(String id) async {
+    await firebaseService.getFormById(id);
+    notifyListeners();
+  }
 }
