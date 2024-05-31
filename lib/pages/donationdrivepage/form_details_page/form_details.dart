@@ -72,16 +72,31 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
             _buildTextTile('Weight',
                 '${widget.formData['weight'] ?? ''} ${widget.formData['weightUnit'] ?? ''}'),
             if (_imageBytes != null)
-              ListTile(
-                title: const Text(
-                  'Donation Photo',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Color(0xFF093731),
-                  ),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEEF2E6),
+                  border: Border.all(color: const Color(0xFF093731), width: 2),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                subtitle: Image.memory(_imageBytes!),
+                padding: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Donation Photo',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color(0xFF093731),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Center(
+                      child: Image.memory(_imageBytes!),
+                    ),
+                  ],
+                ),
               ),
             if (!widget.formData['forPickup'])
               Center(
