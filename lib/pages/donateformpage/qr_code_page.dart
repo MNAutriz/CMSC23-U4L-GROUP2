@@ -2,12 +2,15 @@ import 'package:cmsc23project/models/donor_form.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 
 class QrCodePage extends StatelessWidget {
 
   String documentId;
 
   QrCodePage({super.key, required this.documentId});
+
+  final ScreenshotController screenshotController = ScreenshotController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class QrCodePage extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: QrImageView(data: 'haha'),
+                        child: QrImageView(data: documentId),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
