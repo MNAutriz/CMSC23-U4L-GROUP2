@@ -1,0 +1,11 @@
+.hello-button{
+    padding: 10px;
+    background-color: seagreen;
+    border: 1px solid transparent;
+    color: white;
+    border-radius: 5px;
+}
+
+.sample-paragraph{
+    font-size: 14px;
+}
